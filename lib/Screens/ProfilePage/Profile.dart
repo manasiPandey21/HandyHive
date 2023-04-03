@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:handyhive/Screens/WorkPage/workPage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -213,6 +214,16 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const WorkPages(),
+              ),
+            );
+          }, child: Text("Submit"),style:ElevatedButton.styleFrom(
+            backgroundColor: Colors.pinkAccent,
+            shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(40))
+          ),)
         ],
       )),
     );

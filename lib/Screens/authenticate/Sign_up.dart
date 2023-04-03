@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyhive/Screens/authenticate/otp.dart';
 
 class Sign_up extends StatefulWidget {
   const Sign_up({super.key});
@@ -74,7 +75,13 @@ class _Sign_upState extends State<Sign_up> {
                         SizedBox(
                           height: 45,
                           width: double.infinity,
-                          child:ElevatedButton(onPressed: (){}, child: Text("Send OTP"),style:ElevatedButton.styleFrom(
+                          child:ElevatedButton(onPressed: (){
+                            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const MyOtp(),
+              ),
+            );
+                          }, child: Text("Send OTP"),style:ElevatedButton.styleFrom(
                           primary: Colors.pink.shade500,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyhive/Screens/Landing_Page/landingPage.dart';
 class onBoardingThird extends StatefulWidget {
   const onBoardingThird({super.key});
 
@@ -55,7 +56,13 @@ class _onBoardingThirdState extends State<onBoardingThird> {
                                         fontSize: 16),
                                     textAlign: TextAlign.center),
                                     SizedBox(height: 20,),
-                                 ElevatedButton(onPressed: (){}, child: Text("Let's start",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.pinkAccent),
+                                 ElevatedButton(onPressed: (){
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => landing (),
+                                      ),
+                                    );
+                                 }, child: Text("Let's start",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.pinkAccent),
                                     ),
                                     style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white),

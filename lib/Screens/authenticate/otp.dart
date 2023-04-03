@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:handyhive/Screens/ProfilePage/Profile.dart';
 
 class MyOtp extends StatefulWidget {
   const MyOtp({super.key});
@@ -70,7 +71,13 @@ class _MyOtpState extends State<MyOtp> {
           SizedBox(
                           height: 45,
                           width: double.infinity,
-                          child:ElevatedButton(onPressed: (){}, child: Text("Continue"),style:ElevatedButton.styleFrom(
+                          child:ElevatedButton(onPressed: (){
+                            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const ProfilePage(),
+              ),
+            );
+                          }, child: Text("Continue"),style:ElevatedButton.styleFrom(
                           primary: Colors.pink.shade500,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:handyhive/Screens/authenticate/Sign_up.dart';
+import 'package:lottie/lottie.dart';
 
 class landing extends StatefulWidget {
   const landing({super.key});
@@ -10,49 +12,54 @@ class landing extends StatefulWidget {
 class _landingState extends State<landing> {
   @override
   Widget build(BuildContext context) {
-     return Container(
-  decoration: BoxDecoration(
-    image: DecorationImage(
-      image: AssetImage("assets/554.jpg"),
-      fit: BoxFit.cover,
+    return Stack(
+      children: <Widget>[
+          Image.asset(
+            "assets/554.jpg",
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
     ),
-  ),
-  child: Scaffold(
-    
-    backgroundColor: Colors.transparent,
-    
-    body:Column(
-      
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children:<Widget> [
-        SizedBox(height:80,),
-         SizedBox(height:80,),
-          SizedBox(height:80,),
-           SizedBox(height:80,),
-            ElevatedButton(
-              
-              child: Text("Enter as Service Provider"),onPressed: (){},style: ElevatedButton.styleFrom(
-               primary:Colors.white,
-               backgroundColor: Colors.black, 
-               //minimumSize: Size(120,60)
-               
-           ),),
-         
-       
-       SizedBox(
-        height: 30,
-       ),
-    
-         
-           ElevatedButton(child: Text("Enter as user"),onPressed: (){},style: ElevatedButton.styleFrom(
-               primary:Colors.white,
-                backgroundColor: Colors.black, 
-               // minimumSize: Size(120,60)
-               
-           ),),
-         
-    ],)
-),);
+    Scaffold(
+      backgroundColor: Colors.transparent,
+      body:Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text("Please choose your role",style: TextStyle(fontSize: 35,fontWeight: FontWeight.w900),),
+            Lottie.network('https://assets5.lottiefiles.com/packages/lf20_pWTOxQsYjN.json'),
+            ElevatedButton(onPressed: (){
+              Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const Sign_up(),
+              ),
+            );
+            }, child: Text("Service Provider",style: TextStyle(fontSize: 20),),style: ElevatedButton.styleFrom(
+             backgroundColor: Colors.black87,
+              minimumSize: Size(200, 60) ,
+            shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)
+            ),),),
+            SizedBox(
+              height: 50,
+             ),
+             ElevatedButton(onPressed: (){
+              Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const Sign_up(),
+              ),
+            );
+             }, child: Text("User",style: TextStyle(fontSize: 20),),style: ElevatedButton.styleFrom(
+             backgroundColor: Colors.black87,
+             minimumSize: Size(200, 60) ,
+             shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)
+            ))),
+             SizedBox(
+              height: 100,
+             )
+          ],
+        ),
+      ),
+    )],
+    );
   }
 }
