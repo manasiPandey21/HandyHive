@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyhive/Screens/DashBoard1/Dashboard1.dart';
 
 class WorkPages extends StatefulWidget {
   const WorkPages({super.key});
@@ -65,6 +66,13 @@ class _WorkPagesState extends State<WorkPages> {
             SizedBox(
               height: 20,
             ),
+              ElevatedButton(onPressed: (){
+                            Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => dashBoard (),
+                                      ),
+                                    );
+                          }, child: Text("Submit"),style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),),
             Wrap(
               children: categories.map((favourite) {
                 if (favourite["isChecked"] == true) {
@@ -86,6 +94,7 @@ class _WorkPagesState extends State<WorkPages> {
                           SizedBox(
                             width: 5,
                           ),
+                        
                           GestureDetector(
                             onTap: () {
                               setState(() {

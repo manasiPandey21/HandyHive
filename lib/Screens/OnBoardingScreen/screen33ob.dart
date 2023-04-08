@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-class onBoardingSecond extends StatefulWidget {
-  const onBoardingSecond({super.key});
+import 'package:handyhive/Screens/Landing_Page/landingPage.dart';
+class onBoardingThird extends StatefulWidget {
+  const onBoardingThird({super.key});
 
   @override
-  State<onBoardingSecond> createState() => _onBoardingSecondState();
+  State<onBoardingThird> createState() => _onBoardingThirdState();
 }
 
-class _onBoardingSecondState extends State<onBoardingSecond> {
-  
+class _onBoardingThirdState extends State<onBoardingThird> {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.pinkAccent,
@@ -30,7 +30,7 @@ class _onBoardingSecondState extends State<onBoardingSecond> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 // SizedBox(height: 10),
-                                Text("We will help you by providing all sought of services with trust\n",
+                                Text("Let's start with HANDYHIVE\n",
                                     style: const TextStyle(
                                         color: const Color(0xfffaf5f0),
                                         fontWeight: FontWeight.w700,
@@ -41,13 +41,13 @@ class _onBoardingSecondState extends State<onBoardingSecond> {
                                 SizedBox(height: height/12),
                                 Center(
                                   child: Image(
-                                    image: AssetImage('assets/garden.png',),
+                                    image: AssetImage('assets/cleaning.png',),
                                     width: 300,
                                   )
                                   
                                 ),
                                 SizedBox(height: height/10),
-                                Text("Our aim is to provide you with all services that you need in day to day life-from kitchen chores to cleaning,we have eveything for helping you.",
+                                Text("For more Information,please read terms & conditions and privacy policy",
                                     style: const TextStyle(
                                         color: const Color(0xfffaf5f0),
                                         // fontWeight: FontWeight.w700,
@@ -55,8 +55,18 @@ class _onBoardingSecondState extends State<onBoardingSecond> {
                                         fontStyle: FontStyle.normal,
                                         fontSize: 16),
                                     textAlign: TextAlign.center),
-                                   
-                                
+                                    SizedBox(height: 20,),
+                                 ElevatedButton(onPressed: (){
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => landing (),
+                                      ),
+                                    );
+                                 }, child: Text("Let's start",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.pinkAccent),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white),
+                                    )
 
                               ]
                               )
@@ -64,6 +74,6 @@ class _onBoardingSecondState extends State<onBoardingSecond> {
 
         ],
       ),
-    );;
+    );;;
   }
 }

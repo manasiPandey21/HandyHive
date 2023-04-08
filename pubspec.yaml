@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^2.0.4
   provider: ^6.0.5
   lottie: ^2.3.1
+  flutter_chat_ui: ^1.6.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
