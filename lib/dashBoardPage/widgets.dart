@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyhive/Screens/ProfilePage/Profile.dart';
 
 import 'Models.dart';
 
@@ -27,7 +28,13 @@ class ItemWidget extends StatelessWidget {
               child: Text(item.name, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
             ),
             subtitle: Center(child: Text(item.desc, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15))),
-            onTap: (){},
+            onTap: (){
+                Navigator.of(context).push(
+             MaterialPageRoute(
+                builder: (context) => const ProfilePage(),
+             ),
+            );
+            },
             onLongPress:(){},
             // trailing: Text(
             //   "${item.priceRange}",

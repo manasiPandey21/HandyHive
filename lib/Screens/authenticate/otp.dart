@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:handyhive/Screens/Landing_Page/landingPage.dart';
 import 'package:handyhive/Screens/ProfilePage/Profile.dart';
 import 'package:handyhive/Screens/authenticate/Sign_up.dart';
 
@@ -98,7 +99,7 @@ class _MyOtpState extends State<MyOtp> {
 
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const ProfilePage(),
+                        builder: (context) => const landing(),
                       ),
                     );
                   },

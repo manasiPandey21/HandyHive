@@ -15,7 +15,9 @@ class Item {
   final String age;
   final String priceRange;
   final String desc;
-  final String image;
+  final String image
+  ;
 
   Item({required this.id, required this.name,required this.age, required this.priceRange, required this.desc, required this.image});
+
 }

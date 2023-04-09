@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:handyhive/Screens/Landing_Page/landingPage.dart';
+import 'package:handyhive/Screens/authenticate/Sign_up.dart';
 class onBoardingThird extends StatefulWidget {
   const onBoardingThird({super.key});
 
@@ -59,7 +60,7 @@ class _onBoardingThirdState extends State<onBoardingThird> {
                                  ElevatedButton(onPressed: (){
                                   Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => landing (),
+                                        builder: (context) => Sign_up (),
                                       ),
                                     );
                                  }, child: Text("Let's start",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.pinkAccent),

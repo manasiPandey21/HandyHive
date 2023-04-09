@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:handyhive/Screens/authenticate/Sign_up.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../UsersSide/userProfile.dart';
+import '../ProfilePage/Profile.dart';
+
 class landing extends StatefulWidget {
   const landing({super.key});
 
@@ -31,7 +34,7 @@ class _landingState extends State<landing> {
             ElevatedButton(onPressed: (){
               Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const Sign_up(),
+                builder: (context) => const ProfilePage(),
               ),
             );
             }, child: Text("Service Provider",style: TextStyle(fontSize: 20),),style: ElevatedButton.styleFrom(
@@ -45,7 +48,7 @@ class _landingState extends State<landing> {
              ElevatedButton(onPressed: (){
               Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const Sign_up(),
+                builder: (context) => const ProfilePage2(),
               ),
             );
              }, child: Text("User",style: TextStyle(fontSize: 20),),style: ElevatedButton.styleFrom(

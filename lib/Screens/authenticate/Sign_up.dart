@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:handyhive/Screens/authenticate/otp.dart';
 
 class Sign_up extends StatefulWidget {
@@ -14,6 +15,7 @@ class _Sign_upState extends State<Sign_up> {
   TextEditingController phone = TextEditingController();
   //var phone = "";
   Widget build(BuildContext context) {
+   
     return Scaffold(
         body: Container(
             margin: EdgeInsets.only(left: 20, right: 20),

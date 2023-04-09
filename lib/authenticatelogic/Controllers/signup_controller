@@ -1,0 +1,9 @@
+class signUpController extends GetxController{
+    static signUpController get instance=>Get.find();
+
+    //textFeild Controllers to get dta from TextFeilds
+    final phoneNo=TextEditingController();
+    void registerUser(String phoneNo){
+        
+    }
+}
