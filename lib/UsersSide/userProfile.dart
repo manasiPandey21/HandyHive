@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:handyhive/Screens/WorkPage/workPage.dart';
+import 'package:handyhive/UsersSide/userDashBoard.dart';
 import 'package:image_picker/image_picker.dart';
 class ProfilePage2 extends StatefulWidget {
   const ProfilePage2({super.key});
@@ -184,11 +185,11 @@ class _ProfilePage2State extends State<ProfilePage2> {
           ),
          
           ElevatedButton(onPressed: (){
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(
-            //     builder: (context) => const WorkPages(),
-            //   ),
-            // );
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const dashboardUsers (),
+              ),
+            );
           }, child: Text("Submit"),style:ElevatedButton.styleFrom(
             backgroundColor: Colors.pinkAccent,
             shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(40))

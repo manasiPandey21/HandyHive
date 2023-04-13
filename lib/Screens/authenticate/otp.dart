@@ -4,6 +4,9 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:handyhive/Screens/Landing_Page/landingPage.dart';
 import 'package:handyhive/Screens/ProfilePage/Profile.dart';
 import 'package:handyhive/Screens/authenticate/Sign_up.dart';
+import 'package:provider/provider.dart';
+
+import '../../Provider/auth.dart';
 
 class MyOtp extends StatefulWidget {
   const MyOtp({super.key});
@@ -14,6 +17,7 @@ class MyOtp extends StatefulWidget {
 
 class _MyOtpState extends State<MyOtp> {
   @override
+  bool? islogintrue;
   final FirebaseAuth auth = FirebaseAuth.instance;
   var code1 = "";
   Widget build(BuildContext context) {
@@ -46,15 +50,32 @@ class _MyOtpState extends State<MyOtp> {
                 code1 = code;
               },
               //runs when every textfield is filled
-              onSubmit: (String verificationCode) {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text("Verification Code"),
-                        content: Text('Code entered is $verificationCode'),
+              onSubmit: (String verificationCode) async {
+              
+                islogintrue =
+                        await Provider.of<Auth>(context, listen: false)
+                            .submitOTP(verificationCode);
+                   
+                    Auth.setUid();
+
+                    if (islogintrue == true) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, "Profile page", (Route) => false);
+                    } else {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const landing(),
+                        ),
                       );
-                    });
+                    }
+                // showDialog(
+                //     context: context,
+                //     builder: (context) {
+                //       return AlertDialog(
+                //         title: Text("Verification Code"),
+                //         content: Text('Code entered is $verificationCode'),
+                //       );
+                //     });
               }, // end onSubmit
             ),
             SizedBox(
@@ -79,37 +100,54 @@ class _MyOtpState extends State<MyOtp> {
             SizedBox(
               height: 30,
             ),
-            SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      PhoneAuthCredential credential =
-                          PhoneAuthProvider.credential(
-                              verificationId: Sign_up.verify, smsCode: code1);
+            // SizedBox(
+            //     height: 45,
+            //     width: double.infinity,
+            //     child: ElevatedButton(
+            //       onPressed: () async {
+            //         islogintrue =
+            //             await Provider.of<Auth>(context, listen: false)
+            //                 .submitOTP(code1);
+            //         print(islogintrue);
+            //         Auth.setUid();
 
-                      // Sign the user in (or link) with the credential
-                      await auth.signInWithCredential(credential);
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, "Profile page", (Route) => false);
-                    } catch (e) {
-                      print("wrong otp");
-                    }
+            //         if (islogintrue == true) {
+            //           Navigator.pushNamedAndRemoveUntil(
+            //               context, "Profile page", (Route) => false);
+            //         } else {
+            //           Navigator.of(context).push(
+            //             MaterialPageRoute(
+            //               builder: (context) => const landing(),
+            //             ),
+            //           );
+            //         }
 
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const landing(),
-                      ),
-                    );
-                  },
-                  child: Text("Continue"),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.pink.shade500,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ))
+            //         // try {
+            //         //   PhoneAuthCredential credential =
+            //         //       PhoneAuthProvider.credential(
+            //         //           verificationId: Sign_up.verify, smsCode: code1);
+
+            //         //   // Sign the user in (or link) with the credential
+            //         //   await auth.signInWithCredential(credential);
+            //         //   Navigator.pushNamedAndRemoveUntil(
+            //         //       context, "Profile page", (Route) => false);
+            //         // } catch (e) {
+            //         //   print("wrong otp");
+            //         // }
+
+            //         // Navigator.of(context).push(
+            //         //   MaterialPageRoute(
+            //         //     builder: (context) => const landing(),
+            //         //   ),
+            //         // );
+            //       },
+            //       child: Text("Continue"),
+            //       style: ElevatedButton.styleFrom(
+            //           primary: Colors.pink.shade500,
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(10),
+            //           )),
+            //     ))
           ],
         )),
       ),

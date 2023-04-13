@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Chatpage/chatpage.dart';
@@ -14,35 +12,44 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:handyhive/UsersSide/userDashBoard.dart';
 import 'package:handyhive/UsersSide/userProfile.dart';
 import 'package:handyhive/UsersSide/woekDetails/cooking.dart';
+import 'package:provider/provider.dart';
 
+import 'Provider/auth.dart';
 import 'Screens/OnBoardingScreen/screen2ob.dart';
 import 'Screens/OnBoardingScreen/screen33ob.dart';
 import 'Screens/authenticate/Sign_up.dart';
 import 'Screens/authenticate/otp.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp();
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    initialRoute: "dashboard2",
-    routes: {
-      "work page":((context) => WorkPages()),//done
-      "Profile page":(context) => ProfilePage(),
-      "phone": (context) => Sign_up(),//done
-      "otp": (context) => MyOtp(),//done  
-      "landing":(context) => landing(),
-      "dashboard1":((context) => dashBoard()),
-      "boarding1":(context) => OnboardingFirst(),//done
-      "boarding2":(context) => onBoardingSecond(),//done
-      "boarding3":(context) => onBoardingThird(),//done
-      "welcome":(context)=>Welcomepage(),//done
-       "chat":(context)=>chatpage(),
-        "Profile page2":(context) => ProfilePage2(),
-          "helpdesks":(context)=>helpdesk(),
-           "dashboard2":((context) =>dashboardUsers()),
-            "cooking":(context)=>Cooking(),
-
-    },
+  await Firebase.initializeApp();
+  runApp(MultiProvider(
+    providers: [
+        ChangeNotifierProvider<Auth>(
+                create: (_) => Auth(),
+              ),
+    ],
+    child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: "welcome",
+      routes: {
+        "work page": ((context) => WorkPages()), //done
+        "Profile page": (context) => ProfilePage(),
+        "phone": (context) => Sign_up(), //done
+        "otp": (context) => MyOtp(), //done
+        "landing": (context) => landing(),
+        "dashboard1": ((context) => dashBoard()),
+        "boarding1": (context) => OnboardingFirst(), //done
+        "boarding2": (context) => onBoardingSecond(), //done
+        "boarding3": (context) => onBoardingThird(), //done
+        "welcome": (context) => Welcomepage(), //done
+        "chat": (context) => chatpage(),
+        "Profile page2": (context) => ProfilePage2(),
+        "helpdesks": (context) => helpdesk(),
+        "dashboard2": ((context) => dashboardUsers()),
+        "cooking": (context) => Cooking(),
+      },
+    ),
   ));
 }
