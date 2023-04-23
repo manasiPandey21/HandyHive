@@ -1,20 +1,33 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/WorkPage/workPage.dart';
-import 'package:handyhive/UsersSide/userDashBoard.dart';
+import 'package:handyhive/Models/users.dart';
+import 'package:handyhive/Screens/User/userDashBoard.dart';
 import 'package:image_picker/image_picker.dart';
-class ProfilePage2 extends StatefulWidget {
-  const ProfilePage2({super.key});
+import 'package:provider/provider.dart';
+
+import '../../Provider/auth.dart';
+import '../../Provider/users_provider.dart';
+
+class UserRegistrationPage1 extends StatefulWidget {
+  const UserRegistrationPage1({super.key});
 
   @override
-  State<ProfilePage2> createState() => _ProfilePage2State();
+  State<UserRegistrationPage1> createState() => _UserRegistrationPage1State();
 }
 
-class _ProfilePage2State extends State<ProfilePage2> {
+class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
   @override
   File? _image;
   final picker = ImagePicker();
+  TextEditingController name = new TextEditingController();
+  TextEditingController age = new TextEditingController();
+  TextEditingController gender = new TextEditingController();
+  TextEditingController mobileNo = new TextEditingController();
+  TextEditingController address = new TextEditingController();
+  TextEditingController numnerOfPeople = new TextEditingController();
+  TextEditingController religion = new TextEditingController();
+  TextEditingController numberOfRooms = new TextEditingController();
 
   //Image Picker function to get image from gallery
   Future getImageFromGallery() async {
@@ -64,6 +77,7 @@ class _ProfilePage2State extends State<ProfilePage2> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: name,
               decoration: InputDecoration(
                 labelText: "NAME",
                 //   hintText: "Manasi",
@@ -80,6 +94,7 @@ class _ProfilePage2State extends State<ProfilePage2> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: age,
               decoration: InputDecoration(
                 labelText: "AGE",
                 //   hintText: "19",
@@ -96,6 +111,7 @@ class _ProfilePage2State extends State<ProfilePage2> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: gender,
               decoration: InputDecoration(
                 labelText: "GENDER",
                 //   hintText: "Balajee colony",
@@ -112,6 +128,7 @@ class _ProfilePage2State extends State<ProfilePage2> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: mobileNo,
               decoration: InputDecoration(
                 labelText: "MOBILE NO.",
                 // hintText: "9555181663",
@@ -128,6 +145,7 @@ class _ProfilePage2State extends State<ProfilePage2> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: address,
               decoration: InputDecoration(
                 labelText: "ADDRESS",
                 //  hintText: "Manasi",
@@ -144,6 +162,7 @@ class _ProfilePage2State extends State<ProfilePage2> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: numnerOfPeople,
               decoration: InputDecoration(
                 labelText: "NUMBER OF PEOPLE IN HOUSE",
                 // hintText: "unmarried",
@@ -160,6 +179,7 @@ class _ProfilePage2State extends State<ProfilePage2> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: religion,
               decoration: InputDecoration(
                 labelText: "RELIGION",
                 // hintText: "Hindu",
@@ -176,6 +196,7 @@ class _ProfilePage2State extends State<ProfilePage2> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: numberOfRooms,
               decoration: InputDecoration(
                 labelText: "NUMBER OF ROOMS",
                 // hintText: "Manasi",
@@ -183,17 +204,37 @@ class _ProfilePage2State extends State<ProfilePage2> {
               ),
             ),
           ),
-         
-          ElevatedButton(onPressed: (){
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const dashboardUsers (),
-              ),
-            );
-          }, child: Text("Submit"),style:ElevatedButton.styleFrom(
-            backgroundColor: Colors.pinkAccent,
-            shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(40))
-          ),)
+          ElevatedButton(
+            onPressed: () async {
+              await Provider.of<Auth>(context, listen: false).getFirebaseUser();
+              String uid = Provider.of<Auth>(context, listen: false)
+                  .firebaseUser!
+                  .uid
+                  .toString();
+              Provider.of<UsersProvider>(context, listen: false).addUsers(
+                Users(
+                  uidUser: uid.toString(),
+                  nameUser: name.text,
+                  ageUser: age.text,
+                  genderUser: gender.text,
+                  mobileNumberUser: mobileNo.text,
+                  addressUser: address.text,
+                  numberOfPeopleInhouseUser: numnerOfPeople.text,
+                  religionUser: religion.text,
+                ),
+              );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const UserDashBoard(),
+                ),
+              );
+            },
+            child: Text("Submit"),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pinkAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40))),
+          )
         ],
       )),
     );
@@ -205,9 +246,9 @@ class _ProfilePage2State extends State<ProfilePage2> {
         children: <Widget>[
           CircleAvatar(
             radius: 80,
-            backgroundImage:
-            
-                _image != null ? FileImage(File(_image!.path)) : AssetImage("assets/mansi.jpeg") as ImageProvider,
+            backgroundImage: _image != null
+                ? FileImage(File(_image!.path))
+                : AssetImage("assets/mansi.jpeg") as ImageProvider,
           ),
           Positioned(
             bottom: 20,
@@ -269,5 +310,4 @@ class _ProfilePage2State extends State<ProfilePage2> {
       ]),
     );
   }
-
 }

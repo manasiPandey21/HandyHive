@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:handyhive/Screens/authenticate/otp.dart';
+import 'package:handyhive/Screens/Authentication/otp.dart';
 import 'package:provider/provider.dart';
 import 'package:handyhive/Provider/auth.dart';
 
@@ -34,8 +34,8 @@ class _Sign_upState extends State<Sign_up> {
                     children: [
                       Image.asset("assets/xyz.png", width: 170, height: 170),
                       SizedBox(
-                        height: 20,
-                      ),
+                      height: 20,
+                    ),
                       Text(
                         "Phone Verification",
                         style: TextStyle(
@@ -58,11 +58,7 @@ class _Sign_upState extends State<Sign_up> {
                           children: [
                             SizedBox(
                               width: 40,
-                              // child: TextField(
-
-                              //   decoration: InputDecoration(
-                              //       border: InputBorder.none, hintText: "+91"),
-                              // ),
+                              
                             ),
                             SizedBox(
                               width: 1,
@@ -96,11 +92,6 @@ class _Sign_upState extends State<Sign_up> {
                                         context);
                               }
 
-                              //               Navigator.of(context).push(
-                              // MaterialPageRoute(
-                              //   builder: (context) => const MyOtp(),
-                              // ),
-                              // );
                             },
                             child: Text("Send OTP"),
                             style: ElevatedButton.styleFrom(

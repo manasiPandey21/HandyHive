@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/Landing_Page/landingPage.dart';
-import 'package:handyhive/Screens/authenticate/otp.dart';
+import 'package:handyhive/Screens/OnBoardingScreen/LandingPage.dart';
+import 'package:handyhive/Screens/Authentication/otp.dart';
 
 class Auth with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -22,7 +22,7 @@ class Auth with ChangeNotifier {
     return user == null ? false : true;
   }
 
-  static setUid() {
+  static void setUid() {
     uid = FirebaseAuth.instance.currentUser!.uid.toString();
   }
 
@@ -72,7 +72,7 @@ class Auth with ChangeNotifier {
     void verificationFailed(FirebaseAuthException error) {
       // print("handle error in otp verification");
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => landing()));
+          context, MaterialPageRoute(builder: (context) => LandingPage()));
 
       // print('verificationFailed');
       _handleError(error);
@@ -101,7 +101,7 @@ class Auth with ChangeNotifier {
     this._phoneAuthCredential = PhoneAuthProvider.credential(
         verificationId: _verificationId!, smsCode: smsCode);
     bool islogin = await login();
-    
+
     return islogin;
   }
 

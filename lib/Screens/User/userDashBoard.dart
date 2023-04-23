@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:handyhive/UsersSide/woekDetails/cooking.dart';
+import 'package:handyhive/Screens/User/WorkDetails/cooking.dart';
 
-class dashboardUsers extends StatefulWidget {
-  const dashboardUsers({super.key});
+class UserDashBoard extends StatefulWidget {
+  const UserDashBoard({super.key});
 
   @override
-  State<dashboardUsers> createState() => _dashboardUsersState();
+  State<UserDashBoard> createState() => _UserDashBoardState();
 }
 
-class _dashboardUsersState extends State<dashboardUsers> {
+class _UserDashBoardState extends State<UserDashBoard> {
   @override
   final TextEditingController _searchController = TextEditingController();
   Widget build(BuildContext context) {

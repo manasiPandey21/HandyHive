@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/ProfilePage/Profile.dart';
 
-import '../../dashBoardPage/Models.dart';
-import '../../dashBoardPage/widgets.dart';
+import '../../../Additional/users_items.dart';
+import '../../../Widgets/item_widget.dart';
 
 class Cooking extends StatefulWidget {
   const Cooking({super.key});
@@ -24,13 +23,9 @@ class _CookingState extends State<Cooking> {
           child: ListView.builder(
               itemCount: CatalogModel.items.length,
               itemBuilder: (context, index) {
-                
                 return ItemWidget(item: CatalogModel.items[index]);
               }),
-            
-              
         ),
-        
       ),
     );
   }

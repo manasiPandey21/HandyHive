@@ -1,20 +1,33 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/WorkPage/workPage.dart';
+import 'package:handyhive/Models/workers.dart';
+import 'package:handyhive/Screens/Worker/worker_registration_page2.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import '../../Provider/auth.dart';
+import '../../Provider/workers_provider.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class WorkerRegistrationPage1 extends StatefulWidget {
+  const WorkerRegistrationPage1({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<WorkerRegistrationPage1> createState() => _WorkerRegistrationPage1State();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
   File? _image;
   final picker = ImagePicker();
-
+  TextEditingController name = new TextEditingController();
+  TextEditingController age = new TextEditingController();
+  TextEditingController gender = new TextEditingController();
+  TextEditingController mobileNo = new TextEditingController();
+  TextEditingController address = new TextEditingController();
+  TextEditingController maritalStatus = new TextEditingController();
+  TextEditingController religion = new TextEditingController();
+  TextEditingController monthlyIncome = new TextEditingController();
+  TextEditingController workExperience = new TextEditingController();
+  TextEditingController language = new TextEditingController();
   //Image Picker function to get image from gallery
   Future getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -63,8 +76,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: name,
               decoration: InputDecoration(
                 labelText: "NAME",
+
                 //   hintText: "Manasi",
                 border: InputBorder.none,
               ),
@@ -79,8 +94,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: age,
               decoration: InputDecoration(
                 labelText: "AGE",
+
                 //   hintText: "19",
                 border: InputBorder.none,
               ),
@@ -95,6 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: gender,
               decoration: InputDecoration(
                 labelText: "GENDER",
                 //   hintText: "Balajee colony",
@@ -111,6 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: mobileNo,
               decoration: InputDecoration(
                 labelText: "MOBILE NO.",
                 // hintText: "9555181663",
@@ -127,6 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: address,
               decoration: InputDecoration(
                 labelText: "ADDRESS",
                 //  hintText: "Manasi",
@@ -143,6 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: maritalStatus,
               decoration: InputDecoration(
                 labelText: "MARITAL STATUS",
                 // hintText: "unmarried",
@@ -159,6 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: religion,
               decoration: InputDecoration(
                 labelText: "RELIGION",
                 // hintText: "Hindu",
@@ -175,6 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: monthlyIncome,
               decoration: InputDecoration(
                 labelText: "MONTHLY INCOME",
                 // hintText: "Manasi",
@@ -191,6 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: workExperience,
               decoration: InputDecoration(
                 labelText: "WORK EXPERIENCE",
                 // hintText: "Manasi",
@@ -207,6 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             margin: EdgeInsets.all(10),
             child: TextField(
+              controller: language,
               decoration: InputDecoration(
                 labelText: "LANGUAGE",
                 // hintText: "Manasi",
@@ -214,16 +239,40 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          ElevatedButton(onPressed: (){
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const WorkPages(),
-              ),
-            );
-          }, child: Text("Submit"),style:ElevatedButton.styleFrom(
-            backgroundColor: Colors.pinkAccent,
-            shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(40))
-          ),)
+          ElevatedButton(
+            onPressed: () async {
+              await Provider.of<Auth>(context, listen: false).getFirebaseUser();
+              String uid = Provider.of<Auth>(context, listen: false)
+                  .firebaseUser!
+                  .uid
+                  .toString();
+
+              Provider.of<WorkersProvider>(context, listen: false)
+                .addWorkers(
+                Worker(
+                    uidWorkers: uid.toString(),
+                    nameWorkers: name.text,
+                    ageworker: age.text,
+                    genderworker: gender.text,
+                    mobileNoworker: mobileNo.text,
+                    maritalStatusworker: maritalStatus.text,
+                    religionworker: religion.text,
+                    monthlyIncomeworker: monthlyIncome.text,
+                    workExperienceworker: workExperience.text,
+                    languageworker: language.text),
+              );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const WorkerRegistrationPage2(),
+                ),
+              );
+            },
+            child: Text("Submit"),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pinkAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40))),
+          )
         ],
       )),
     );
@@ -235,9 +284,9 @@ class _ProfilePageState extends State<ProfilePage> {
         children: <Widget>[
           CircleAvatar(
             radius: 80,
-            backgroundImage:
-            
-                _image != null ? FileImage(File(_image!.path)) : AssetImage("assets/mansi.jpeg") as ImageProvider,
+            backgroundImage: _image != null
+                ? FileImage(File(_image!.path))
+                : AssetImage("assets/mansi.jpeg") as ImageProvider,
           ),
           Positioned(
             bottom: 20,
@@ -299,5 +348,4 @@ class _ProfilePageState extends State<ProfilePage> {
       ]),
     );
   }
-
 }

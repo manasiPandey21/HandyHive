@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../Additional/users_items.dart';
+import '../../Widgets/item_widget.dart';
 
-import '../../dashBoardPage/Models.dart';
-import '../../dashBoardPage/widgets.dart';
-
-
-class dashBoard extends StatefulWidget {
-  const dashBoard({super.key});
+class workerDashBoard extends StatefulWidget {
+  const workerDashBoard({super.key});
 
   @override
-  State<dashBoard> createState() => _dashBoardState();
+  State<workerDashBoard> createState() => _workerDashBoardState();
 }
 
-class _dashBoardState extends State<dashBoard> {
+class _workerDashBoardState extends State<workerDashBoard> {
   @override
   Widget build(BuildContext context) {
     const iconSize = 50;
@@ -25,40 +23,59 @@ class _dashBoardState extends State<dashBoard> {
               PopupMenuItem(
                 child: Column(
                   children: [
-                     SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
-                    Text("Menu",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-                     SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [Icon(Icons.filter,color: Colors.pinkAccent,), Text("Filter")],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [Icon(Icons.sort,color: Colors.pinkAccent), Text("Sort")],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [Icon(Icons.edit,color: Colors.pinkAccent), Text("Edit work choice")],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [Icon(Icons.feedback,color: Colors.pinkAccent), Text("feedback")],
+                    Text(
+                      "Menu",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     Row(
                       children: [
-                        Icon(Icons.privacy_tip,color: Colors.pinkAccent),
+                        Icon(
+                          Icons.filter,
+                          color: Colors.pinkAccent,
+                        ),
+                        Text("Filter")
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.sort, color: Colors.pinkAccent),
+                        Text("Sort")
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.edit, color: Colors.pinkAccent),
+                        Text("Edit work choice")
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.feedback, color: Colors.pinkAccent),
+                        Text("feedback")
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.privacy_tip, color: Colors.pinkAccent),
                         Text("Privacy Policy")
                       ],
                     ),
@@ -66,15 +83,21 @@ class _dashBoardState extends State<dashBoard> {
                       height: 20,
                     ),
                     Row(
-                      children: [Icon(Icons.book,color: Colors.pinkAccent),Text("Terms & conditions")],
+                      children: [
+                        Icon(Icons.book, color: Colors.pinkAccent),
+                        Text("Terms & conditions")
+                      ],
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     Row(
-                      children: [Icon(Icons.help,color: Colors.pinkAccent), Text("Help")],
+                      children: [
+                        Icon(Icons.help, color: Colors.pinkAccent),
+                        Text("Help")
+                      ],
                     ),
-                     SizedBox(
+                    SizedBox(
                       height: 40,
                     ),
                   ],
@@ -97,13 +120,12 @@ class _dashBoardState extends State<dashBoard> {
           ),
         ],
       ),
-      body:  Card(
+      body: Card(
         child: ListView.builder(
-          
-              itemCount: CatalogModel.items.length,
-              itemBuilder: (context, index) {
-                return ItemWidget(item: CatalogModel.items[index]);
-              }),
+            itemCount: CatalogModel.items.length,
+            itemBuilder: (context, index) {
+              return ItemWidget(item: CatalogModel.items[index]);
+            }),
       ),
       bottomNavigationBar: BottomNavigationBar(
           //  backgroundColor: Colors.pinkAccent,

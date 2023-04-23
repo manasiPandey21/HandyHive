@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/DashBoard1/Dashboard1.dart';
+import 'package:handyhive/Screens/Worker/workerDashBoard.dart';
 
-class WorkPages extends StatefulWidget {
-  const WorkPages({super.key});
+class WorkerRegistrationPage2 extends StatefulWidget {
+  const WorkerRegistrationPage2({super.key});
 
   @override
-  State<WorkPages> createState() => _WorkPagesState();
+  State<WorkerRegistrationPage2> createState() =>
+      _WorkerRegistrationPage2State();
 }
 
-class _WorkPagesState extends State<WorkPages> {
+class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
   List<Map> categories = [
     {"name": "utensils cleaning", "isChecked": false},
     {"name": "sweeping", "isChecked": false},
@@ -31,7 +32,7 @@ class _WorkPagesState extends State<WorkPages> {
             ),
             Text(
               "Please select the jobs",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 20,
@@ -47,7 +48,6 @@ class _WorkPagesState extends State<WorkPages> {
               child: Column(
                   children: categories.map((favourite) {
                 return CheckboxListTile(
-                  
                     title: Text(favourite["name"]),
                     value: favourite["isChecked"],
                     onChanged: (val) {
@@ -66,24 +66,27 @@ class _WorkPagesState extends State<WorkPages> {
             SizedBox(
               height: 20,
             ),
-              ElevatedButton(onPressed: (){
-                            Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => dashBoard (),
-                                      ),
-                                    );
-                          }, child: Text("Submit"),style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => workerDashBoard(),
+                  ),
+                );
+              },
+              child: Text("Submit"),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),
+            ),
             Wrap(
               children: categories.map((favourite) {
                 if (favourite["isChecked"] == true) {
                   return Card(
-                    
                     elevation: 3,
                     color: Colors.pinkAccent,
                     child: Padding(
                       padding: EdgeInsets.all(10),
                       child: Row(
-                        
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -94,11 +97,11 @@ class _WorkPagesState extends State<WorkPages> {
                           SizedBox(
                             width: 5,
                           ),
-                        
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                favourite["isChecked"] =!favourite["isChecked"];
+                                favourite["isChecked"] =
+                                    !favourite["isChecked"];
                               });
                             },
                             child: Icon(Icons.delete, color: Colors.white),

@@ -1,53 +1,59 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:handyhive/Chatpage/chatpage.dart';
-import 'package:handyhive/Screens/DashBoard1/Dashboard1.dart';
-import 'package:handyhive/Screens/Helpdesk/helpdesk.dart';
-import 'package:handyhive/Screens/Landing_Page/landingPage.dart';
-import 'package:handyhive/Screens/OnBoardingScreen/screen11ob.dart';
-import 'package:handyhive/Screens/OnBoardingScreen/welcomepage.dart';
-import 'package:handyhive/Screens/ProfilePage/Profile.dart';
-import 'package:handyhive/Screens/WorkPage/workPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:handyhive/UsersSide/userDashBoard.dart';
-import 'package:handyhive/UsersSide/userProfile.dart';
-import 'package:handyhive/UsersSide/woekDetails/cooking.dart';
+import 'package:handyhive/Provider/users_provider.dart';
+import 'package:handyhive/Screens/OnBoardingScreen/LandingPage.dart';
+import 'package:handyhive/Screens/OnBoardingScreen/onBoardingScreen1.dart';
+import 'package:handyhive/Screens/User/user_registration_page1.dart';
+import 'package:handyhive/Screens/User/WorkDetails/cooking.dart';
 import 'package:provider/provider.dart';
-
 import 'Provider/auth.dart';
-import 'Screens/OnBoardingScreen/screen2ob.dart';
-import 'Screens/OnBoardingScreen/screen33ob.dart';
-import 'Screens/authenticate/Sign_up.dart';
-import 'Screens/authenticate/otp.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Provider/workers_provider.dart';
+import 'Screens/Common/chatpage.dart';
+import 'Screens/Common/helpdesk.dart';
+import 'Screens/OnBoardingScreen/onBoardingScreen2.dart';
+import 'Screens/OnBoardingScreen/onBoardingScreen3.dart';
+import 'Screens/OnBoardingScreen/welcomePage.dart';
+import 'Screens/User/userDashBoard.dart';
+import 'Screens/Worker/workerDashBoard.dart';
+import 'Screens/Worker/worker_registration_page1.dart';
+import 'Screens/Worker/worker_registration_page2.dart';
+import 'Screens/Authentication/Sign_up.dart';
+import 'Screens/Authentication/otp.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MultiProvider(
     providers: [
-        ChangeNotifierProvider<Auth>(
-                create: (_) => Auth(),
-              ),
+      ChangeNotifierProvider<Auth>(
+        create: (_) => Auth(),
+      ),
+      ChangeNotifierProvider<WorkersProvider>(
+        create: (_) => WorkersProvider(),
+      ),
+      ChangeNotifierProvider<UsersProvider>(
+        create: (_) => UsersProvider(),
+      ),
     ],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: "welcome",
       routes: {
-        "work page": ((context) => WorkPages()), //done
-        "Profile page": (context) => ProfilePage(),
+        "work page": ((context) => WorkerRegistrationPage2()), //done
+        "Profile page": (context) => WorkerRegistrationPage1(),
         "phone": (context) => Sign_up(), //done
         "otp": (context) => MyOtp(), //done
-        "landing": (context) => landing(),
-        "dashboard1": ((context) => dashBoard()),
+        "LandingPage": (context) => LandingPage(),
+        "dashboard1": ((context) => workerDashBoard()),
         "boarding1": (context) => OnboardingFirst(), //done
-        "boarding2": (context) => onBoardingSecond(), //done
-        "boarding3": (context) => onBoardingThird(), //done
-        "welcome": (context) => Welcomepage(), //done
-        "chat": (context) => chatpage(),
-        "Profile page2": (context) => ProfilePage2(),
-        "helpdesks": (context) => helpdesk(),
-        "dashboard2": ((context) => dashboardUsers()),
+        "boarding2": (context) => OnBoardingPage(), //done
+        "boarding3": (context) => OnBoardingThird(), //done
+        "welcome": (context) => WelcomePage(), //done
+        "chat": (context) => ChatPage(),
+        "Profile page2": (context) => UserRegistrationPage1(),
+        "HelpDesks": (context) => HelpDesk(),
+        "dashboard2": ((context) => UserDashBoard()),
         "cooking": (context) => Cooking(),
       },
     ),

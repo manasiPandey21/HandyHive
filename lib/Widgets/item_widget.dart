@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/ProfilePage/Profile.dart';
 
-import 'Models.dart';
-
+import '../Screens/Worker/worker_registration_page1.dart';
+import '../Additional/users_items.dart';
 
 class ItemWidget extends StatelessWidget {
   final Item item;
@@ -25,17 +24,26 @@ class ItemWidget extends StatelessWidget {
             ),
             title: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(item.name, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
+              child: Text(item.name,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18)),
             ),
-            subtitle: Center(child: Text(item.desc, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15))),
-            onTap: (){
-                Navigator.of(context).push(
-             MaterialPageRoute(
-                builder: (context) => const ProfilePage(),
-             ),
-            );
+            subtitle: Center(
+                child: Text(item.desc,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15))),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const WorkerRegistrationPage1(),
+                ),
+              );
             },
-            onLongPress:(){},
+            onLongPress: () {},
             // trailing: Text(
             //   "${item.priceRange}",
             //   style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
