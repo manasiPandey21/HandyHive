@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
-import 'package:handyhive/Screens/User/userDashBoard.dart';
+
+import 'package:handyhive/Screens/User/user_edit_profile.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -225,7 +226,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
               );
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const UserDashBoard(),
+                  builder: (context) => const UserEditProfile(),
                 ),
               );
             },

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
+import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:handyhive/Screens/Worker/worker_registration_page2.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -263,7 +264,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
               );
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const WorkerRegistrationPage2(),
+                  builder: (context) => const  WorkerEditProfile(),
                 ),
               );
             },

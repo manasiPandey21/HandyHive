@@ -7,14 +7,14 @@ import 'package:handyhive/Provider/auth.dart';
 
 import '../../Provider/auth.dart';
 
-class Sign_up extends StatefulWidget {
-  const Sign_up({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
   static String verify = "";
   @override
-  State<Sign_up> createState() => _Sign_upState();
+  State<Login> createState() => _LoginState();
 }
 
-class _Sign_upState extends State<Sign_up> {
+class _LoginState extends State<Login> {
   @override
   bool? iscorrectformat;
   TextEditingController phone = TextEditingController();

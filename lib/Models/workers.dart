@@ -24,6 +24,8 @@ class Worker {
     required this.workExperienceworker,
     required this.languageworker,
   });
+
+  get addressWorker => null;
  
 
   Worker copyWith({

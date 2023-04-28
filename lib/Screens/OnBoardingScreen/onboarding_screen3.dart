@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({super.key});
+import 'package:handyhive/Screens/Authentication/login.dart';
+
+class OnBoardingThird extends StatefulWidget {
+  const OnBoardingThird({super.key});
 
   @override
-  State<OnBoardingPage> createState() => _OnBoardingPageState();
+  State<OnBoardingThird> createState() => _OnBoardingThirdState();
 }
 
-class _OnBoardingPageState extends State<OnBoardingPage> {
+class _OnBoardingThirdState extends State<OnBoardingThird> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -25,8 +27,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // SizedBox(height: 10),
-                    Text(
-                        "We will help you by providing all sought of services with trust\n",
+                    Text("Let's start with HANDYHIVE\n",
                         style: const TextStyle(
                             color: const Color(0xfffaf5f0),
                             fontWeight: FontWeight.w700,
@@ -38,13 +39,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     Center(
                         child: Image(
                       image: AssetImage(
-                        'assets/garden.png',
+                        'assets/cleaning.png',
                       ),
                       width: 300,
                     )),
                     SizedBox(height: height / 10),
                     Text(
-                        "From kitchen chores to cleaning,we have eveything for you.",
+                        "For more Information,please read terms & conditions and privacy policy",
                         style: const TextStyle(
                             color: const Color(0xfffaf5f0),
                             // fontWeight: FontWeight.w700,
@@ -52,10 +53,31 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             fontStyle: FontStyle.normal,
                             fontSize: 16),
                         textAlign: TextAlign.center),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Let's start",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.pinkAccent),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white),
+                    )
                   ])),
         ],
       ),
     );
+    ;
     ;
   }
 }

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../../Additional/users_items.dart';
 import '../../Widgets/item_widget.dart';
 
-class workerDashBoard extends StatefulWidget {
-  const workerDashBoard({super.key});
+class WorkerDashBoard extends StatefulWidget {
+  const WorkerDashBoard({super.key});
 
   @override
-  State<workerDashBoard> createState() => _workerDashBoardState();
+  State<WorkerDashBoard> createState() => _WorkerDashBoardState();
 }
 
-class _workerDashBoardState extends State<workerDashBoard> {
+class _WorkerDashBoardState extends State<WorkerDashBoard> {
   @override
   Widget build(BuildContext context) {
     const iconSize = 50;

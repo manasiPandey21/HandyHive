@@ -8,6 +8,7 @@ class UsersProvider with ChangeNotifier {
   List<Users> usersss = [];
 
   Users getUser(String index) {
+    fetchAndSetUsers();
     return usersss.firstWhere((e) => e.uidUser == index);
   }
 

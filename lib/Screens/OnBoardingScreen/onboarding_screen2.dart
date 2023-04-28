@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:handyhive/Screens/Authentication/Sign_up.dart';
-
-class OnBoardingThird extends StatefulWidget {
-  const OnBoardingThird({super.key});
+class OnBoardingSecond extends StatefulWidget {
+  const OnBoardingSecond({super.key});
 
   @override
-  State<OnBoardingThird> createState() => _OnBoardingThirdState();
+  State<OnBoardingSecond> createState() => _OnBoardingSecondState();
 }
 
-class _OnBoardingThirdState extends State<OnBoardingThird> {
+class _OnBoardingSecondState extends State<OnBoardingSecond> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -27,7 +25,8 @@ class _OnBoardingThirdState extends State<OnBoardingThird> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // SizedBox(height: 10),
-                    Text("Let's start with HANDYHIVE\n",
+                    Text(
+                        "We will help you by providing all sought of services with trust\n",
                         style: const TextStyle(
                             color: const Color(0xfffaf5f0),
                             fontWeight: FontWeight.w700,
@@ -39,13 +38,13 @@ class _OnBoardingThirdState extends State<OnBoardingThird> {
                     Center(
                         child: Image(
                       image: AssetImage(
-                        'assets/cleaning.png',
+                        'assets/garden.png',
                       ),
                       width: 300,
                     )),
                     SizedBox(height: height / 10),
                     Text(
-                        "For more Information,please read terms & conditions and privacy policy",
+                        "From kitchen chores to cleaning,we have eveything for you.",
                         style: const TextStyle(
                             color: const Color(0xfffaf5f0),
                             // fontWeight: FontWeight.w700,
@@ -53,31 +52,10 @@ class _OnBoardingThirdState extends State<OnBoardingThird> {
                             fontStyle: FontStyle.normal,
                             fontSize: 16),
                         textAlign: TextAlign.center),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => Sign_up(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Let's start",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.pinkAccent),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white),
-                    )
                   ])),
         ],
       ),
     );
-    ;
     ;
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'onBoardingScreen1.dart';
-import 'onBoardingScreen2.dart';
-import 'onBoardingScreen3.dart';
+import 'onboarding_screen1.dart';
+import 'onboarding_screen2.dart';
+import 'onboarding_screen3.dart';
 
 class WelcomePage extends StatefulWidget {
   WelcomePage({key}) : super(key: key);
@@ -17,7 +17,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   final List<Widget> introWidgetsList = <Widget>[
     OnboardingFirst(),
-    OnBoardingPage(),
+    OnBoardingSecond(),
     OnBoardingThird(),
   ];
 

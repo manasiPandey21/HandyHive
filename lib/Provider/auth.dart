@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/OnBoardingScreen/LandingPage.dart';
+
 import 'package:handyhive/Screens/Authentication/otp.dart';
+
+import '../Screens/OnBoardingScreen/landing_page.dart';
 
 class Auth with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;

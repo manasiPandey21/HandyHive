@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/Worker/workerDashBoard.dart';
+import 'package:handyhive/Screens/Worker/worker_dashboard.dart';
+
 
 class WorkerRegistrationPage2 extends StatefulWidget {
   const WorkerRegistrationPage2({super.key});
@@ -70,7 +71,7 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => workerDashBoard(),
+                    builder: (context) => WorkerDashBoard(),
                   ),
                 );
               },

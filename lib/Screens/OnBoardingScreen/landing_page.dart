@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/Authentication/Sign_up.dart';
+
 import 'package:lottie/lottie.dart';
 
 import '../User/user_registration_page1.dart';

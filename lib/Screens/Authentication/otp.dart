@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:handyhive/Screens/OnBoardingScreen/LandingPage.dart';
-import 'package:handyhive/Screens/Authentication/Sign_up.dart';
+
+import 'package:handyhive/Screens/Authentication/login.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/auth.dart';
-import '../User/userDashBoard.dart';
-import '../Worker/workerDashBoard.dart';
+import '../OnBoardingScreen/landing_page.dart';
+import '../User/user_dashboard.dart';
+
+import '../Worker/worker_dashboard.dart';
 
 class MyOtp extends StatefulWidget {
   const MyOtp({super.key});
@@ -70,7 +72,7 @@ class _MyOtpState extends State<MyOtp> {
                     ));
                   } else if (isworker.exists) {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const workerDashBoard(),
+                      builder: (context) => const WorkerDashBoard(),
                     ));
                   } else {
                     Navigator.of(context).push(
@@ -82,7 +84,7 @@ class _MyOtpState extends State<MyOtp> {
                 } else {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const Sign_up(),
+                      builder: (context) => const Login(),
                     ),
                   );
                 }
