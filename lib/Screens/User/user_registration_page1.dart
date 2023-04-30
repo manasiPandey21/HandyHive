@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
 
 import 'package:handyhive/Screens/User/user_edit_profile.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/auth.dart';
@@ -19,8 +21,14 @@ class UserRegistrationPage1 extends StatefulWidget {
 
 class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
   @override
-  File? _image;
   final picker = ImagePicker();
+
+  String? uid;
+
+  var _image;
+  var imageUrl;
+  var imagePicker;
+  final _firebaseStorage = FirebaseStorage.instance;
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
   TextEditingController gender = new TextEditingController();
@@ -224,6 +232,22 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                   religionUser: religion.text,
                 ),
               );
+              uid = Provider.of<Auth>(context, listen: false)
+                  .firebaseUser!
+                  .uid
+                  .toString();
+              if (_image != null) {
+                var snapshot = await _firebaseStorage
+                    .ref()
+                    .child('UserImages/$uid')
+                    .putFile(_image);
+                var downloadUrl = await snapshot.ref.getDownloadURL();
+                if (mounted) {
+                  setState(() {
+                    imageUrl = downloadUrl;
+                  });
+                }
+              }
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const UserEditProfile(),
@@ -240,6 +264,24 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
       )),
     );
   }
+
+  // uploadImage() async {
+
+  //   final imagePicker = ImagePicker();
+
+  //   await Permission.photos.request();
+  //   var permissionStatus = await Permission.photos.status;
+
+  //   if (permissionStatus.isGranted) {
+  //     var image = await imagePicker.pickImage(
+  //       source: ImageSource.gallery,
+  //       imageQuality: 50,
+  //     );
+  //     setState(() {
+  //       _image = File(image!.path);
+  //     });
+
+  //   }
 
   Widget profileimage() {
     return Center(

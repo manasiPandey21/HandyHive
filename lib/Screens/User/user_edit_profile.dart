@@ -1,12 +1,17 @@
+
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handyhive/Models/users.dart';
 import 'package:handyhive/Provider/users_provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
+import 'package:permission_handler/permission_handler.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../Provider/auth.dart';
-
+import 'package:handyhive/Screens/User/user_registration_page1.dart';
 class UserEditProfile extends StatefulWidget {
   const UserEditProfile({Key? key}) : super(key: key);
 
@@ -15,10 +20,17 @@ class UserEditProfile extends StatefulWidget {
 }
 
 class _UserEditProfileState extends State<UserEditProfile> {
+   @override
+   final picker = ImagePicker();
   Users? currUser;
   Users? newUser;
   bool _isInit = true;
   bool isLoading = true;
+  var _image;
+  var imageUrl;
+  var imagePicker;
+   final _firebaseStorage = FirebaseStorage.instance;
+
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
   TextEditingController gender = new TextEditingController();
@@ -27,6 +39,28 @@ class _UserEditProfileState extends State<UserEditProfile> {
   TextEditingController numnerOfPeople = new TextEditingController();
   TextEditingController religion = new TextEditingController();
   TextEditingController numberOfRooms = new TextEditingController();
+  
+
+  Future getImageFromGallery() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image  = pickedFile;
+      }
+    });
+  }
+
+  //Image Picker function to get image from camera
+  Future getImageFromCamera() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image =pickedFile;
+      }
+    });
+  }
 
   @override
   Future<void> didChangeDependencies() async {
@@ -52,6 +86,41 @@ class _UserEditProfileState extends State<UserEditProfile> {
     }
     _isInit = false;
   }
+  
+  uploadImage() async {
+    final _firebaseStorage = FirebaseStorage.instance;
+    final imagePicker = ImagePicker();
+
+    await Permission.photos.request();
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      var image = await imagePicker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+      );
+      setState(() {
+      //  _image = File(image!.path);
+      });
+      var uid = Provider.of<Auth>(context, listen: false)
+          .firebaseUser!
+          .uid
+          .toString();
+      if (_image != null) {
+        var snapshot = await _firebaseStorage
+            .ref()
+            .child('UserImages/$uid')
+            .putFile(_image);
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        if (mounted) {
+          setState(() {
+            imageUrl = downloadUrl;
+          });
+        }
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +136,12 @@ class _UserEditProfileState extends State<UserEditProfile> {
                 child: Container(
                   child: ListView(
                     children: [
-                      CircleAvatar(
-                        radius: 60,
+                      InkWell(
+                  onTap: () async {
+                    await profileimage();
+                  },
                       ),
+                     
                       SizedBox(
                         height: 20,
                       ),
@@ -471,5 +543,75 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   ),
                 )),
           );
+  }
+  Widget profileimage() {
+    return Center(
+      child: Stack(
+        children: <Widget>[
+          CircleAvatar(
+            radius: 80,
+            backgroundImage: _image != null
+                ? FileImage((_image!.path))
+                : AssetImage("assets/mansi.jpeg") as ImageProvider,
+          ),
+          Positioned(
+            bottom: 20,
+            right: 40,
+            child: InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context, builder: ((builder) => BottomSheet()));
+              },
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget BottomSheet() {
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Column(children: [
+        Text(
+          "Choose Profile Photo",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pinkAccent),
+                onPressed: () {
+                  getImageFromCamera();
+                },
+                icon: Icon(Icons.camera_alt),
+                label: Text("Camera")),
+            SizedBox(
+              width: 70,
+            ),
+            ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pinkAccent),
+                onPressed: () {
+                  getImageFromGallery();
+                },
+                icon: Icon(Icons.image),
+                label: Text("Gallary")),
+          ],
+        )
+      ]),
+    );
   }
 }

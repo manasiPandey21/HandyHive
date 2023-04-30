@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:handyhive/Models/workers.dart';
+import 'package:firebase_storage/firebase_storage.dart'  as firebase_storage;
 
 import '../Models/users.dart';
 
@@ -41,5 +42,11 @@ class UsersProvider with ChangeNotifier {
     await fetchAndSetUsers();
     notifyListeners();
     return;
+  }
+  Future<String> getImageUrl(String id) async {
+    String imageUrl = await firebase_storage.FirebaseStorage.instance
+        .ref('StudentImages/$id')
+        .getDownloadURL();
+    return imageUrl;
   }
 }
