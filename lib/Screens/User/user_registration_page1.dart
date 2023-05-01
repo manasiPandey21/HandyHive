@@ -73,7 +73,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
           SizedBox(
             height: 20,
           ),
-          profileimage(),
+          ProfileImage(),
           SizedBox(
             height: 5,
           ),
@@ -283,7 +283,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
 
   //   }
 
-  Widget profileimage() {
+  Widget ProfileImage() {
     return Center(
       child: Stack(
         children: <Widget>[

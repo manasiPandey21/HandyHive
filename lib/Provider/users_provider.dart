@@ -45,7 +45,7 @@ class UsersProvider with ChangeNotifier {
   }
   Future<String> getImageUrl(String id) async {
     String imageUrl = await firebase_storage.FirebaseStorage.instance
-        .ref('StudentImages/$id')
+        .ref('UserImages/$id')
         .getDownloadURL();
     return imageUrl;
   }

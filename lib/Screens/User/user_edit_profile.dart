@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +10,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../Provider/auth.dart';
 import 'package:handyhive/Screens/User/user_registration_page1.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 class UserEditProfile extends StatefulWidget {
   const UserEditProfile({Key? key}) : super(key: key);
 
@@ -20,8 +20,8 @@ class UserEditProfile extends StatefulWidget {
 }
 
 class _UserEditProfileState extends State<UserEditProfile> {
-   @override
-   final picker = ImagePicker();
+  @override
+  final picker = ImagePicker();
   Users? currUser;
   Users? newUser;
   bool _isInit = true;
@@ -29,7 +29,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
   var _image;
   var imageUrl;
   var imagePicker;
-   final _firebaseStorage = FirebaseStorage.instance;
+  final _firebaseStorage = FirebaseStorage.instance;
 
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
@@ -39,14 +39,13 @@ class _UserEditProfileState extends State<UserEditProfile> {
   TextEditingController numnerOfPeople = new TextEditingController();
   TextEditingController religion = new TextEditingController();
   TextEditingController numberOfRooms = new TextEditingController();
-  
 
   Future getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {
-        _image  = pickedFile;
+        _image = pickedFile;
       }
     });
   }
@@ -57,7 +56,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
     setState(() {
       if (pickedFile != null) {
-        _image =pickedFile;
+        _image = pickedFile;
       }
     });
   }
@@ -86,7 +85,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
     }
     _isInit = false;
   }
-  
+
   uploadImage() async {
     final _firebaseStorage = FirebaseStorage.instance;
     final imagePicker = ImagePicker();
@@ -100,7 +99,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
         imageQuality: 50,
       );
       setState(() {
-      //  _image = File(image!.path);
+        //  _image = File(image!.path);
       });
       var uid = Provider.of<Auth>(context, listen: false)
           .firebaseUser!
@@ -121,7 +120,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -136,12 +134,34 @@ class _UserEditProfileState extends State<UserEditProfile> {
                 child: Container(
                   child: ListView(
                     children: [
-                      InkWell(
-                  onTap: () async {
-                    await profileimage();
-                  },
+                      // InkWell(
+                      //   onTap: () async {
+                      //     await ProfileImage();
+                      //   },
+                      // ),
+                      Center(
+                        child: FutureBuilder(
+                          future:
+                              Provider.of<UsersProvider>(context, listen: false)
+                                  .getImageUrl(currUser!.uidUser.toString()),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return CircleAvatar(
+                                radius: 60,
+                                child: Image.network(snapshot.data.toString()),
+                                backgroundColor: Colors.transparent,
+                              );
+                            } else {
+                              return CircleAvatar(
+                                radius: 60,
+                                backgroundColor: Colors.brown,
+                                foregroundColor: Colors.brown,
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ),
                       ),
-                     
                       SizedBox(
                         height: 20,
                       ),
@@ -158,7 +178,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                           onTap: () {
                             setState(() {
                               showModalBottomSheet(
-                                isScrollControlled: true,
+                                  isScrollControlled: true,
                                   context: context,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
@@ -168,7 +188,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   ),
                                   builder: (context) {
                                     return Padding(
-                                      padding: MediaQuery.of(context).viewInsets,
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
                                       child: Wrap(children: [
                                         Padding(
                                           padding: const EdgeInsets.all(20.0),
@@ -544,35 +565,10 @@ class _UserEditProfileState extends State<UserEditProfile> {
                 )),
           );
   }
-  Widget profileimage() {
-    return Center(
-      child: Stack(
-        children: <Widget>[
-          CircleAvatar(
-            radius: 80,
-            backgroundImage: _image != null
-                ? FileImage((_image!.path))
-                : AssetImage("assets/mansi.jpeg") as ImageProvider,
-          ),
-          Positioned(
-            bottom: 20,
-            right: 40,
-            child: InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                    context: context, builder: ((builder) => BottomSheet()));
-              },
-              child: Icon(
-                Icons.camera_alt,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+
+  // Widget ProfileImage() {
+  //   return ;
+  // }
 
   Widget BottomSheet() {
     return Container(

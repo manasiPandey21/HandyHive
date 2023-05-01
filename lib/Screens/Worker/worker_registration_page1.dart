@@ -13,7 +13,8 @@ class WorkerRegistrationPage1 extends StatefulWidget {
   const WorkerRegistrationPage1({super.key});
 
   @override
-  State<WorkerRegistrationPage1> createState() => _WorkerRegistrationPage1State();
+  State<WorkerRegistrationPage1> createState() =>
+      _WorkerRegistrationPage1State();
 }
 
 class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
@@ -64,7 +65,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
           SizedBox(
             height: 20,
           ),
-          profileimage(),
+          ProfileImage(),
           SizedBox(
             height: 5,
           ),
@@ -248,8 +249,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                   .uid
                   .toString();
 
-              Provider.of<WorkersProvider>(context, listen: false)
-                .addWorkers(
+              Provider.of<WorkersProvider>(context, listen: false).addWorkers(
                 Worker(
                     uidWorkers: uid.toString(),
                     nameWorkers: name.text,
@@ -264,7 +264,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
               );
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const  WorkerEditProfile(),
+                  builder: (context) => const WorkerEditProfile(),
                 ),
               );
             },
@@ -279,7 +279,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
     );
   }
 
-  Widget profileimage() {
+  Widget ProfileImage() {
     return Center(
       child: Stack(
         children: <Widget>[
