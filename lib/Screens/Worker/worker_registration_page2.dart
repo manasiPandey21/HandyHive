@@ -1,9 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:handyhive/Models/workers.dart';
+import 'package:handyhive/Provider/workers_provider.dart';
 import 'package:handyhive/Screens/Worker/worker_dashboard.dart';
+import 'package:provider/provider.dart';
 
+import '../../Provider/auth.dart';
 
 class WorkerRegistrationPage2 extends StatefulWidget {
-  const WorkerRegistrationPage2({super.key});
+  const WorkerRegistrationPage2({Key? key}) : super(key: key);
 
   @override
   State<WorkerRegistrationPage2> createState() =>
@@ -11,7 +17,16 @@ class WorkerRegistrationPage2 extends StatefulWidget {
 }
 
 class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
-  List<Map> categories = [
+  Worker? currWorker;
+  Worker? newWorker;
+  bool _isInit = true;
+  bool isLoading = true;
+  var _hours = ['1', '2', '3', '4'];
+  List<String> selectedHours = List.filled(9, '1');
+  var _salary = ['500', '1000', '1500', '2000', '2500', '3000', '3500', '4000'];
+  List<String> selectedSalary = List.filled(9, '500');
+  Map<String, bool> selectedValues = {};
+  List<Map<String, dynamic>> categories = [
     {"name": "utensils cleaning", "isChecked": false},
     {"name": "sweeping", "isChecked": false},
     {"name": "cooking", "isChecked": false},
@@ -22,100 +37,217 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
     {"name": "Pateint care", "isChecked": false},
     {"name": "Massager", "isChecked": false},
   ];
+
+  List<Service> selectedServices = [];
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    if (_isInit) {
+      await Provider.of<WorkersProvider>(context, listen: false)
+          .fetchAndSetWorkers()
+          .then((value) async => await Provider.of<Auth>(context, listen: false)
+                  .getFirebaseUser()
+                  .then((value) async {
+                setState(() {
+                  var uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  currWorker =
+                      Provider.of<WorkersProvider>(context, listen: false)
+                          .getWorkers(uid.toString());
+
+                  isLoading = false;
+                });
+              }));
+    }
+    _isInit = false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 80,
-            ),
-            Text(
-              "Please select the jobs",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(
-              height: 1,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Column(
-                  children: categories.map((favourite) {
-                return CheckboxListTile(
-                    title: Text(favourite["name"]),
-                    value: favourite["isChecked"],
-                    onChanged: (val) {
-                      setState(() {
-                        favourite["isChecked"] = val;
-                      });
-                    });
-              }).toList()),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(
-              height: 1,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => WorkerDashBoard(),
-                  ),
-                );
-              },
-              child: Text("Submit"),
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),
-            ),
-            Wrap(
-              children: categories.map((favourite) {
-                if (favourite["isChecked"] == true) {
-                  return Card(
-                    elevation: 3,
-                    color: Colors.pinkAccent,
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            favourite["name"],
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                favourite["isChecked"] =
-                                    !favourite["isChecked"];
-                              });
-                            },
-                            child: Icon(Icons.delete, color: Colors.white),
-                          ),
-                        ],
-                      ),
+    return isLoading?CircularProgressIndicator(): WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 80,
+              ),
+              Text(
+                "Please select the jobs",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(
+                height: 1,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Column(
+                  children: List.generate(categories.length, (index) {
+                    final favourite = categories[index];
+                    return CheckboxListTile(
+                      title: Text(favourite["name"]),
+                      value: favourite["isChecked"],
+                      onChanged: (val) {
+                        setState(() {
+                          favourite["isChecked"] = val;
+                        });
+                      },
+                      subtitle: favourite["isChecked"]
+                          ? Row(
+                              children: [
+                                SizedBox(width: 50),
+                                Text("Hours: "),
+                                DropdownButton<String>(
+                                  value: selectedHours[index],
+                                  items: _hours.map((hour) {
+                                    return DropdownMenuItem<String>(
+                                      value: hour,
+                                      child: Text(hour),
+                                    );
+                                  }).toList(),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      selectedHours[index] = val!;
+                                    });
+                                  },
+                                ),
+                                SizedBox(width: 40),
+                                Text("Salary: "),
+                                DropdownButton<String>(
+                                  value: selectedSalary[index],
+                                  items: _salary.map((salary) {
+                                    return DropdownMenuItem<String>(
+                                      value: salary,
+                                      child: Text(salary),
+                                    );
+                                  }).toList(),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      selectedSalary[index] = val!;
+                                    });
+                                  },
+                                ),
+                              ],
+                            )
+                          : null,
+                    );
+                  }).toList(),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(
+                height: 1,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  for (int i = 0; i < categories.length; i++) {
+                    if (categories[i]["isChecked"] == true) {
+                      final service = Service(
+                        name: categories[i]["name"],
+                        hours: selectedHours[i],
+                        salary: selectedSalary[i],
+                      );
+                      selectedServices.add(service);
+                    }
+                  }
+                  print(currWorker);
+                  newWorker = currWorker!.copyWith(service: selectedServices);
+                  print(newWorker);
+
+                  await Provider.of<WorkersProvider>(context, listen: false)
+                      .updateWorkers(newWorker!);
+                  currWorker = newWorker;
+
+                  // final providerCollection = FirebaseFirestore.instance.collection('service_providers');
+
+                  // final providerDocument = providerCollection.doc(userId);
+                  // final existingServicesSnapshot = await providerDocument.get();
+                  // final existingServices = existingServicesSnapshot.data()?['selected_services'] ?? [];
+
+                  // final updatedServices = [...existingServices, ...selectedServices.map((service) => service.toMap()).toList()];
+
+                  // final documentSnapshot = await providerDocument.get();
+                  // if (documentSnapshot.exists) {
+
+                  //   providerDocument.update({
+                  //     'selected_services': updatedServices,
+                  //   });
+                  // } else {
+
+                  //   providerDocument.set({
+                  //     'selected_services': updatedServices,
+                  //   });
+                  // }
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => WorkerDashBoard(),
                     ),
                   );
-                }
-                return Container();
-              }).toList(),
-            ),
-          ],
+                },
+                child: Text("Submit"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pinkAccent,
+                ),
+              ),
+              Wrap(
+                children: categories.map((favourite) {
+                  if (favourite["isChecked"] == true) {
+                    return Card(
+                      elevation: 3,
+                      color: Colors.pinkAccent,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              favourite["name"],
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  favourite["isChecked"] =
+                                      !favourite["isChecked"];
+                                });
+                              },
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return Container();
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );

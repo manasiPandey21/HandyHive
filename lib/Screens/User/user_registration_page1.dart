@@ -60,208 +60,214 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("Profile")),
-        backgroundColor: Colors.pinkAccent,
-      ),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          ProfileImage(),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
+    return WillPopScope(
+      onWillPop: () async{
+      return false;
+    },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text("Profile")),
+          backgroundColor: Colors.pinkAccent,
+        ),
+        body: SingleChildScrollView(
+            child: Column(
+          children: [
+            SizedBox(
+              height: 20,
             ),
-            margin: EdgeInsets.all(10),
-            child: TextField(
-              controller: name,
-              decoration: InputDecoration(
-                labelText: "NAME",
-                //   hintText: "Manasi",
-                border: InputBorder.none,
+            ProfileImage(),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              height: 60,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
               ),
-            ),
-          ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.all(10),
-            child: TextField(
-              controller: age,
-              decoration: InputDecoration(
-                labelText: "AGE",
-                //   hintText: "19",
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.all(10),
-            child: TextField(
-              controller: gender,
-              decoration: InputDecoration(
-                labelText: "GENDER",
-                //   hintText: "Balajee colony",
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.all(10),
-            child: TextField(
-              controller: mobileNo,
-              decoration: InputDecoration(
-                labelText: "MOBILE NO.",
-                // hintText: "9555181663",
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.all(10),
-            child: TextField(
-              controller: address,
-              decoration: InputDecoration(
-                labelText: "ADDRESS",
-                //  hintText: "Manasi",
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.all(10),
-            child: TextField(
-              controller: numnerOfPeople,
-              decoration: InputDecoration(
-                labelText: "NUMBER OF PEOPLE IN HOUSE",
-                // hintText: "unmarried",
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.all(10),
-            child: TextField(
-              controller: religion,
-              decoration: InputDecoration(
-                labelText: "RELIGION",
-                // hintText: "Hindu",
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Container(
-            height: 60,
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.all(10),
-            child: TextField(
-              controller: numberOfRooms,
-              decoration: InputDecoration(
-                labelText: "NUMBER OF ROOMS",
-                // hintText: "Manasi",
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await Provider.of<Auth>(context, listen: false).getFirebaseUser();
-              String uid = Provider.of<Auth>(context, listen: false)
-                  .firebaseUser!
-                  .uid
-                  .toString();
-              Provider.of<UsersProvider>(context, listen: false).addUsers(
-                Users(
-                  uidUser: uid.toString(),
-                  nameUser: name.text,
-                  ageUser: age.text,
-                  genderUser: gender.text,
-                  mobileNumberUser: mobileNo.text,
-                  addressUser: address.text,
-                  numberOfPeopleInhouseUser: numnerOfPeople.text,
-                  religionUser: religion.text,
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: name,
+                decoration: InputDecoration(
+                  labelText: "NAME",
+                  //   hintText: "Manasi",
+                  border: InputBorder.none,
                 ),
-              );
-              uid = Provider.of<Auth>(context, listen: false)
-                  .firebaseUser!
-                  .uid
-                  .toString();
-              if (_image != null) {
-                var snapshot = await _firebaseStorage
-                    .ref()
-                    .child('UserImages/$uid')
-                    .putFile(_image);
-                var downloadUrl = await snapshot.ref.getDownloadURL();
-                if (mounted) {
-                  setState(() {
-                    imageUrl = downloadUrl;
-                  });
+              ),
+            ),
+            Container(
+              height: 60,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: age,
+                decoration: InputDecoration(
+                  labelText: "AGE",
+                  //   hintText: "19",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            Container(
+              height: 60,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: gender,
+                decoration: InputDecoration(
+                  labelText: "GENDER",
+                  //   hintText: "Balajee colony",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            Container(
+              height: 60,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: mobileNo,
+                decoration: InputDecoration(
+                  labelText: "MOBILE NO.",
+                  // hintText: "9555181663",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            Container(
+              height: 60,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: address,
+                decoration: InputDecoration(
+                  labelText: "ADDRESS",
+                  //  hintText: "Manasi",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            Container(
+              height: 60,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: numnerOfPeople,
+                decoration: InputDecoration(
+                  labelText: "NUMBER OF PEOPLE IN HOUSE",
+                  // hintText: "unmarried",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            Container(
+              height: 60,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: religion,
+                decoration: InputDecoration(
+                  labelText: "RELIGION",
+                  // hintText: "Hindu",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            Container(
+              height: 60,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: numberOfRooms,
+                decoration: InputDecoration(
+                  labelText: "NUMBER OF ROOMS",
+                  // hintText: "Manasi",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await Provider.of<Auth>(context, listen: false).getFirebaseUser();
+                String uid = Provider.of<Auth>(context, listen: false)
+                    .firebaseUser!
+                    .uid
+                    .toString();
+                Provider.of<UsersProvider>(context, listen: false).addUsers(
+                  Users(
+                    uidUser: uid.toString(),
+                    nameUser: name.text,
+                    ageUser: age.text,
+                    genderUser: gender.text,
+                    mobileNumberUser: mobileNo.text,
+                    addressUser: address.text,
+                    numberOfPeopleInhouseUser: numnerOfPeople.text,
+                    religionUser: religion.text,
+                  ),
+                );
+                uid = Provider.of<Auth>(context, listen: false)
+                    .firebaseUser!
+                    .uid
+                    .toString();
+                if (_image != null) {
+                  var snapshot = await _firebaseStorage
+                      .ref()
+                      .child('UserImages/$uid')
+                      .putFile(_image);
+                  var downloadUrl = await snapshot.ref.getDownloadURL();
+                  if (mounted) {
+                    setState(() {
+                      imageUrl = downloadUrl;
+                    });
+                  }
                 }
-              }
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const UserEditProfile(),
-                ),
-              );
-            },
-            child: Text("Submit"),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.pinkAccent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40))),
-          )
-        ],
-      )),
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const UserEditProfile(),
+                  ),
+                );
+              },
+              child: Text("Submit"),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pinkAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40))),
+            )
+          ],
+        )),
+      ),
     );
   }
 

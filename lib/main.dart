@@ -41,6 +41,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       initialRoute: "welcome",
       routes: {
+        
         "work page": ((context) => WorkerRegistrationPage2()), //done
         "Profile page": (context) => WorkerRegistrationPage1(),
         "phone": (context) => Login(), //done

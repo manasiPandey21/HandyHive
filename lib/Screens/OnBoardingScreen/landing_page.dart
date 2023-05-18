@@ -23,61 +23,66 @@ class _LandingPageState extends State<LandingPage> {
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
         ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "Please choose your role",
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
-                ),
-                Lottie.network(
-                    'https://assets5.lottiefiles.com/packages/lf20_pWTOxQsYjN.json'),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const WorkerRegistrationPage1(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "Service Provider",
-                    style: TextStyle(fontSize: 20),
+        WillPopScope(
+          onWillPop: () async{
+      return false;
+    },
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Please choose your role",
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black87,
-                    minimumSize: Size(200, 60),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                  ),
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                ElevatedButton(
+                  Lottie.network(
+                      'https://assets5.lottiefiles.com/packages/lf20_pWTOxQsYjN.json'),
+                  ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const UserRegistrationPage1(),
+                          builder: (context) => const WorkerRegistrationPage1(),
                         ),
                       );
                     },
                     child: Text(
-                      "User",
+                      "Service Provider",
                       style: TextStyle(fontSize: 20),
                     ),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black87,
-                        minimumSize: Size(200, 60),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)))),
-                SizedBox(
-                  height: 100,
-                )
-              ],
+                      backgroundColor: Colors.black87,
+                      minimumSize: Size(200, 60),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const UserRegistrationPage1(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "User",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black87,
+                          minimumSize: Size(200, 60),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)))),
+                  SizedBox(
+                    height: 100,
+                  )
+                ],
+              ),
             ),
           ),
         )
