@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
+import 'package:handyhive/Screens/User/user_dashboard.dart';
 
 import 'package:handyhive/Screens/User/user_edit_profile.dart';
 import 'package:image_picker/image_picker.dart';
@@ -255,7 +256,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                 }
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const UserEditProfile(),
+                    builder: (context) => const UserDashBoard(),
                   ),
                 );
               },
@@ -270,24 +271,6 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
       ),
     );
   }
-
-  // uploadImage() async {
-
-  //   final imagePicker = ImagePicker();
-
-  //   await Permission.photos.request();
-  //   var permissionStatus = await Permission.photos.status;
-
-  //   if (permissionStatus.isGranted) {
-  //     var image = await imagePicker.pickImage(
-  //       source: ImageSource.gallery,
-  //       imageQuality: 50,
-  //     );
-  //     setState(() {
-  //       _image = File(image!.path);
-  //     });
-
-  //   }
 
   Widget ProfileImage() {
     return Center(

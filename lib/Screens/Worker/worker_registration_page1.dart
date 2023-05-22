@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart%20';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
@@ -8,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../Provider/auth.dart';
 import '../../Provider/workers_provider.dart';
-
+import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 class WorkerRegistrationPage1 extends StatefulWidget {
   const WorkerRegistrationPage1({super.key});
 
@@ -18,8 +19,14 @@ class WorkerRegistrationPage1 extends StatefulWidget {
 }
 
 class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
-  File? _image;
+  
   final picker = ImagePicker();
+   String? uid;
+
+  var _image;
+  var imageUrl;
+  var imagePicker;
+  final _firebaseStorage = FirebaseStorage.instance;
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
   TextEditingController gender = new TextEditingController();
@@ -253,7 +260,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                     .firebaseUser!
                     .uid
                     .toString();
-
+                Map <String,String> request= Map<String,String>();
                 Provider.of<WorkersProvider>(context, listen: false).addWorkers(
                   Worker(
                     uidWorkers: uid.toString(),
@@ -268,8 +275,25 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                     addressWorker: address.text,
                     languageworker: language.text,
                     service: [],
+                     requests:request,
                   ),
                 );
+                uid = Provider.of<Auth>(context, listen: false)
+                    .firebaseUser!
+                    .uid
+                    .toString();
+                if (_image != null) {
+                  var snapshot = await _firebaseStorage
+                      .ref()
+                      .child('service_providerImages/$uid')
+                      .putFile(_image);
+                  var downloadUrl = await snapshot.ref.getDownloadURL();
+                  if (mounted) {
+                    setState(() {
+                      imageUrl = downloadUrl;
+                    });
+                  }
+                }
 
                 Navigator.of(context).push(
                   MaterialPageRoute(

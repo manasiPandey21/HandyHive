@@ -175,26 +175,8 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
                       .updateWorkers(newWorker!);
                   currWorker = newWorker;
 
-                  // final providerCollection = FirebaseFirestore.instance.collection('service_providers');
-
-                  // final providerDocument = providerCollection.doc(userId);
-                  // final existingServicesSnapshot = await providerDocument.get();
-                  // final existingServices = existingServicesSnapshot.data()?['selected_services'] ?? [];
-
-                  // final updatedServices = [...existingServices, ...selectedServices.map((service) => service.toMap()).toList()];
-
-                  // final documentSnapshot = await providerDocument.get();
-                  // if (documentSnapshot.exists) {
-
-                  //   providerDocument.update({
-                  //     'selected_services': updatedServices,
-                  //   });
-                  // } else {
-
-                  //   providerDocument.set({
-                  //     'selected_services': updatedServices,
-                  //   });
-                  // }
+            
+              
 
                   Navigator.of(context).push(
                     MaterialPageRoute(

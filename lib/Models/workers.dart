@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 
@@ -73,6 +74,7 @@ class Worker {
   final String languageworker;
   final String addressWorker;
   final List<Service> service;
+  final Map<String, String> requests;
   Worker({
     required this.uidWorkers,
     required this.nameWorkers,
@@ -86,6 +88,7 @@ class Worker {
     required this.languageworker,
     required this.addressWorker,
     required this.service,
+    required this.requests,
   });
 
   Worker copyWith({
@@ -101,6 +104,7 @@ class Worker {
     String? languageworker,
     String? addressWorker,
     List<Service>? service,
+    Map<String, String>? requests,
   }) {
     return Worker(
       uidWorkers: uidWorkers ?? this.uidWorkers,
@@ -115,6 +119,7 @@ class Worker {
       languageworker: languageworker ?? this.languageworker,
       addressWorker: addressWorker ?? this.addressWorker,
       service: service ?? this.service,
+      requests: requests ?? this.requests,
     );
   }
 
@@ -132,25 +137,30 @@ class Worker {
       'languageworker': languageworker,
       'addressWorker': addressWorker,
       'service': service.map((x) => x.toMap()).toList(),
+      'requests': requests,
     };
   }
 
   factory Worker.fromMap(Map<String, dynamic> map) {
-    return Worker(
-      uidWorkers: map['uidWorkers'] as String,
-      nameWorkers: map['nameWorkers'] as String,
-      ageworker: map['ageworker'] as String,
-      genderworker: map['genderworker'] as String,
-      mobileNoworker: map['mobileNoworker'] as String,
-      maritalStatusworker: map['maritalStatusworker'] as String,
-      religionworker: map['religionworker'] as String,
-      monthlyIncomeworker: map['monthlyIncomeworker'] as String,
-      workExperienceworker: map['workExperienceworker'] as String,
-      languageworker: map['languageworker'] as String,
-      addressWorker: map['addressWorker'] as String,
-      service: List<Service>.from((map['service'] as List<dynamic>).map<Service>((x) => Service.fromMap(x as Map<String,dynamic>),),),
-    );
-  }
+  return Worker(
+    uidWorkers: map['uidWorkers'] as String,
+    nameWorkers: map['nameWorkers'] as String,
+    ageworker: map['ageworker'] as String,
+    genderworker: map['genderworker'] as String,
+    mobileNoworker: map['mobileNoworker'] as String,
+    maritalStatusworker: map['maritalStatusworker'] as String,
+    religionworker: map['religionworker'] as String,
+    monthlyIncomeworker: map['monthlyIncomeworker'] as String,
+    workExperienceworker: map['workExperienceworker'] as String,
+    languageworker: map['languageworker'] as String,
+    addressWorker: map['addressWorker'] as String,
+    service: (map['service'] as List<dynamic>)
+        .map((x) => Service.fromMap(x as Map<String, dynamic>))
+        .toList(),
+    requests: Map<String, String>.from(map['requests'] as Map<dynamic, dynamic>),
+  );
+}
+
 
   String toJson() => json.encode(toMap());
 
@@ -158,7 +168,7 @@ class Worker {
 
   @override
   String toString() {
-    return 'Worker(uidWorkers: $uidWorkers, nameWorkers: $nameWorkers, ageworker: $ageworker, genderworker: $genderworker, mobileNoworker: $mobileNoworker, maritalStatusworker: $maritalStatusworker, religionworker: $religionworker, monthlyIncomeworker: $monthlyIncomeworker, workExperienceworker: $workExperienceworker, languageworker: $languageworker, addressWorker: $addressWorker, service: $service)';
+    return 'Worker(uidWorkers: $uidWorkers, nameWorkers: $nameWorkers, ageworker: $ageworker, genderworker: $genderworker, mobileNoworker: $mobileNoworker, maritalStatusworker: $maritalStatusworker, religionworker: $religionworker, monthlyIncomeworker: $monthlyIncomeworker, workExperienceworker: $workExperienceworker, languageworker: $languageworker, addressWorker: $addressWorker, service: $service, requests: $requests)';
   }
 
   @override
@@ -177,7 +187,8 @@ class Worker {
       other.workExperienceworker == workExperienceworker &&
       other.languageworker == languageworker &&
       other.addressWorker == addressWorker &&
-      listEquals(other.service, service);
+      listEquals(other.service, service) &&
+      mapEquals(other.requests, requests);
   }
 
   @override
@@ -193,6 +204,7 @@ class Worker {
       workExperienceworker.hashCode ^
       languageworker.hashCode ^
       addressWorker.hashCode ^
-      service.hashCode;
+      service.hashCode ^
+      requests.hashCode;
   }
 }

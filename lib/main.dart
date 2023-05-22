@@ -27,12 +27,13 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MultiProvider(
     providers: [
+       ChangeNotifierProvider(
+      create: (context) => WorkersProvider(),
+       ),
       ChangeNotifierProvider<Auth>(
         create: (_) => Auth(),
       ),
-      ChangeNotifierProvider<WorkersProvider>(
-        create: (_) => WorkersProvider(),
-      ),
+     
       ChangeNotifierProvider<UsersProvider>(
         create: (_) => UsersProvider(),
       ),

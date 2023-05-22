@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:handyhive/Screens/User/WorkDetails/cooking.dart';
+import 'package:handyhive/Screens/User/user_dashboard2.dart';
 
 class UserDashBoard extends StatefulWidget {
   const UserDashBoard({super.key});
@@ -130,7 +131,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         iconSize: 60,
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const Cooking(),
+                            builder: (context) => const UserDashBoard2(),
                           ));
                         },
                       ),
