@@ -58,61 +58,78 @@ void addUserIdToServiceProvider() async {
           title: Center(child: Text('Service Provider Details')),
         ),
         body: SingleChildScrollView(
-            child: Column(children: [
-          SizedBox(
-            height: 40,
-          ),
-          Center(
-            child: CircleAvatar(
-              radius: 80,
-              child: FutureBuilder(
-                future: _imageUrlFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Image.network(snapshot.data.toString());
-                  } else if (snapshot.hasError) {
-                    return Icon(Icons.error);
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                },
+          
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Card(
+                shape: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Column(children: [
+                  Row(children: [
+                    Center(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: CircleAvatar(
+                  radius: 80,
+                  child: FutureBuilder(
+                    future: _imageUrlFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Image.network(snapshot.data.toString());
+                      } else if (snapshot.hasError) {
+                        return Icon(Icons.error);
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  backgroundColor: Colors.transparent,
+                ),
               ),
-              backgroundColor: Colors.transparent,
-            ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Name: ${worker.nameWorkers ?? ""}',
-                style: TextStyle(fontSize: 20),
-              ),
-              Text('Age: ${worker.ageworker ?? ""}'),
-              Text('Address: ${worker.addressWorker ?? ""}'),
-              Text('WorkExperience:${worker.workExperienceworker ?? ""}'),
-              Text('Gender:${worker.genderworker ?? ""}'),
-              SizedBox(height: 60),
-               Text('Requests:'),
-    
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pinkAccent),
-                onPressed: () {
-
-                  addUserIdToServiceProvider();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ChatPage(),
+                      ),
+                              
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                      SizedBox(height: 30,),
+                    Text('Name: ${worker.nameWorkers ?? ""}',),
+                Text('Age: ${worker.ageworker ?? ""}'),
+                Text('Address: ${worker.addressWorker ?? ""}'),
+                Text('WorkExperience:${worker.workExperienceworker ?? ""}'),
+                Text('Gender:${worker.genderworker ?? ""}'),
+                Text('Religion: ${worker.religionworker ?? ""}'),
+                Text('Language: ${worker.languageworker ?? ""}'),
+                Text('MonthlyIncome:${worker.monthlyIncomeworker ?? ""}'),
+                
+                SizedBox(height: 60),
+                     ], 
                     ),
-                  );
-                },
-                child: Text("Click To Chat"),
-              ),
-            ],
-          )
-        ])));
+                  ),]),
+                
+                  
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    
+                     ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pinkAccent),
+                  onPressed: () {
+            
+                    addUserIdToServiceProvider();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ChatPage(),
+                      ),
+                    );
+                  },
+                  child: Text("Click To Chat"),
+                ),],),
+                   SizedBox(height: 20,),
+                 
+                ]),),
+            ),
+        ));
   }
 }

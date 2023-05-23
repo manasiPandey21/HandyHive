@@ -87,7 +87,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                               Text('Name: ${worker.nameWorkers ?? ""}'),
                               Text('Age: ${worker.ageworker ?? ""}'),
                               Text('Address: ${worker.addressWorker ?? ""}'),
-                              Text('UserID: ${worker.uidWorkers ?? ""}'),
+                             // Text('UserID: ${worker.uidWorkers ?? ""}'),
                             ],
                           ),
                           onTap: () {

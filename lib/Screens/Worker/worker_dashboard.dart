@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
 import 'package:handyhive/Models/workers.dart';
+import 'package:handyhive/Screens/Common/chatpage.dart';
 import 'package:provider/provider.dart';
 
 import '../../Additional/users_items.dart';
@@ -212,14 +214,83 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
         itemCount: users.length,
         itemBuilder: (context, index) {
           final user = users[index];
-          return ListTile(
-            title: Text(user.nameUser),
-            subtitle: Text(user.addressUser),
-            trailing: IconButton(
-              icon: Icon(Icons.info),
-              onPressed: () {
-// Show more details or navigate to user details page
-              },
+          return Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Card(
+              shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: Column(children: [
+                Row(children: [
+                  FutureBuilder(
+                    future: Provider.of<UsersProvider>(context, listen: false)
+                        .getImageUrl(user.uidUser.toString()),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: CircleAvatar(
+                            radius: 40,
+                            child: Image.network(snapshot.data.toString()),
+                            backgroundColor: Colors.transparent,
+                          ),
+                        );
+                      } else {
+                        return CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Colors.brown,
+                          foregroundColor: Colors.brown,
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Name:${user.nameUser}'),
+                        Text('Age:${user.ageUser}'),
+                        Text(
+                          'Address:${user.addressUser}',
+                        ),
+                        Text('Gender:${user.genderUser}')
+                      ],
+                    ),
+                  ),
+                ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(),
+                          ),
+                        );
+                      },
+                      child: Text("Accept"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pinkAccent),
+                    ),
+                    SizedBox(
+                      width: 40,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text("Reject"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pinkAccent),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ]),
             ),
           );
         },
