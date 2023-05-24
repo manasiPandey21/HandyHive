@@ -13,6 +13,12 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+String? validatePhoneNumber(String value) {
+  if (value.length != 10) {
+    return 'Phone number must have exactly 10 digits';
+  }
+  return null;
+}
 
 class _LoginState extends State<Login> {
   @override

@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:handyhive/Models/users.dart';
@@ -47,6 +48,31 @@ get workers => null;  Worker getWorkerById(String workerId) {
     notifyListeners();
     return;
   }
+   Future<void> deleteRequest(String workerId, String userId) async {
+    CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection('WORKERS');
+   
+    await collectionRef.doc(workerId).update({
+      'requests.$userId': FieldValue.delete(),
+    });
+
+    await fetchAndSetWorkers();
+    notifyListeners();
+  }
+  Future<void> acceptRequest(String workerId, String userId) async {
+    CollectionReference collectionRef =
+        FirebaseFirestore.instance.collection('WORKERS');
+
+    
+    await collectionRef.doc(workerId).update({
+      'requests.$userId': "true",
+    });
+    await fetchAndSetWorkers();
+    notifyListeners();
+  }
+
+
+
 
 
   List<Worker> getWorkersByService(String service) {
@@ -55,6 +81,7 @@ get workers => null;  Worker getWorkerById(String workerId) {
         .where((worker) => worker.service.any((s) => s.name == service))
         .toList();
   }
+
 
   Future<String> getImageUrl(String id) async {
     String imageUrl = await firebase_storage.FirebaseStorage.instance

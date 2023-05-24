@@ -5,7 +5,8 @@ import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:provider/provider.dart';
 
 class UserDashBoard2 extends StatefulWidget {
-  const UserDashBoard2({Key? key}) : super(key: key);
+  String selectedService;
+  UserDashBoard2(this.selectedService);
 
   @override
   _UserDashBoard2State createState() => _UserDashBoard2State();
@@ -23,10 +24,11 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
   @override
   Widget build(BuildContext context) {
     // Retrieve the selected service
-    final selectedService = 'cooking'; // Replace with your selected service
+    // final selectedService = 'cooking'; // Replace with your selected service
+    // final workersProvider = Provider.of<WorkersProvider>(context);
+    final serviceProviderProvider = Provider.of<WorkersProvider>(context);
 
-    final workersProvider = Provider.of<WorkersProvider>(context);
-
+    //new
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pinkAccent,
@@ -35,7 +37,8 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
       body: Consumer<WorkersProvider>(
         builder: (context, workersProvider, _) {
           // Retrieve the workers for the selected service
-          final workers = workersProvider.getWorkersByService(selectedService);
+          final workers =
+              workersProvider.getWorkersByService(widget.selectedService);
 
           return Column(
             children: [
@@ -43,7 +46,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                 height: 40,
               ),
               Text(
-                'Selected Service: $selectedService',
+                'Selected Service: ${widget.selectedService}',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -68,7 +71,8 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                               if (snapshot.hasData) {
                                 return CircleAvatar(
                                   radius: 40,
-                                  child: Image.network(snapshot.data.toString()),
+                                  child:
+                                      Image.network(snapshot.data.toString()),
                                   backgroundColor: Colors.transparent,
                                 );
                               } else {
@@ -87,7 +91,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                               Text('Name: ${worker.nameWorkers ?? ""}'),
                               Text('Age: ${worker.ageworker ?? ""}'),
                               Text('Address: ${worker.addressWorker ?? ""}'),
-                             // Text('UserID: ${worker.uidWorkers ?? ""}'),
+                              // Text('UserID: ${worker.uidWorkers ?? ""}'),
                             ],
                           ),
                           onTap: () {

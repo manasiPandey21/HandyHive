@@ -27,14 +27,14 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
   List<String> selectedSalary = List.filled(9, '500');
   Map<String, bool> selectedValues = {};
   List<Map<String, dynamic>> categories = [
-    {"name": "utensils cleaning", "isChecked": false},
-    {"name": "sweeping", "isChecked": false},
-    {"name": "cooking", "isChecked": false},
+    {"name": "Utensils Cleaning", "isChecked": false},
+    {"name": "Sweeping", "isChecked": false},
+    {"name": "Cooking", "isChecked": false},
     {"name": "Gardening", "isChecked": false},
-    {"name": "nurse", "isChecked": false},
-    {"name": "Elderly care", "isChecked": false},
+    {"name": "Nurse", "isChecked": false},
+    {"name": "Elderly Care", "isChecked": false},
     {"name": "BabySitter", "isChecked": false},
-    {"name": "Pateint care", "isChecked": false},
+    {"name": "Pateint Care", "isChecked": false},
     {"name": "Massager", "isChecked": false},
   ];
 

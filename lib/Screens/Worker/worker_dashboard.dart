@@ -33,36 +33,59 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
           .fetchAndSetWorkers()
           .then((value) async => await Provider.of<Auth>(context, listen: false)
               .getFirebaseUser()
-              .then((value) async => await Provider.of<UsersProvider>(context,
-                      listen: false)
-                  .fetchAndSetUsers()
-                  .then((value) => {
-                        setState(() {
-                          var uid = Provider.of<Auth>(context, listen: false)
-                              .firebaseUser!
-                              .uid
-                              .toString();
-                          currWorker = Provider.of<WorkersProvider>(context,
-                                  listen: false)
-                              .getWorkers(uid.toString());
-                          for (var userId in currWorker!.requests.keys) {
-                            print(userId);
-                            print(
-                              Provider.of<UsersProvider>(context, listen: false)
-                                  .usersss,
-                            );
-                            Users user = Provider.of<UsersProvider>(context,
-                                    listen: false)
-                                .getUser(userId.toString());
-                            if (user != null) {
-                              users.add(user);
-                            }
-                          }
-                          isLoading = false;
-                        })
-                      })));
+              .then((value) async =>
+                  await Provider.of<UsersProvider>(context, listen: false)
+                      .fetchAndSetUsers()
+                      .then((value) => {
+                            setState(() {
+                              var uid =
+                                  Provider.of<Auth>(context, listen: false)
+                                      .firebaseUser!
+                                      .uid
+                                      .toString();
+                              currWorker = Provider.of<WorkersProvider>(context,
+                                      listen: false)
+                                  .getWorkers(uid.toString());
+                              for (var entry in currWorker!.requests.entries) {
+                                Users user = Provider.of<UsersProvider>(context,
+                                        listen: false)
+                                    .getUser(entry.key.toString());
+                                if (user != null && entry.value == 'false') {
+                                  users.add(user);
+                                }
+                              }
+                              isLoading = false;
+                            })
+                          })));
     }
     _isInit = false;
+  }
+
+  Future<void> acceptRequest(String userId) async {
+    final workersProvider =
+        Provider.of<WorkersProvider>(context, listen: false);
+
+    // Accept the request using the WorkersProvider
+    final currWorkerId = currWorker?.uidWorkers ?? '';
+    await workersProvider.acceptRequest(currWorkerId, userId);
+
+    // Remove the user from the list
+    setState(() {
+      users.removeWhere((user) => user.uidUser == userId);
+    });
+  }
+
+  Future<void> deleteRequest(String userId) async {
+    final workersProvider =
+        Provider.of<WorkersProvider>(context, listen: false);
+
+    // Delete the request using the WorkersProvider
+    final currWorkerId = currWorker?.uidWorkers ?? '';
+    await workersProvider.deleteRequest(currWorkerId, userId);
+
+    setState(() {
+      users.removeWhere((user) => user.uidUser == userId);
+    });
   }
 
   @override
@@ -70,6 +93,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     final workersProvider =
         Provider.of<WorkersProvider>(context, listen: false);
     final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+
     const iconSize = 50;
     return Scaffold(
       appBar: AppBar(
@@ -266,11 +290,12 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ChatPage(),
-                          ),
-                        );
+                        acceptRequest(user.uidUser);
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ChatPage(),
+                        //   ),
+                        // );
                       },
                       child: Text("Accept"),
                       style: ElevatedButton.styleFrom(
@@ -280,7 +305,9 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                       width: 40,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        deleteRequest(user.uidUser);
+                      },
                       child: Text("Reject"),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.pinkAccent),

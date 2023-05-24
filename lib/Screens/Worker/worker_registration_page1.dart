@@ -9,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../Provider/auth.dart';
 import '../../Provider/workers_provider.dart';
-import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 class WorkerRegistrationPage1 extends StatefulWidget {
   const WorkerRegistrationPage1({super.key});
 
@@ -19,9 +20,8 @@ class WorkerRegistrationPage1 extends StatefulWidget {
 }
 
 class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
-  
   final picker = ImagePicker();
-   String? uid;
+  String? uid;
 
   var _image;
   var imageUrl;
@@ -37,6 +37,9 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
   TextEditingController monthlyIncome = new TextEditingController();
   TextEditingController workExperience = new TextEditingController();
   TextEditingController language = new TextEditingController();
+  List<String> genderOptions = ['Men', 'Women', 'Others'];
+  String selectedGender = 'Men'; // Default selection
+
   //Image Picker function to get image from gallery
   Future getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -124,11 +127,22 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                 borderRadius: BorderRadius.circular(10),
               ),
               margin: EdgeInsets.all(10),
-              child: TextField(
-                controller: gender,
+              child: DropdownButtonFormField<String>(
+                value: selectedGender,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedGender = newValue!;
+                  });
+                },
+                items:
+                    genderOptions.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
                 decoration: InputDecoration(
                   labelText: "GENDER",
-                  //   hintText: "Balajee colony",
                   border: InputBorder.none,
                 ),
               ),
@@ -260,7 +274,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                     .firebaseUser!
                     .uid
                     .toString();
-                Map <String,String> request= Map<String,String>();
+                Map<String, String> request = Map<String, String>();
                 Provider.of<WorkersProvider>(context, listen: false).addWorkers(
                   Worker(
                     uidWorkers: uid.toString(),
@@ -275,7 +289,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                     addressWorker: address.text,
                     languageworker: language.text,
                     service: [],
-                     requests:request,
+                    requests: request,
                   ),
                 );
                 uid = Provider.of<Auth>(context, listen: false)

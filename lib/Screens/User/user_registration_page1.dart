@@ -38,6 +38,8 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
   TextEditingController numnerOfPeople = new TextEditingController();
   TextEditingController religion = new TextEditingController();
   TextEditingController numberOfRooms = new TextEditingController();
+  List<String> genderOptions = ['Men', 'Women', 'Others'];
+  String selectedGender = 'Men'; // Default selection
 
   //Image Picker function to get image from gallery
   Future getImageFromGallery() async {
@@ -61,13 +63,12 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
-      return false;
-    },
+      onWillPop: () async {
+        return false;
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Center(child: Text("Profile")),
@@ -125,11 +126,22 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                 borderRadius: BorderRadius.circular(10),
               ),
               margin: EdgeInsets.all(10),
-              child: TextField(
-                controller: gender,
+              child: DropdownButtonFormField<String>(
+                value: selectedGender,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedGender = newValue!;
+                  });
+                },
+                items:
+                    genderOptions.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
                 decoration: InputDecoration(
                   labelText: "GENDER",
-                  //   hintText: "Balajee colony",
                   border: InputBorder.none,
                 ),
               ),
@@ -221,7 +233,8 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
             ),
             ElevatedButton(
               onPressed: () async {
-                await Provider.of<Auth>(context, listen: false).getFirebaseUser();
+                await Provider.of<Auth>(context, listen: false)
+                    .getFirebaseUser();
                 String uid = Provider.of<Auth>(context, listen: false)
                     .firebaseUser!
                     .uid
