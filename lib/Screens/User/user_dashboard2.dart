@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
-import 'package:handyhive/Screens/User/ServiceProvidersDetails.dart';
+
+import 'package:handyhive/Screens/User/workers_details.dart';
 import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:provider/provider.dart';
 
@@ -97,7 +98,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => ServiceProviderDetails(
+                                builder: (context) => WorkerDetails(
                                   workerId: worker.uidWorkers.toString(),
                                 ),
                               ),

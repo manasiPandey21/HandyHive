@@ -59,560 +59,555 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
   Widget build(BuildContext context) {
     return isLoading
         ? Center(child: CircularProgressIndicator())
-        : WillPopScope(
-          onWillPop: () async{
-      return false;
-    },
-          child: Scaffold(
-              appBar: AppBar(
-                title: Center(child: Text("My Profile")),
-                backgroundColor: Colors.pinkAccent,
-              ),
-              body: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Container(
-                    child: ListView(
-                      children: [
-                        CircleAvatar(
-                          radius: 60,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ListTile(
-                            leading: Icon(
-                              Icons.man_2_rounded,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Name: ${currWorker!.nameWorkers}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
+        : Scaffold(
+            appBar: AppBar(
+              title: Center(child: Text("My Profile")),
+              backgroundColor: Colors.pinkAccent,
+            ),
+            body: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Container(
+                  child: ListView(
+                    children: [
+                      CircleAvatar(
+                        radius: 60,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ListTile(
+                          leading: Icon(
+                            Icons.man_2_rounded,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text('Name: ${currWorker!.nameWorkers}'),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
                                     ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: name,
-                                              decoration: InputDecoration(
-                                                  hintText: "Name",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
+                                  ),
+                                  builder: (context) {
+                                    return Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: name,
+                                            decoration: InputDecoration(
+                                                hintText: "Name",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20))),
                                           ),
                                         ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
+                                      ),
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            newWorker = currWorker!.copyWith(
+                                              nameWorkers: name.text.toString(),
+                                            );
+                                            await Provider.of<WorkersProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateWorkers(newWorker!);
+                                            currWorker = newWorker;
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
+                                        ),
+                                      )
+                                    ]);
+                                  });
+                            });
+                          }),
+                      ListTile(
+                          leading: Icon(
+                            Icons.house,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text('Address: ${currWorker!.addressWorker}'),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
+                                    ),
+                                  ),
+                                  builder: (context) {
+                                    return Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: address,
+                                            decoration: InputDecoration(
+                                                hintText: "Address",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20))),
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            onPressed:
+                                            () async {
                                               newWorker = currWorker!.copyWith(
-                                                nameWorkers: name.text.toString(),
+                                                nameWorkers:
+                                                    name.text.toString(),
                                               );
-                                              await Provider.of<WorkersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateWorkers(newWorker!);
-                                              currWorker = newWorker;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.house,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Address: ${currWorker!.addressWorker}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: address,
-                                              decoration: InputDecoration(
-                                                  hintText: "Address",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              onPressed:
-                                              () async {
-                                                newWorker = currWorker!.copyWith(
-                                                  nameWorkers:
-                                                      name.text.toString(),
-                                                );
         
-                                                await Provider.of<
-                                                            WorkersProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .updateWorkers(newWorker!);
-                                                     currWorker = newWorker;
-                                              };
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.man,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Age: ${currWorker!.ageworker}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: age,
-                                              decoration: InputDecoration(
-                                                  hintText: "Age",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              newWorker = currWorker!.copyWith(
-                                                  ageworker: age.text.toString());
-                                              await Provider.of<WorkersProvider>(
+                                              await Provider.of<
+                                                          WorkersProvider>(
                                                       context,
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
                                                    currWorker = newWorker;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.man,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Gender: ${currWorker!.genderworker}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
+                                            };
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
+                                        ),
+                                      )
+                                    ]);
+                                  });
+                            });
+                          }),
+                      ListTile(
+                          leading: Icon(
+                            Icons.man,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text('Age: ${currWorker!.ageworker}'),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
                                     ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: gender,
-                                              decoration: InputDecoration(
-                                                  hintText: "Gender",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
+                                  ),
+                                  builder: (context) {
+                                    return Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: age,
+                                            decoration: InputDecoration(
+                                                hintText: "Age",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20))),
                                           ),
                                         ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
+                                      ),
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            newWorker = currWorker!.copyWith(
+                                                ageworker: age.text.toString());
+                                            await Provider.of<WorkersProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateWorkers(newWorker!);
+                                                 currWorker = newWorker;
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
+                                        ),
+                                      )
+                                    ]);
+                                  });
+                            });
+                          }),
+                      ListTile(
+                          leading: Icon(
+                            Icons.man,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text('Gender: ${currWorker!.genderworker}'),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
+                                    ),
+                                  ),
+                                  builder: (context) {
+                                    return Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: gender,
+                                            decoration: InputDecoration(
+                                                hintText: "Gender",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20))),
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            await Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .getFirebaseUser();
+                                            var uid = Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .firebaseUser!
+                                                .uid
+                                                .toString();
+                                            newWorker = currWorker!.copyWith(
+                                              genderworker:gender.text.toString(),
+                                            );
+        
+                                            await Provider.of<WorkersProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateWorkers(newWorker!);
+                                                 currWorker = newWorker;
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
+                                        ),
+                                      )
+                                    ]);
+                                  });
+                            });
+                          }),
+                      ListTile(
+                          leading: Icon(
+                            Icons.phone,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text(
+                              'Mobile Number: ${currWorker!.mobileNoworker}'),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
+                                    ),
+                                  ),
+                                  builder: (context) {
+                                    return Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: mobileNo,
+                                            decoration: InputDecoration(
+                                                hintText: "Mobile No",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20))),
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            await Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .getFirebaseUser();
+                                            var uid = Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .firebaseUser!
+                                                .uid
+                                                .toString();
+                                            newWorker = currWorker!.copyWith(
+                                              mobileNoworker: mobileNo.text.toString(),
+                                            );
+        
+                                            await Provider.of<WorkersProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateWorkers(newWorker!);
+                                                 currWorker = newWorker;
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
+                                        ),
+                                      )
+                                    ]);
+                                  });
+                            });
+                          }),
+                      ListTile(
+                          leading: Icon(
+                            Icons.man,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text(
+                              'MaritalStatus:${currWorker!.maritalStatusworker}'),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
+                                    ),
+                                  ),
+                                  builder: (context) {
+                                    return Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: maritalStatus,
+                                            decoration: InputDecoration(
+                                                hintText: "Marital Status",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20))),
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            await Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .getFirebaseUser();
+                                            var uid = Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .firebaseUser!
+                                                .uid
+                                                .toString();
+                                            newWorker = currWorker!.copyWith(
+                                              maritalStatusworker:
+                                                  maritalStatus.text.toString(),
+                                            );
+        
+                                            await Provider.of<WorkersProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateWorkers(newWorker!);
+                                                 currWorker = newWorker;
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
+                                        ),
+                                      )
+                                    ]);
+                                  });
+                            });
+                          }),
+                      ListTile(
+                          leading: Icon(
+                            Icons.work,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text(
+                              'WorkExperience:${currWorker!.workExperienceworker}'),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
+                                    ),
+                                  ),
+                                  builder: (context) {
+                                    return Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: workExperience,
+                                            decoration: InputDecoration(
+                                                hintText: "Work Experience",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20))),
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            onPressed:
+                                            () async {
                                               await Provider.of<Auth>(context,
                                                       listen: false)
                                                   .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
+                                              var uid = Provider.of<Auth>(
+                                                      context,
                                                       listen: false)
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
                                               newWorker = currWorker!.copyWith(
-                                                genderworker:gender.text.toString(),
-                                              );
+                                                  workExperienceworker:
+                                                      workExperience.text
+                                                          .toString());
         
-                                              await Provider.of<WorkersProvider>(
+                                              await Provider.of<
+                                                          WorkersProvider>(
                                                       context,
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
-                                                   currWorker = newWorker;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.phone,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text(
-                                'Mobile Number: ${currWorker!.mobileNoworker}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
+                                            };
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
+                                        ),
+                                      )
+                                    ]);
+                                  });
+                            });
+                          }),
+                      ListTile(
+                          leading: Icon(
+                            Icons.language,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text('Language:${currWorker!.languageworker}'),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
                                     ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: mobileNo,
-                                              decoration: InputDecoration(
-                                                  hintText: "Mobile No",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
+                                  ),
+                                  builder: (context) {
+                                    return Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: language,
+                                            decoration: InputDecoration(
+                                                hintText: "Language",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20))),
                                           ),
                                         ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              await Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .firebaseUser!
-                                                  .uid
-                                                  .toString();
-                                              newWorker = currWorker!.copyWith(
-                                                mobileNoworker: mobileNo.text.toString(),
-                                              );
-        
-                                              await Provider.of<WorkersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateWorkers(newWorker!);
-                                                   currWorker = newWorker;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.man,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text(
-                                'MaritalStatus:${currWorker!.maritalStatusworker}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
                                       ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: maritalStatus,
-                                              decoration: InputDecoration(
-                                                  hintText: "Marital Status",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              await Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .firebaseUser!
-                                                  .uid
-                                                  .toString();
-                                              newWorker = currWorker!.copyWith(
-                                                maritalStatusworker:
-                                                    maritalStatus.text.toString(),
-                                              );
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            await Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .getFirebaseUser();
+                                            var uid = Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .firebaseUser!
+                                                .uid
+                                                .toString();
+                                            newWorker = currWorker!.copyWith(
+                                                languageworker:
+                                                    language.text.toString());
         
-                                              await Provider.of<WorkersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateWorkers(newWorker!);
-                                                   currWorker = newWorker;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.work,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text(
-                                'WorkExperience:${currWorker!.workExperienceworker}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: workExperience,
-                                              decoration: InputDecoration(
-                                                  hintText: "Work Experience",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
-                                          ),
+                                            await Provider.of<WorkersProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateWorkers(newWorker!);
+                                                 currWorker = newWorker;
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
                                         ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              onPressed:
-                                              () async {
-                                                await Provider.of<Auth>(context,
-                                                        listen: false)
-                                                    .getFirebaseUser();
-                                                var uid = Provider.of<Auth>(
-                                                        context,
-                                                        listen: false)
-                                                    .firebaseUser!
-                                                    .uid
-                                                    .toString();
-                                                newWorker = currWorker!.copyWith(
-                                                    workExperienceworker:
-                                                        workExperience.text
-                                                            .toString());
-        
-                                                await Provider.of<
-                                                            WorkersProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .updateWorkers(newWorker!);
-                                              };
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.language,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Language:${currWorker!.languageworker}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: language,
-                                              decoration: InputDecoration(
-                                                  hintText: "Language",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              await Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .firebaseUser!
-                                                  .uid
-                                                  .toString();
-                                              newWorker = currWorker!.copyWith(
-                                                  languageworker:
-                                                      language.text.toString());
-        
-                                              await Provider.of<WorkersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateWorkers(newWorker!);
-                                                   currWorker = newWorker;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                      ],
-                    ),
-                  ))),
-        );
+                                      )
+                                    ]);
+                                  });
+                            });
+                          }),
+                    ],
+                  ),
+                )));
   }
 }

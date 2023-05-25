@@ -77,8 +77,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
                       .toString();
                   currUser = Provider.of<UsersProvider>(context, listen: false)
                       .getUser(uid.toString());
-                  print(currUser);
-
                   isLoading = false;
                 });
               }));
@@ -138,11 +136,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   child: Container(
                     child: ListView(
                       children: [
-                        // InkWell(
-                        //   onTap: () async {
-                        //     await ProfileImage();
-                        //   },
-                        // ),
                         Center(
                           child: FutureBuilder(
                             future:

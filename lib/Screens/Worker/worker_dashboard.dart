@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Screens/Common/chatpage.dart';
+import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:provider/provider.dart';
 
 import '../../Additional/users_items.dart';
@@ -24,6 +25,21 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
   bool _isInit = true;
   bool isLoading = true;
   List<Users> users = [];
+   int currentIndex = 0;
+
+  void onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+    if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WorkerEditProfile(),
+        ),
+      );
+    }
+  }
 
   @override
   Future<void> didChangeDependencies() async {
@@ -65,11 +81,9 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     final workersProvider =
         Provider.of<WorkersProvider>(context, listen: false);
 
-    // Accept the request using the WorkersProvider
     final currWorkerId = currWorker?.uidWorkers ?? '';
     await workersProvider.acceptRequest(currWorkerId, userId);
 
-    // Remove the user from the list
     setState(() {
       users.removeWhere((user) => user.uidUser == userId);
     });
@@ -79,7 +93,6 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     final workersProvider =
         Provider.of<WorkersProvider>(context, listen: false);
 
-    // Delete the request using the WorkersProvider
     final currWorkerId = currWorker?.uidWorkers ?? '';
     await workersProvider.deleteRequest(currWorkerId, userId);
 
@@ -200,40 +213,38 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.pinkAccent,
-            ),
-            label: "Dashboard",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.message,
-              color: Colors.pinkAccent,
-            ),
-            label: "Chat",
-          ),
-          BottomNavigationBarItem(
-            icon: GestureDetector(
-              onDoubleTap: () {},
-              child: Icon(
-                Icons.shopping_bag,
-                color: Colors.pinkAccent,
-              ),
-            ),
-            label: "My Clients",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.face_outlined,
-              color: Colors.pinkAccent,
-            ),
-            label: "Me",
-          ),
-        ],
-      ),
+              currentIndex: currentIndex,
+              onTap: onItemTapped,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.pinkAccent,
+                  ),
+                  label: "Dashboard",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.message,
+                    color: Colors.pinkAccent,
+                  ),
+                  label: "chat",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.shopping_bag,
+                    color: Colors.pinkAccent,
+                  ),
+                  label: "My Choices",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.face_outlined,
+                    color: Colors.pinkAccent,
+                  ),
+                  label: "Me",
+                ),
+              ]),
       body: ListView.builder(
         itemCount: users.length,
         itemBuilder: (context, index) {
@@ -291,11 +302,11 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                     ElevatedButton(
                       onPressed: () {
                         acceptRequest(user.uidUser);
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ChatPage(),
-                        //   ),
-                        // );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(),
+                          ),
+                        );
                       },
                       child: Text("Accept"),
                       style: ElevatedButton.styleFrom(

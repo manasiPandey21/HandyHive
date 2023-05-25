@@ -5,17 +5,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-class ServiceProviderDetails extends StatefulWidget {
+class WorkerDetails extends StatefulWidget {
   final String workerId;
 
-  const ServiceProviderDetails({Key? key, required this.workerId})
+  const WorkerDetails({Key? key, required this.workerId})
       : super(key: key);
 
   @override
   _ServiceProviderDetailsState createState() => _ServiceProviderDetailsState();
 }
 
-class _ServiceProviderDetailsState extends State<ServiceProviderDetails> {
+class _ServiceProviderDetailsState extends State<WorkerDetails> {
   late Future<String> _imageUrlFuture;
 
   @override
