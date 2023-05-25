@@ -9,8 +9,6 @@ import '../Models/workers.dart';
 class WorkersProvider with ChangeNotifier {
   List<Worker> serviceP = [];
 
-  
-
 get workers => null;  Worker getWorkerById(String workerId) {
     return serviceP.firstWhere((worker) => worker.uidWorkers == workerId);
   }
@@ -48,6 +46,7 @@ get workers => null;  Worker getWorkerById(String workerId) {
     notifyListeners();
     return;
   }
+
    Future<void> deleteRequest(String workerId, String userId) async {
     CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('WORKERS');
@@ -59,21 +58,23 @@ get workers => null;  Worker getWorkerById(String workerId) {
     await fetchAndSetWorkers();
     notifyListeners();
   }
+
   Future<void> acceptRequest(String workerId, String userId) async {
     CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('WORKERS');
+         CollectionReference collectionRef2 =
+        FirebaseFirestore.instance.collection('USERS');
 
-    
     await collectionRef.doc(workerId).update({
       'requests.$userId': "true",
+    });
+    //changes I made
+    await collectionRef2.doc(userId).update({
+      'acceptedRequests.$workerId': "true",
     });
     await fetchAndSetWorkers();
     notifyListeners();
   }
-
-
-
-
 
   List<Worker> getWorkersByService(String service) {
     fetchAndSetWorkers();

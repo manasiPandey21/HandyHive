@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
   bool _isInit = true;
   bool isLoading = true;
   List<Users> users = [];
-   int currentIndex = 0;
+  int currentIndex = 0;
 
   void onItemTapped(int index) {
     setState(() {
@@ -77,16 +78,46 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     _isInit = false;
   }
 
-  Future<void> acceptRequest(String userId) async {
+  void addWorkerIdToUser() async {
+    final workerId = FirebaseAuth.instance.currentUser?.uid;
+    final userId = await fetchUserId(workerId!);
+    final userProvider = Provider.of<UsersProvider>(context, listen: false);
+    final user = userProvider.getUser(userId!);
+
+    final updatedAcceptedRequests = {
+      ...user.acceptedRequests,
+      workerId ?? '': 'false',
+    };
+
+    final updatedUser =
+        user.copyWith(acceptedRequests: updatedAcceptedRequests);
+    userProvider.updateUsers(updatedUser);
+    print(updatedUser);
+  }
+
+  Future<void> acceptRequest(String? userId) async {
     final workersProvider =
         Provider.of<WorkersProvider>(context, listen: false);
 
     final currWorkerId = currWorker?.uidWorkers ?? '';
-    await workersProvider.acceptRequest(currWorkerId, userId);
+    await workersProvider.acceptRequest(currWorkerId, userId!);
 
     setState(() {
       users.removeWhere((user) => user.uidUser == userId);
     });
+  }
+
+  Future<String?> fetchUserId(String workerId) async {
+    DocumentSnapshot workerSnapshot = await FirebaseFirestore.instance
+        .collection('WORKERS')
+        .doc(workerId)
+        .get();
+    if (workerSnapshot.exists) {
+      Worker worker =
+          Worker.fromMap(workerSnapshot.data() as Map<String, dynamic>);
+      return worker.requests['userId'];
+    }
+    return null;
   }
 
   Future<void> deleteRequest(String userId) async {
@@ -213,38 +244,38 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-              currentIndex: currentIndex,
-              onTap: onItemTapped,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.pinkAccent,
-                  ),
-                  label: "Dashboard",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.message,
-                    color: Colors.pinkAccent,
-                  ),
-                  label: "chat",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.shopping_bag,
-                    color: Colors.pinkAccent,
-                  ),
-                  label: "My Choices",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.face_outlined,
-                    color: Colors.pinkAccent,
-                  ),
-                  label: "Me",
-                ),
-              ]),
+          currentIndex: currentIndex,
+          onTap: onItemTapped,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Colors.pinkAccent,
+              ),
+              label: "Dashboard",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.message,
+                color: Colors.pinkAccent,
+              ),
+              label: "chat",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.shopping_bag,
+                color: Colors.pinkAccent,
+              ),
+              label: "My Choices",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.face_outlined,
+                color: Colors.pinkAccent,
+              ),
+              label: "Me",
+            ),
+          ]),
       body: ListView.builder(
         itemCount: users.length,
         itemBuilder: (context, index) {
@@ -302,6 +333,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                     ElevatedButton(
                       onPressed: () {
                         acceptRequest(user.uidUser);
+                        addWorkerIdToUser();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => ChatPage(),

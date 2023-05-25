@@ -25,6 +25,7 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
         Provider.of<WorkersProvider>(context, listen: false);
     _imageUrlFuture = workersProvider.getImageUrl(widget.workerId);
   }
+
 void addUserIdToServiceProvider() async {
   final userId = FirebaseAuth.instance.currentUser?.uid;
   final serviceProviderId = widget.workerId;
@@ -38,14 +39,8 @@ void addUserIdToServiceProvider() async {
 
   final updatedWorker = worker.copyWith(requests: updatedRequests);
   workersProvider.updateWorkers(updatedWorker);
-
-  final chatCollection = FirebaseFirestore.instance.collection('chats');
-  final serviceProviderDoc = chatCollection.doc(serviceProviderId);
-
-  serviceProviderDoc.update({
-    'requests': updatedRequests,
-  });
 }
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +113,7 @@ void addUserIdToServiceProvider() async {
                   onPressed: () {
             
                     addUserIdToServiceProvider();
+                    
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ChatPage(),

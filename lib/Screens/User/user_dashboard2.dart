@@ -24,12 +24,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve the selected service
-    // final selectedService = 'cooking'; // Replace with your selected service
-    // final workersProvider = Provider.of<WorkersProvider>(context);
     final serviceProviderProvider = Provider.of<WorkersProvider>(context);
-
-    //new
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pinkAccent,
@@ -37,7 +32,6 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
       ),
       body: Consumer<WorkersProvider>(
         builder: (context, workersProvider, _) {
-          // Retrieve the workers for the selected service
           final workers =
               workersProvider.getWorkersByService(widget.selectedService);
 
@@ -92,7 +86,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                               Text('Name: ${worker.nameWorkers ?? ""}'),
                               Text('Age: ${worker.ageworker ?? ""}'),
                               Text('Address: ${worker.addressWorker ?? ""}'),
-                              // Text('UserID: ${worker.uidWorkers ?? ""}'),
+                              
                             ],
                           ),
                           onTap: () {

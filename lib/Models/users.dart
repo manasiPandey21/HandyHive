@@ -14,6 +14,7 @@ class Users {
   final String addressUser;
   final String religionUser;
   final String numberOfPeopleInhouseUser;
+  final Map<String, String> acceptedRequests;
   Users({
     required this.uidUser,
     required this.nameUser,
@@ -23,6 +24,7 @@ class Users {
     required this.addressUser,
     required this.religionUser,
     required this.numberOfPeopleInhouseUser,
+    required this.acceptedRequests,
   });
 
   Users copyWith({
@@ -34,6 +36,7 @@ class Users {
     String? addressUser,
     String? religionUser,
     String? numberOfPeopleInhouseUser,
+    Map<String, String>? acceptedRequests,
   }) {
     return Users(
       uidUser: uidUser ?? this.uidUser,
@@ -44,6 +47,7 @@ class Users {
       addressUser: addressUser ?? this.addressUser,
       religionUser: religionUser ?? this.religionUser,
       numberOfPeopleInhouseUser: numberOfPeopleInhouseUser ?? this.numberOfPeopleInhouseUser,
+      acceptedRequests: acceptedRequests ?? this.acceptedRequests,
     );
   }
 
@@ -57,6 +61,7 @@ class Users {
       'addressUser': addressUser,
       'religionUser': religionUser,
       'numberOfPeopleInhouseUser': numberOfPeopleInhouseUser,
+      'acceptedRequests': acceptedRequests,
     };
   }
 
@@ -70,7 +75,8 @@ class Users {
       addressUser: map['addressUser'] as String,
       religionUser: map['religionUser'] as String,
       numberOfPeopleInhouseUser: map['numberOfPeopleInhouseUser'] as String,
-    );
+      acceptedRequests: Map<String, String>.from((map['acceptedRequests'] as Map<String,dynamic>),
+    ));
   }
 
   String toJson() => json.encode(toMap());
@@ -79,7 +85,7 @@ class Users {
 
   @override
   String toString() {
-    return 'Users(uidUser: $uidUser, nameUser: $nameUser, ageUser: $ageUser, genderUser: $genderUser, mobileNumberUser: $mobileNumberUser, addressUser: $addressUser, religionUser: $religionUser, numberOfPeopleInhouseUser: $numberOfPeopleInhouseUser)';
+    return 'Users(uidUser: $uidUser, nameUser: $nameUser, ageUser: $ageUser, genderUser: $genderUser, mobileNumberUser: $mobileNumberUser, addressUser: $addressUser, religionUser: $religionUser, numberOfPeopleInhouseUser: $numberOfPeopleInhouseUser, acceptedRequests: $acceptedRequests)';
   }
 
   @override
@@ -94,7 +100,8 @@ class Users {
       other.mobileNumberUser == mobileNumberUser &&
       other.addressUser == addressUser &&
       other.religionUser == religionUser &&
-      other.numberOfPeopleInhouseUser == numberOfPeopleInhouseUser;
+      other.numberOfPeopleInhouseUser == numberOfPeopleInhouseUser &&
+      mapEquals(other.acceptedRequests, acceptedRequests);
   }
 
   @override
@@ -106,6 +113,7 @@ class Users {
       mobileNumberUser.hashCode ^
       addressUser.hashCode ^
       religionUser.hashCode ^
-      numberOfPeopleInhouseUser.hashCode;
+      numberOfPeopleInhouseUser.hashCode ^
+      acceptedRequests.hashCode;
   }
 }
