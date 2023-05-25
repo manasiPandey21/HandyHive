@@ -27,13 +27,12 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MultiProvider(
     providers: [
-       ChangeNotifierProvider(
-      create: (context) => WorkersProvider(),
-       ),
+      ChangeNotifierProvider(
+        create: (context) => WorkersProvider(),
+      ),
       ChangeNotifierProvider<Auth>(
         create: (_) => Auth(),
       ),
-     
       ChangeNotifierProvider<UsersProvider>(
         create: (_) => UsersProvider(),
       ),
@@ -42,7 +41,6 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       initialRoute: "welcome",
       routes: {
-        
         "work page": ((context) => WorkerRegistrationPage2()), //done
         "Profile page": (context) => WorkerRegistrationPage1(),
         "phone": (context) => Login(), //done
@@ -58,7 +56,7 @@ Future<void> main() async {
         "HelpDesks": (context) => HelpDesk(),
         "dashboard2": ((context) => UserDashBoard()),
         "cooking": (context) => Cooking(),
-        "user_edit_profile":(context) => UserEditProfile (),
+        "user_edit_profile": (context) => UserEditProfile(),
       },
     ),
   ));

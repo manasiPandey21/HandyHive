@@ -18,7 +18,6 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
   bool _isInit = true;
   bool isLoading = true;
 
-  
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
   TextEditingController gender = new TextEditingController();
@@ -180,13 +179,13 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                 nameWorkers:
                                                     name.text.toString(),
                                               );
-        
+
                                               await Provider.of<
                                                           WorkersProvider>(
                                                       context,
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
-                                                   currWorker = newWorker;
+                                              currWorker = newWorker;
                                             };
                                           },
                                           child: Text("UPDATE"),
@@ -245,7 +244,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                     context,
                                                     listen: false)
                                                 .updateWorkers(newWorker!);
-                                                 currWorker = newWorker;
+                                            currWorker = newWorker;
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(
@@ -306,14 +305,15 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                 .uid
                                                 .toString();
                                             newWorker = currWorker!.copyWith(
-                                              genderworker:gender.text.toString(),
+                                              genderworker:
+                                                  gender.text.toString(),
                                             );
-        
+
                                             await Provider.of<WorkersProvider>(
                                                     context,
                                                     listen: false)
                                                 .updateWorkers(newWorker!);
-                                                 currWorker = newWorker;
+                                            currWorker = newWorker;
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(
@@ -375,14 +375,15 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                 .uid
                                                 .toString();
                                             newWorker = currWorker!.copyWith(
-                                              mobileNoworker: mobileNo.text.toString(),
+                                              mobileNoworker:
+                                                  mobileNo.text.toString(),
                                             );
-        
+
                                             await Provider.of<WorkersProvider>(
                                                     context,
                                                     listen: false)
                                                 .updateWorkers(newWorker!);
-                                                 currWorker = newWorker;
+                                            currWorker = newWorker;
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(
@@ -447,12 +448,12 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                               maritalStatusworker:
                                                   maritalStatus.text.toString(),
                                             );
-        
+
                                             await Provider.of<WorkersProvider>(
                                                     context,
                                                     listen: false)
                                                 .updateWorkers(newWorker!);
-                                                 currWorker = newWorker;
+                                            currWorker = newWorker;
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(
@@ -520,7 +521,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                   workExperienceworker:
                                                       workExperience.text
                                                           .toString());
-        
+
                                               await Provider.of<
                                                           WorkersProvider>(
                                                       context,
@@ -589,12 +590,12 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                             newWorker = currWorker!.copyWith(
                                                 languageworker:
                                                     language.text.toString());
-        
+
                                             await Provider.of<WorkersProvider>(
                                                     context,
                                                     listen: false)
                                                 .updateWorkers(newWorker!);
-                                                 currWorker = newWorker;
+                                            currWorker = newWorker;
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(

@@ -28,11 +28,9 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-  
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: <Widget>[
-
         PageView.builder(
           physics: ClampingScrollPhysics(),
           itemCount: introWidgetsList.length,
@@ -44,7 +42,6 @@ class _WelcomePageState extends State<WelcomePage> {
             return introWidgetsList[index];
           },
         ),
-
         Stack(
           alignment: AlignmentDirectional.topStart,
           children: <Widget>[

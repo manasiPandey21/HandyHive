@@ -123,10 +123,10 @@ class _UserEditProfileState extends State<UserEditProfile> {
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : WillPopScope(
-          onWillPop: () async{
-      return false;
-    },
-          child: Scaffold(
+            onWillPop: () async {
+              return false;
+            },
+            child: Scaffold(
               appBar: AppBar(
                 title: Center(child: Text("My Profile")),
                 backgroundColor: Colors.pinkAccent,
@@ -138,14 +138,15 @@ class _UserEditProfileState extends State<UserEditProfile> {
                       children: [
                         Center(
                           child: FutureBuilder(
-                            future:
-                                Provider.of<UsersProvider>(context, listen: false)
-                                    .getImageUrl(currUser!.uidUser.toString()),
+                            future: Provider.of<UsersProvider>(context,
+                                    listen: false)
+                                .getImageUrl(currUser!.uidUser.toString()),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return CircleAvatar(
                                   radius: 60,
-                                  child: Image.network(snapshot.data.toString()),
+                                  child:
+                                      Image.network(snapshot.data.toString()),
                                   backgroundColor: Colors.transparent,
                                 );
                               } else {
@@ -191,15 +192,16 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                           Padding(
                                             padding: const EdgeInsets.all(20.0),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: TextFormField(
                                                 controller: name,
                                                 decoration: InputDecoration(
                                                     hintText: "Name",
                                                     border: OutlineInputBorder(
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                20))),
+                                                            BorderRadius
+                                                                .circular(20))),
                                               ),
                                             ),
                                           ),
@@ -207,9 +209,11 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                             child: ElevatedButton(
                                               onPressed: () async {
                                                 newUser = currUser!.copyWith(
-                                                  nameUser: name.text.toString(),
+                                                  nameUser:
+                                                      name.text.toString(),
                                                 );
-                                                await Provider.of<UsersProvider>(
+                                                await Provider.of<
+                                                            UsersProvider>(
                                                         context,
                                                         listen: false)
                                                     .updateUsers(newUser!);
@@ -328,7 +332,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                               await Provider.of<Auth>(context,
                                                       listen: false)
                                                   .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
+                                              var uid = Provider.of<Auth>(
+                                                      context,
                                                       listen: false)
                                                   .firebaseUser!
                                                   .uid
@@ -337,7 +342,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                 genderUser:
                                                     gender.text.toString(),
                                               );
-        
+
                                               await Provider.of<UsersProvider>(
                                                       context,
                                                       listen: false)
@@ -398,7 +403,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                               await Provider.of<Auth>(context,
                                                       listen: false)
                                                   .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
+                                              var uid = Provider.of<Auth>(
+                                                      context,
                                                       listen: false)
                                                   .firebaseUser!
                                                   .uid
@@ -407,7 +413,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                 mobileNumberUser:
                                                     mobileNo.text.toString(),
                                               );
-        
+
                                               await Provider.of<UsersProvider>(
                                                       context,
                                                       listen: false)
@@ -468,7 +474,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                 addressUser:
                                                     address.text.toString(),
                                               );
-        
+
                                               await Provider.of<UsersProvider>(
                                                       context,
                                                       listen: false)
@@ -530,7 +536,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                               await Provider.of<Auth>(context,
                                                       listen: false)
                                                   .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
+                                              var uid = Provider.of<Auth>(
+                                                      context,
                                                       listen: false)
                                                   .firebaseUser!
                                                   .uid
@@ -539,7 +546,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                   numberOfPeopleInhouseUser:
                                                       numnerOfPeople.text
                                                           .toString());
-        
+
                                               await Provider.of<UsersProvider>(
                                                       context,
                                                       listen: false)
@@ -561,7 +568,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                     ),
                   )),
             ),
-        );
+          );
   }
 
   // Widget ProfileImage() {

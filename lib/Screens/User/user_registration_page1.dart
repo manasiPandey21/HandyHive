@@ -239,7 +239,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                     .firebaseUser!
                     .uid
                     .toString();
-                     Map<String, String> acceptedRequests = Map<String, String>();
+                Map<String, String> acceptedRequests = Map<String, String>();
                 Provider.of<UsersProvider>(context, listen: false).addUsers(
                   Users(
                     uidUser: uid.toString(),

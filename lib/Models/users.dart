@@ -46,7 +46,8 @@ class Users {
       mobileNumberUser: mobileNumberUser ?? this.mobileNumberUser,
       addressUser: addressUser ?? this.addressUser,
       religionUser: religionUser ?? this.religionUser,
-      numberOfPeopleInhouseUser: numberOfPeopleInhouseUser ?? this.numberOfPeopleInhouseUser,
+      numberOfPeopleInhouseUser:
+          numberOfPeopleInhouseUser ?? this.numberOfPeopleInhouseUser,
       acceptedRequests: acceptedRequests ?? this.acceptedRequests,
     );
   }
@@ -67,21 +68,23 @@ class Users {
 
   factory Users.fromMap(Map<String, dynamic> map) {
     return Users(
-      uidUser: map['uidUser'] as String,
-      nameUser: map['nameUser'] as String,
-      ageUser: map['ageUser'] as String,
-      genderUser: map['genderUser'] as String,
-      mobileNumberUser: map['mobileNumberUser'] as String,
-      addressUser: map['addressUser'] as String,
-      religionUser: map['religionUser'] as String,
-      numberOfPeopleInhouseUser: map['numberOfPeopleInhouseUser'] as String,
-      acceptedRequests: Map<String, String>.from((map['acceptedRequests'] as Map<String,dynamic>),
-    ));
+        uidUser: map['uidUser'] as String,
+        nameUser: map['nameUser'] as String,
+        ageUser: map['ageUser'] as String,
+        genderUser: map['genderUser'] as String,
+        mobileNumberUser: map['mobileNumberUser'] as String,
+        addressUser: map['addressUser'] as String,
+        religionUser: map['religionUser'] as String,
+        numberOfPeopleInhouseUser: map['numberOfPeopleInhouseUser'] as String,
+        acceptedRequests: Map<String, String>.from(
+          (map['acceptedRequests'] as Map<String, dynamic>),
+        ));
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Users.fromJson(String source) => Users.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Users.fromJson(String source) =>
+      Users.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -91,29 +94,28 @@ class Users {
   @override
   bool operator ==(covariant Users other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.uidUser == uidUser &&
-      other.nameUser == nameUser &&
-      other.ageUser == ageUser &&
-      other.genderUser == genderUser &&
-      other.mobileNumberUser == mobileNumberUser &&
-      other.addressUser == addressUser &&
-      other.religionUser == religionUser &&
-      other.numberOfPeopleInhouseUser == numberOfPeopleInhouseUser &&
-      mapEquals(other.acceptedRequests, acceptedRequests);
+
+    return other.uidUser == uidUser &&
+        other.nameUser == nameUser &&
+        other.ageUser == ageUser &&
+        other.genderUser == genderUser &&
+        other.mobileNumberUser == mobileNumberUser &&
+        other.addressUser == addressUser &&
+        other.religionUser == religionUser &&
+        other.numberOfPeopleInhouseUser == numberOfPeopleInhouseUser &&
+        mapEquals(other.acceptedRequests, acceptedRequests);
   }
 
   @override
   int get hashCode {
     return uidUser.hashCode ^
-      nameUser.hashCode ^
-      ageUser.hashCode ^
-      genderUser.hashCode ^
-      mobileNumberUser.hashCode ^
-      addressUser.hashCode ^
-      religionUser.hashCode ^
-      numberOfPeopleInhouseUser.hashCode ^
-      acceptedRequests.hashCode;
+        nameUser.hashCode ^
+        ageUser.hashCode ^
+        genderUser.hashCode ^
+        mobileNumberUser.hashCode ^
+        addressUser.hashCode ^
+        religionUser.hashCode ^
+        numberOfPeopleInhouseUser.hashCode ^
+        acceptedRequests.hashCode;
   }
 }

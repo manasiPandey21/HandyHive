@@ -73,22 +73,17 @@ class _UserDashBoardState extends State<UserDashBoard> {
             child: Column(children: [
               Container(
                 padding: const EdgeInsets.all(10),
-               
                 child: TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
                     hintText: 'Search...',
-                    
                     suffixIcon: IconButton(
                       icon: Icon(Icons.clear),
                       onPressed: () => _searchController.clear(),
                     ),
-                  
                     prefixIcon: IconButton(
                       icon: Icon(Icons.search),
-                      onPressed: () {
-                        
-                      },
+                      onPressed: () {},
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -166,7 +161,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           icon: Image.asset('assets/ironing.webp'),
                           iconSize: 70,
                           onPressed: () {
-                             Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => UserDashBoard2("Gardening"),
                             ));
                           },
@@ -184,7 +179,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  UserDashBoard2("Cooking"),
+                              builder: (context) => UserDashBoard2("Cooking"),
                             ));
                           },
                         ),
@@ -201,7 +196,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 60,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Utensils  Cleaning"),
+                              builder: (context) =>
+                                  UserDashBoard2("Utensils  Cleaning"),
                             ));
                           },
                         ),
@@ -217,8 +213,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           icon: Image.asset('assets/yyy.png'),
                           iconSize: 60,
                           onPressed: () {
-                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  UserDashBoard2("Sweeping"),
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => UserDashBoard2("Sweeping"),
                             ));
                           },
                         ),
@@ -234,7 +230,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           icon: Image.asset('assets/garden.png'),
                           iconSize: 60,
                           onPressed: () {
-                             Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => UserDashBoard2("Gardening"),
                             ));
                           },
@@ -263,7 +259,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  UserDashBoard2("Gardening"),
+                              builder: (context) => UserDashBoard2("Gardening"),
                             ));
                           },
                         ),
@@ -297,7 +293,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  UserDashBoard2("Gardening"),
+                              builder: (context) => UserDashBoard2("Gardening"),
                             ));
                           },
                         ),
@@ -314,7 +310,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  UserDashBoard2("Cooking"),
+                              builder: (context) => UserDashBoard2("Cooking"),
                             ));
                           },
                         ),
@@ -331,7 +327,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  UserDashBoard2("Cooking"),
+                              builder: (context) => UserDashBoard2("Cooking"),
                             ));
                           },
                         ),
@@ -348,7 +344,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>  UserDashBoard2("Cooking"),
+                              builder: (context) => UserDashBoard2("Cooking"),
                             ));
                           },
                         ),

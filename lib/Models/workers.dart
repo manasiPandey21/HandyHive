@@ -142,29 +142,30 @@ class Worker {
   }
 
   factory Worker.fromMap(Map<String, dynamic> map) {
-  return Worker(
-    uidWorkers: map['uidWorkers'] as String,
-    nameWorkers: map['nameWorkers'] as String,
-    ageworker: map['ageworker'] as String,
-    genderworker: map['genderworker'] as String,
-    mobileNoworker: map['mobileNoworker'] as String,
-    maritalStatusworker: map['maritalStatusworker'] as String,
-    religionworker: map['religionworker'] as String,
-    monthlyIncomeworker: map['monthlyIncomeworker'] as String,
-    workExperienceworker: map['workExperienceworker'] as String,
-    languageworker: map['languageworker'] as String,
-    addressWorker: map['addressWorker'] as String,
-    service: (map['service'] as List<dynamic>)
-        .map((x) => Service.fromMap(x as Map<String, dynamic>))
-        .toList(),
-    requests: Map<String, String>.from(map['requests'] as Map<dynamic, dynamic>),
-  );
-}
-
+    return Worker(
+      uidWorkers: map['uidWorkers'] as String,
+      nameWorkers: map['nameWorkers'] as String,
+      ageworker: map['ageworker'] as String,
+      genderworker: map['genderworker'] as String,
+      mobileNoworker: map['mobileNoworker'] as String,
+      maritalStatusworker: map['maritalStatusworker'] as String,
+      religionworker: map['religionworker'] as String,
+      monthlyIncomeworker: map['monthlyIncomeworker'] as String,
+      workExperienceworker: map['workExperienceworker'] as String,
+      languageworker: map['languageworker'] as String,
+      addressWorker: map['addressWorker'] as String,
+      service: (map['service'] as List<dynamic>)
+          .map((x) => Service.fromMap(x as Map<String, dynamic>))
+          .toList(),
+      requests:
+          Map<String, String>.from(map['requests'] as Map<dynamic, dynamic>),
+    );
+  }
 
   String toJson() => json.encode(toMap());
 
-  factory Worker.fromJson(String source) => Worker.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Worker.fromJson(String source) =>
+      Worker.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -174,37 +175,36 @@ class Worker {
   @override
   bool operator ==(covariant Worker other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.uidWorkers == uidWorkers &&
-      other.nameWorkers == nameWorkers &&
-      other.ageworker == ageworker &&
-      other.genderworker == genderworker &&
-      other.mobileNoworker == mobileNoworker &&
-      other.maritalStatusworker == maritalStatusworker &&
-      other.religionworker == religionworker &&
-      other.monthlyIncomeworker == monthlyIncomeworker &&
-      other.workExperienceworker == workExperienceworker &&
-      other.languageworker == languageworker &&
-      other.addressWorker == addressWorker &&
-      listEquals(other.service, service) &&
-      mapEquals(other.requests, requests);
+
+    return other.uidWorkers == uidWorkers &&
+        other.nameWorkers == nameWorkers &&
+        other.ageworker == ageworker &&
+        other.genderworker == genderworker &&
+        other.mobileNoworker == mobileNoworker &&
+        other.maritalStatusworker == maritalStatusworker &&
+        other.religionworker == religionworker &&
+        other.monthlyIncomeworker == monthlyIncomeworker &&
+        other.workExperienceworker == workExperienceworker &&
+        other.languageworker == languageworker &&
+        other.addressWorker == addressWorker &&
+        listEquals(other.service, service) &&
+        mapEquals(other.requests, requests);
   }
 
   @override
   int get hashCode {
     return uidWorkers.hashCode ^
-      nameWorkers.hashCode ^
-      ageworker.hashCode ^
-      genderworker.hashCode ^
-      mobileNoworker.hashCode ^
-      maritalStatusworker.hashCode ^
-      religionworker.hashCode ^
-      monthlyIncomeworker.hashCode ^
-      workExperienceworker.hashCode ^
-      languageworker.hashCode ^
-      addressWorker.hashCode ^
-      service.hashCode ^
-      requests.hashCode;
+        nameWorkers.hashCode ^
+        ageworker.hashCode ^
+        genderworker.hashCode ^
+        mobileNoworker.hashCode ^
+        maritalStatusworker.hashCode ^
+        religionworker.hashCode ^
+        monthlyIncomeworker.hashCode ^
+        workExperienceworker.hashCode ^
+        languageworker.hashCode ^
+        addressWorker.hashCode ^
+        service.hashCode ^
+        requests.hashCode;
   }
 }

@@ -24,9 +24,9 @@ class _LandingPageState extends State<LandingPage> {
           fit: BoxFit.cover,
         ),
         WillPopScope(
-          onWillPop: () async{
-      return false;
-    },
+          onWillPop: () async {
+            return false;
+          },
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(

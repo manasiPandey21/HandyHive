@@ -13,6 +13,7 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+
 String? validatePhoneNumber(String value) {
   if (value.length != 10) {
     return 'Phone number must have exactly 10 digits';
@@ -29,9 +30,9 @@ class _LoginState extends State<Login> {
     final _formKey = GlobalKey<FormState>();
 
     return WillPopScope(
-      onWillPop: () async{
-      return false;
-    },
+      onWillPop: () async {
+        return false;
+      },
       child: Scaffold(
           body: Container(
               margin: EdgeInsets.only(left: 20, right: 20),
@@ -44,8 +45,8 @@ class _LoginState extends State<Login> {
                       children: [
                         Image.asset("assets/xyz.png", width: 170, height: 170),
                         SizedBox(
-                        height: 20,
-                      ),
+                          height: 20,
+                        ),
                         Text(
                           "Phone Verification",
                           style: TextStyle(
@@ -68,7 +69,6 @@ class _LoginState extends State<Login> {
                             children: [
                               SizedBox(
                                 width: 40,
-                                
                               ),
                               SizedBox(
                                 width: 1,
@@ -96,12 +96,11 @@ class _LoginState extends State<Login> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  await Provider.of<Auth>(context, listen: false)
+                                  await Provider.of<Auth>(context,
+                                          listen: false)
                                       .submitPhoneNumber(
-                                          phone.text.toString(),
-                                          context);
+                                          phone.text.toString(), context);
                                 }
-    
                               },
                               child: Text("Send OTP"),
                               style: ElevatedButton.styleFrom(

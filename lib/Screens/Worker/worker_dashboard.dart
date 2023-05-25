@@ -92,7 +92,6 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     final updatedUser =
         user.copyWith(acceptedRequests: updatedAcceptedRequests);
     userProvider.updateUsers(updatedUser);
-    print(updatedUser);
   }
 
   Future<void> acceptRequest(String? userId) async {

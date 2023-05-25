@@ -67,171 +67,173 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading?CircularProgressIndicator(): WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 80,
-              ),
-              Text(
-                "Please select the jobs",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Divider(
-                height: 1,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 10),
+    return isLoading
+        ? CircularProgressIndicator()
+        : WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: Scaffold(
+              body: SingleChildScrollView(
                 child: Column(
-                  children: List.generate(categories.length, (index) {
-                    final favourite = categories[index];
-                    return CheckboxListTile(
-                      title: Text(favourite["name"]),
-                      value: favourite["isChecked"],
-                      onChanged: (val) {
-                        setState(() {
-                          favourite["isChecked"] = val;
-                        });
-                      },
-                      subtitle: favourite["isChecked"]
-                          ? Row(
-                              children: [
-                                SizedBox(width: 50),
-                                Text("Hours: "),
-                                DropdownButton<String>(
-                                  value: selectedHours[index],
-                                  items: _hours.map((hour) {
-                                    return DropdownMenuItem<String>(
-                                      value: hour,
-                                      child: Text(hour),
-                                    );
-                                  }).toList(),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      selectedHours[index] = val!;
-                                    });
-                                  },
-                                ),
-                                SizedBox(width: 40),
-                                Text("Salary: "),
-                                DropdownButton<String>(
-                                  value: selectedSalary[index],
-                                  items: _salary.map((salary) {
-                                    return DropdownMenuItem<String>(
-                                      value: salary,
-                                      child: Text(salary),
-                                    );
-                                  }).toList(),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      selectedSalary[index] = val!;
-                                    });
-                                  },
-                                ),
-                              ],
-                            )
-                          : null,
-                    );
-                  }).toList(),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Divider(
-                height: 1,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  for (int i = 0; i < categories.length; i++) {
-                    if (categories[i]["isChecked"] == true) {
-                      final service = Service(
-                        name: categories[i]["name"],
-                        hours: selectedHours[i],
-                        salary: selectedSalary[i],
-                      );
-                      selectedServices.add(service);
-                    }
-                  }
-                  print(currWorker);
-                  newWorker = currWorker!.copyWith(service: selectedServices);
-                  print(newWorker);
-
-                  await Provider.of<WorkersProvider>(context, listen: false)
-                      .updateWorkers(newWorker!);
-                  currWorker = newWorker;
-
-            
-              
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => WorkerDashBoard(),
+                  children: [
+                    SizedBox(
+                      height: 80,
                     ),
-                  );
-                },
-                child: Text("Submit"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pinkAccent,
-                ),
-              ),
-              Wrap(
-                children: categories.map((favourite) {
-                  if (favourite["isChecked"] == true) {
-                    return Card(
-                      elevation: 3,
-                      color: Colors.pinkAccent,
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              favourite["name"],
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  favourite["isChecked"] =
-                                      !favourite["isChecked"];
-                                });
-                              },
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.white,
+                    Text(
+                      "Please select the jobs",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Divider(
+                      height: 1,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Column(
+                        children: List.generate(categories.length, (index) {
+                          final favourite = categories[index];
+                          return CheckboxListTile(
+                            title: Text(favourite["name"]),
+                            value: favourite["isChecked"],
+                            onChanged: (val) {
+                              setState(() {
+                                favourite["isChecked"] = val;
+                              });
+                            },
+                            subtitle: favourite["isChecked"]
+                                ? Row(
+                                    children: [
+                                      SizedBox(width: 50),
+                                      Text("Hours: "),
+                                      DropdownButton<String>(
+                                        value: selectedHours[index],
+                                        items: _hours.map((hour) {
+                                          return DropdownMenuItem<String>(
+                                            value: hour,
+                                            child: Text(hour),
+                                          );
+                                        }).toList(),
+                                        onChanged: (val) {
+                                          setState(() {
+                                            selectedHours[index] = val!;
+                                          });
+                                        },
+                                      ),
+                                      SizedBox(width: 40),
+                                      Text("Salary: "),
+                                      DropdownButton<String>(
+                                        value: selectedSalary[index],
+                                        items: _salary.map((salary) {
+                                          return DropdownMenuItem<String>(
+                                            value: salary,
+                                            child: Text(salary),
+                                          );
+                                        }).toList(),
+                                        onChanged: (val) {
+                                          setState(() {
+                                            selectedSalary[index] = val!;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                : null,
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Divider(
+                      height: 1,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        for (int i = 0; i < categories.length; i++) {
+                          if (categories[i]["isChecked"] == true) {
+                            final service = Service(
+                              name: categories[i]["name"],
+                              hours: selectedHours[i],
+                              salary: selectedSalary[i],
+                            );
+                            selectedServices.add(service);
+                          }
+                        }
+                        print(currWorker);
+                        newWorker =
+                            currWorker!.copyWith(service: selectedServices);
+                        print(newWorker);
+
+                        await Provider.of<WorkersProvider>(context,
+                                listen: false)
+                            .updateWorkers(newWorker!);
+                        currWorker = newWorker;
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => WorkerDashBoard(),
+                          ),
+                        );
+                      },
+                      child: Text("Submit"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pinkAccent,
+                      ),
+                    ),
+                    Wrap(
+                      children: categories.map((favourite) {
+                        if (favourite["isChecked"] == true) {
+                          return Card(
+                            elevation: 3,
+                            color: Colors.pinkAccent,
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    favourite["name"],
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        favourite["isChecked"] =
+                                            !favourite["isChecked"];
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-                  return Container();
-                }).toList(),
+                          );
+                        }
+                        return Container();
+                      }).toList(),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 }

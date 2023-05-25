@@ -13,9 +13,9 @@ class _OnBoardingSecondState extends State<OnBoardingSecond> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return WillPopScope(
-      onWillPop: () async{
-      return false;
-    },
+      onWillPop: () async {
+        return false;
+      },
       child: Scaffold(
         backgroundColor: Colors.pinkAccent,
         body: Column(
