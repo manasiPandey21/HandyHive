@@ -116,6 +116,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                   //   hintText: "19",
                   border: InputBorder.none,
                 ),
+                keyboardType:TextInputType.number,
               ),
             ),
             Container(
@@ -161,6 +162,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                   // hintText: "9555181663",
                   border: InputBorder.none,
                 ),
+                 keyboardType:TextInputType.phone,
               ),
             ),
             Container(
@@ -195,6 +197,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                   // hintText: "unmarried",
                   border: InputBorder.none,
                 ),
+                 keyboardType:TextInputType.number,
               ),
             ),
             Container(
@@ -229,6 +232,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                   // hintText: "Manasi",
                   border: InputBorder.none,
                 ),
+                 keyboardType:TextInputType.number,
               ),
             ),
             ElevatedButton(

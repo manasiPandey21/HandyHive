@@ -231,7 +231,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                 border: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            20))),
+                                                            20))), keyboardType:TextInputType.number,
                                           ),
                                         ),
                                       ),
@@ -359,7 +359,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                 border: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            20))),
+                                                            20))), keyboardType:TextInputType.phone,
                                           ),
                                         ),
                                       ),
@@ -499,7 +499,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                 border: OutlineInputBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            20))),
+                                                            20))), keyboardType:TextInputType.number,
                                           ),
                                         ),
                                       ),

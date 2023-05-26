@@ -265,7 +265,9 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20))),
+                                                               keyboardType:TextInputType.number,
                                             ),
+                                            
                                           ),
                                         ),
                                         Center(
@@ -394,6 +396,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20))),
+                                                               keyboardType:TextInputType.phone,
                                             ),
                                           ),
                                         ),

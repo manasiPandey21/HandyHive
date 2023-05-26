@@ -43,7 +43,7 @@ class _OnBoardingThirdState extends State<OnBoardingThird> {
                       Center(
                           child: Image(
                         image: AssetImage(
-                          'assets/cleaning.png',
+                          'assets/clothesCleaning.png',
                         ),
                         width: 300,
                       )),

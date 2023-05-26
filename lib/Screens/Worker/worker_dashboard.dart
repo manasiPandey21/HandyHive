@@ -1,18 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Screens/Common/chatpage.dart';
 import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:provider/provider.dart';
-
-import '../../Additional/users_items.dart';
 import '../../Provider/auth.dart';
 import '../../Provider/users_provider.dart';
 import '../../Provider/workers_provider.dart';
-import '../../Widgets/item_widget.dart';
+
 
 class WorkerDashBoard extends StatefulWidget {
   const WorkerDashBoard({Key? key}) : super(key: key);

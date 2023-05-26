@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:handyhive/Provider/users_provider.dart';
 import 'package:handyhive/Screens/OnBoardingScreen/onboarding_screen1.dart';
 import 'package:handyhive/Screens/User/user_registration_page1.dart';
-import 'package:handyhive/Screens/User/WorkDetails/cooking.dart';
 import 'package:provider/provider.dart';
 import 'Provider/auth.dart';
 import 'Provider/workers_provider.dart';
@@ -55,7 +54,6 @@ Future<void> main() async {
         "Profile page2": (context) => UserRegistrationPage1(),
         "HelpDesks": (context) => HelpDesk(),
         "dashboard2": ((context) => UserDashBoard()),
-        "cooking": (context) => Cooking(),
         "user_edit_profile": (context) => UserEditProfile(),
       },
     ),

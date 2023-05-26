@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:firebase_storage/firebase_storage.dart%20';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
@@ -10,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../Provider/auth.dart';
 import '../../Provider/workers_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 
 class WorkerRegistrationPage1 extends StatefulWidget {
   const WorkerRegistrationPage1({super.key});
@@ -38,7 +38,9 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
   TextEditingController workExperience = new TextEditingController();
   TextEditingController language = new TextEditingController();
   List<String> genderOptions = ['Men', 'Women', 'Others'];
-  String selectedGender = 'Men'; // Default selection
+  String selectedGender = 'Men'; 
+  List<String> MarriageOptions = ['Married', 'Unmarried', 'Prefer Not to tell'];
+  String selectedOption = 'Married'; // Default selection
 
   //Image Picker function to get image from gallery
   Future getImageFromGallery() async {
@@ -117,6 +119,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                   //   hintText: "19",
                   border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.number,
               ),
             ),
             Container(
@@ -162,6 +165,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                   // hintText: "9555181663",
                   border: InputBorder.none,
                 ),
+                 keyboardType: TextInputType.phone,
               ),
             ),
             Container(
@@ -189,15 +193,27 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                 borderRadius: BorderRadius.circular(10),
               ),
               margin: EdgeInsets.all(10),
-              child: TextField(
-                controller: maritalStatus,
+              child: DropdownButtonFormField<String>(
+                value: selectedOption,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedOption = newValue!;
+                  });
+                },
+                items:
+                    MarriageOptions.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
                 decoration: InputDecoration(
                   labelText: "MARITAL STATUS",
-                  // hintText: "unmarried",
                   border: InputBorder.none,
                 ),
               ),
             ),
+            
             Container(
               height: 60,
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -230,6 +246,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                   // hintText: "Manasi",
                   border: InputBorder.none,
                 ),
+                 keyboardType: TextInputType.number,
               ),
             ),
             Container(
@@ -247,6 +264,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                   // hintText: "Manasi",
                   border: InputBorder.none,
                 ),
+                 keyboardType: TextInputType.number,
               ),
             ),
             Container(

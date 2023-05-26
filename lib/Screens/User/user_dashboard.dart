@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:handyhive/Screens/User/WorkDetails/cooking.dart';
 import 'package:handyhive/Screens/User/user_dashboard2.dart';
 import 'package:handyhive/Screens/User/user_edit_profile.dart';
 
@@ -141,7 +140,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/xxx.png'),
+                          icon: Image.asset('assets/cooking.jpg'),
                           iconSize: 60,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -158,7 +157,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/ironing.webp'),
+                          icon: Image.asset('assets/gardening.jpg'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -175,16 +174,16 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/xxx.png'),
+                          icon: Image.asset('assets/brooming.jpg'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Cooking"),
+                              builder: (context) => UserDashBoard2("Brooming"),
                             ));
                           },
                         ),
                         Text(
-                          "Cooking",
+                          "Brooming",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -192,17 +191,17 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/cleaning.png'),
+                          icon: Image.asset('assets/utensilsCleaning.jpg'),
                           iconSize: 60,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  UserDashBoard2("Utensils  Cleaning"),
+                                  UserDashBoard2("Utensils Cleaning"),
                             ));
                           },
                         ),
                         Text(
-                          "Utensils Cleaning",
+                          "Utensils",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -210,7 +209,24 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/yyy.png'),
+                          icon: Image.asset('assets/washingClothes.jpg'),
+                          iconSize: 60,
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => UserDashBoard2("Clothes Cleaning"),
+                            ));
+                          },
+                        ),
+                        Text(
+                          "Clothes Cleaning",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset('assets/moping.jpg'),
                           iconSize: 60,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -220,23 +236,6 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         ),
                         Text(
                           "Sweeping",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: Image.asset('assets/garden.png'),
-                          iconSize: 60,
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Gardening"),
-                            ));
-                          },
-                        ),
-                        Text(
-                          "Gardening",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -255,16 +254,16 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/ironing.webp'),
+                          icon: Image.asset('assets/ironing.jpg'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Gardening"),
+                              builder: (context) => UserDashBoard2("Ironing"),
                             ));
                           },
                         ),
                         Text(
-                          "Gardening",
+                          "Ironing",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -272,16 +271,16 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/xxx.png'),
+                          icon: Image.asset('assets/Massager.png'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Cooking"),
+                              builder: (context) => UserDashBoard2("Massager"),
                             ));
                           },
                         ),
                         Text(
-                          "Cooking",
+                          "Massager",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -289,16 +288,16 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/ironing.webp'),
+                          icon: Image.asset('assets/babySitter.jpg'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Gardening"),
+                              builder: (context) => UserDashBoard2("BabySitter"),
                             ));
                           },
                         ),
                         Text(
-                          "Gardening",
+                          "BabySitter",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -306,16 +305,16 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/xxx.png'),
+                          icon: Image.asset('assets/driver.jpg'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Cooking"),
+                              builder: (context) => UserDashBoard2("Driver"),
                             ));
                           },
                         ),
                         Text(
-                          "Cooking",
+                          "Driver",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -323,37 +322,37 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/cooking.webp'),
+                          icon: Image.asset('assets/nurse.jpg'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Cooking"),
+                              builder: (context) => UserDashBoard2("Nurse"),
                             ));
                           },
                         ),
                         Text(
-                          "Cooking",
+                          "Nurse",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: Image.asset('assets/xxx.png'),
-                          iconSize: 70,
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Cooking"),
-                            ));
-                          },
-                        ),
-                        Text(
-                          "Cooking",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
+                    // Column(
+                    //   children: [
+                    //     IconButton(
+                    //       icon: Image.asset('assets/xxx.png'),
+                    //       iconSize: 70,
+                    //       onPressed: () {
+                    //         Navigator.of(context).push(MaterialPageRoute(
+                    //           builder: (context) => UserDashBoard2("Cooking"),
+                    //         ));
+                    //       },
+                    //     ),
+                    //     Text(
+                    //       "Cooking",
+                    //       style: TextStyle(fontWeight: FontWeight.bold),
+                    //     )
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

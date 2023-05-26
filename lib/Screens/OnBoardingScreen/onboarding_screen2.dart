@@ -42,7 +42,7 @@ class _OnBoardingSecondState extends State<OnBoardingSecond> {
                       Center(
                           child: Image(
                         image: AssetImage(
-                          'assets/garden.png',
+                          'assets/elderlyCare.png',
                         ),
                         width: 300,
                       )),
