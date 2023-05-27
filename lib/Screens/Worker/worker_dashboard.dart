@@ -6,6 +6,7 @@ import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Screens/Common/chatpage.dart';
 import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Provider/auth.dart';
 import '../../Provider/users_provider.dart';
 import '../../Provider/workers_provider.dart';
@@ -75,11 +76,10 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     _isInit = false;
   }
 
-  void addWorkerIdToUser() async {
+  void addWorkerIdToUser(String userId) async {
     final workerId = FirebaseAuth.instance.currentUser?.uid;
-    final userId = await fetchUserId(workerId!);
     final userProvider = Provider.of<UsersProvider>(context, listen: false);
-    final user = userProvider.getUser(userId!);
+    final user = userProvider.getUser(userId);
 
     final updatedAcceptedRequests = {
       ...user.acceptedRequests,
@@ -101,19 +101,6 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     setState(() {
       users.removeWhere((user) => user.uidUser == userId);
     });
-  }
-
-  Future<String?> fetchUserId(String workerId) async {
-    DocumentSnapshot workerSnapshot = await FirebaseFirestore.instance
-        .collection('WORKERS')
-        .doc(workerId)
-        .get();
-    if (workerSnapshot.exists) {
-      Worker worker =
-          Worker.fromMap(workerSnapshot.data() as Map<String, dynamic>);
-      return worker.requests['userId'];
-    }
-    return null;
   }
 
   Future<void> deleteRequest(String userId) async {
@@ -329,12 +316,12 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                     ElevatedButton(
                       onPressed: () {
                         acceptRequest(user.uidUser);
-                        addWorkerIdToUser();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ChatPage(),
-                          ),
-                        );
+                        addWorkerIdToUser(user.uidUser);
+                        var whatsappUrl =
+          "whatsapp://send?phone=${user.mobileNumberUser}" +
+             "&text=${Uri.encodeComponent('Hi, I am ${currWorker!.nameWorkers} from HandyHive. How can I help you?')}";
+
+          launch(whatsappUrl);
                       },
                       child: Text("Accept"),
                       style: ElevatedButton.styleFrom(

@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../Models/users.dart';
 import '../../Models/workers.dart';
 import '../../Provider/users_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WorkerDetails extends StatefulWidget {
   final String workerId;
@@ -161,11 +162,8 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                             } else if (currUser!
                                     .acceptedRequests[widget.workerId] ==
                                 "true") {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ChatPage(),
-                                ),
-                              );
+                              launch(
+                                        'https://wa.me/${worker.mobileNoworker}' );
                             }
                           },
                         );
