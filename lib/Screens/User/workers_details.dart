@@ -20,7 +20,7 @@ class WorkerDetails extends StatefulWidget {
 }
 
 class _ServiceProviderDetailsState extends State<WorkerDetails> {
-  late Future<String> _imageUrlFuture;
+  Future<String>? _imageUrlFuture;
   bool _isInit = true;
   bool isLoading = true;
   Users? currUser;
@@ -40,14 +40,10 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                       .toString();
                   currUser = Provider.of<UsersProvider>(context, listen: false)
                       .getUser(uid.toString());
-                 
+                  print("mil ja yar"+currUser.toString());
                   isLoading = false;
                 });
               }));
-      final workersProvider =
-          Provider.of<WorkersProvider>(context, listen: false);
-
-      _imageUrlFuture = workersProvider.getImageUrl(widget.workerId);
     }
     _isInit = false;
   }
@@ -84,25 +80,12 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
     userProvider.updateUsers(updatedUser);
   }
 
-  Future<String?> fetchUserId(String workerId) async {
-    DocumentSnapshot workerSnapshot = await FirebaseFirestore.instance
-        .collection('WORKERS')
-        .doc(workerId)
-        .get();
-    if (workerSnapshot.exists) {
-      Worker worker =
-          Worker.fromMap(workerSnapshot.data() as Map<String, dynamic>);
-      return worker.requests['userId'];
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final workersProvider = Provider.of<WorkersProvider>(context);
     final worker = workersProvider.getWorkerById(widget.workerId);
-
-    return Scaffold(
+    
+    return isLoading ? CircularProgressIndicator() : Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pinkAccent,
           title: Center(child: Text('Service Provider Details')),
@@ -120,8 +103,11 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                       padding: const EdgeInsets.all(18.0),
                       child: CircleAvatar(
                         radius: 80,
+                        backgroundColor: Colors.transparent,
                         child: FutureBuilder(
-                          future: _imageUrlFuture,
+                          future: Provider.of<WorkersProvider>(context,
+                                  listen: false)
+                              .getImageUrl(widget.workerId.toString()),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Image.network(snapshot.data.toString());
@@ -132,7 +118,6 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                             }
                           },
                         ),
-                        backgroundColor: Colors.transparent,
                       ),
                     ),
                   ),
@@ -167,18 +152,23 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.pinkAccent),
                       onPressed: () async {
-                        if (!currUser!.acceptedRequests
-                            .containsKey(widget.workerId)) {
-                          addUserIdToServiceProvider();
-                          addWorkerIdToUser();
-                        } else if (currUser!.acceptedRequests[widget.workerId] ==
-                            "true") {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ChatPage(),
-                            ),
-                          );
-                        }
+                        setState(
+                          () {
+                            if (!currUser!.acceptedRequests
+                                .containsKey(widget.workerId)) {
+                              addUserIdToServiceProvider();
+                              addWorkerIdToUser();
+                            } else if (currUser!
+                                    .acceptedRequests[widget.workerId] ==
+                                "true") {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(),
+                                ),
+                              );
+                            }
+                          },
+                        );
                       },
                       child: (!currUser!.acceptedRequests
                               .containsKey(widget.workerId))

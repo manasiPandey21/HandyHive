@@ -95,41 +95,47 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                    return Wrap(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: name,
-                                            decoration: InputDecoration(
-                                                hintText: "Name",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))),
+                                      return Padding(
+                                        padding:
+                                            MediaQuery.of(context).viewInsets,
+                                        child: Wrap(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                controller: name,
+                                                decoration: InputDecoration(
+                                                    hintText: "Name",
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20))),
+                                                                keyboardType: TextInputType.name,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            newWorker = currWorker!.copyWith(
-                                              nameWorkers: name.text.toString(),
-                                            );
-                                            await Provider.of<WorkersProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .updateWorkers(newWorker!);
-                                            currWorker = newWorker;
-                                          },
-                                          child: Text("UPDATE"),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.pinkAccent),
-                                        ),
-                                      )
-                                    ]);
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              newWorker = currWorker!.copyWith(
+                                                nameWorkers: name.text.toString(),
+                                              );
+                                              await Provider.of<WorkersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateWorkers(newWorker!);
+                                              currWorker = newWorker;
+                                            },
+                                            child: Text("UPDATE"),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.pinkAccent),
+                                          ),
+                                        )
+                                      ]),
+                                    );
                                   });
                             });
                           }),
@@ -153,23 +159,29 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                       topRight: Radius.circular(30.0),
                                     ),
                                   ),
-                                  builder: (context) {
-                                    return Wrap(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: address,
-                                            decoration: InputDecoration(
-                                                hintText: "Address",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))),
+                                   builder: (context) {
+                                      return Padding(
+                                        padding:
+                                            MediaQuery.of(context).viewInsets,
+                                        child: Wrap(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                controller: address,
+                                                decoration: InputDecoration(
+                                                    hintText: "Address",
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20))),
+                                                                keyboardType:TextInputType.streetAddress,
+                                              ),
+                                              
+                                            ),
                                           ),
-                                        ),
-                                      ),
                                       Center(
                                         child: ElevatedButton(
                                           onPressed: () {
@@ -185,16 +197,19 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       context,
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
-                                              currWorker = newWorker;
+                                              setState(() {
+                                                currWorker = newWorker;
+                                              });
                                             };
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor:
                                                   Colors.pinkAccent),
-                                        ),
-                                      )
-                                    ]);
+                                          ),
+                                        )
+                                      ]),
+                                    );
                                   });
                             });
                           }),
@@ -219,22 +234,28 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                    return Wrap(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: age,
-                                            decoration: InputDecoration(
-                                                hintText: "Age",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))), keyboardType:TextInputType.number,
+                                      return Padding(
+                                        padding:
+                                            MediaQuery.of(context).viewInsets,
+                                        child: Wrap(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                controller: age,
+                                                decoration: InputDecoration(
+                                                    hintText: "Age",
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20))),
+                                                                keyboardType:TextInputType.number,
+                                              ),
+                                              
+                                            ),
                                           ),
-                                        ),
-                                      ),
                                       Center(
                                         child: ElevatedButton(
                                           onPressed: () async {
@@ -244,18 +265,21 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                     context,
                                                     listen: false)
                                                 .updateWorkers(newWorker!);
-                                            currWorker = newWorker;
+                                            setState(() {
+                                              currWorker = newWorker;
+                                            });
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor:
                                                   Colors.pinkAccent),
                                         ),
-                                      )
-                                    ]);
-                                  });
-                            });
-                          }),
+                                          )
+                                        ]),
+                                      );
+                                    });
+                              });
+                            }),
                       ListTile(
                           leading: Icon(
                             Icons.man,
@@ -277,22 +301,28 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                    return Wrap(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: gender,
-                                            decoration: InputDecoration(
-                                                hintText: "Gender",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))),
+                                      return Padding(
+                                        padding:
+                                            MediaQuery.of(context).viewInsets,
+                                        child: Wrap(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                controller: gender,
+                                                decoration: InputDecoration(
+                                                    hintText: "Gender",
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20))),
+                                                                keyboardType:TextInputType.name,
+                                              ),
+                                              
+                                            ),
                                           ),
-                                        ),
-                                      ),
                                       Center(
                                         child: ElevatedButton(
                                           onPressed: () async {
@@ -313,18 +343,22 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                     context,
                                                     listen: false)
                                                 .updateWorkers(newWorker!);
-                                            currWorker = newWorker;
+                                            setState(() {
+                                              currWorker = newWorker;
+                                            });
+                                            Navigator.pop(context);
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor:
                                                   Colors.pinkAccent),
                                         ),
-                                      )
-                                    ]);
-                                  });
-                            });
-                          }),
+                                          )
+                                        ]),
+                                      );
+                                    });
+                              });
+                            }),
                       ListTile(
                           leading: Icon(
                             Icons.phone,
@@ -347,22 +381,28 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                    return Wrap(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: mobileNo,
-                                            decoration: InputDecoration(
-                                                hintText: "Mobile No",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))), keyboardType:TextInputType.phone,
+                                      return Padding(
+                                        padding:
+                                            MediaQuery.of(context).viewInsets,
+                                        child: Wrap(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                controller: mobileNo,
+                                                decoration: InputDecoration(
+                                                    hintText: "Mobile No",
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20))),
+                                                                keyboardType:TextInputType.phone,
+                                              ),
+                                              
+                                            ),
                                           ),
-                                        ),
-                                      ),
                                       Center(
                                         child: ElevatedButton(
                                           onPressed: () async {
@@ -383,18 +423,23 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                     context,
                                                     listen: false)
                                                 .updateWorkers(newWorker!);
-                                            currWorker = newWorker;
+                                           setState(() {
+                                              currWorker = newWorker;
+                                            });
+                                            Navigator.pop(context);
                                           },
                                           child: Text("UPDATE"),
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor:
                                                   Colors.pinkAccent),
-                                        ),
-                                      )
-                                    ]);
-                                  });
-                            });
-                          }),
+                                                   ),
+                                          )
+                                        ]),
+                                      );
+                                    });
+                              });
+                            }),
+                                       
                       ListTile(
                           leading: Icon(
                             Icons.man,
@@ -417,51 +462,58 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                    return Wrap(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: maritalStatus,
-                                            decoration: InputDecoration(
-                                                hintText: "Marital Status",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))),
+                                    return Padding(
+                                    padding: MediaQuery.of(context).viewInsets,
+                                      child: Wrap(children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              controller: maritalStatus,
+                                              decoration: InputDecoration(
+                                                  hintText: "Marital Status",
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20))),
+                                                              keyboardType:TextInputType.name,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            await Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .getFirebaseUser();
-                                            var uid = Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .firebaseUser!
-                                                .uid
-                                                .toString();
-                                            newWorker = currWorker!.copyWith(
-                                              maritalStatusworker:
-                                                  maritalStatus.text.toString(),
-                                            );
-
-                                            await Provider.of<WorkersProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .updateWorkers(newWorker!);
-                                            currWorker = newWorker;
-                                          },
-                                          child: Text("UPDATE"),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.pinkAccent),
-                                        ),
-                                      )
-                                    ]);
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              await Provider.of<Auth>(context,
+                                                      listen: false)
+                                                  .getFirebaseUser();
+                                              var uid = Provider.of<Auth>(context,
+                                                      listen: false)
+                                                  .firebaseUser!
+                                                  .uid
+                                                  .toString();
+                                              newWorker = currWorker!.copyWith(
+                                                maritalStatusworker:
+                                                    maritalStatus.text.toString(),
+                                              );
+                                    
+                                              await Provider.of<WorkersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateWorkers(newWorker!);
+                                              setState(() {
+                                                currWorker = newWorker;
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("UPDATE"),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.pinkAccent),
+                                          ),
+                                        )
+                                      ]),
+                                    );
                                   });
                             });
                           }),
@@ -487,55 +539,64 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                    return Wrap(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: workExperience,
-                                            decoration: InputDecoration(
-                                                hintText: "Work Experience",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))), keyboardType:TextInputType.number,
+                                    return Padding(
+                                      padding: MediaQuery.of(context).viewInsets,
+                                     
+                                      child: Wrap(children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              controller: workExperience,
+                                              decoration: InputDecoration(
+                                                  hintText: "Work Experience",
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20))),
+                                              keyboardType: TextInputType.number,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            onPressed:
-                                            () async {
-                                              await Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(
-                                                      context,
-                                                      listen: false)
-                                                  .firebaseUser!
-                                                  .uid
-                                                  .toString();
-                                              newWorker = currWorker!.copyWith(
-                                                  workExperienceworker:
-                                                      workExperience.text
-                                                          .toString());
-
-                                              await Provider.of<
-                                                          WorkersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateWorkers(newWorker!);
-                                            };
-                                          },
-                                          child: Text("UPDATE"),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.pinkAccent),
-                                        ),
-                                      )
-                                    ]);
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              onPressed:
+                                              () async {
+                                                await Provider.of<Auth>(context,
+                                                        listen: false)
+                                                    .getFirebaseUser();
+                                                var uid = Provider.of<Auth>(
+                                                        context,
+                                                        listen: false)
+                                                    .firebaseUser!
+                                                    .uid
+                                                    .toString();
+                                                newWorker = currWorker!.copyWith(
+                                                    workExperienceworker:
+                                                        workExperience.text
+                                                            .toString());
+                                    
+                                                await Provider.of<
+                                                            WorkersProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .updateWorkers(newWorker!);
+                                                    setState(() {
+                                                currWorker = newWorker;
+                                              });
+                                              Navigator.pop(context);
+                                              };
+                                            },
+                                            child: Text("UPDATE"),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.pinkAccent),
+                                          ),
+                                        )
+                                      ]),
+                                    );
                                   });
                             });
                           }),
@@ -560,50 +621,57 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                    return Wrap(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: language,
-                                            decoration: InputDecoration(
-                                                hintText: "Language",
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20))),
+                                    return Padding(
+                                     padding: MediaQuery.of(context).viewInsets,
+                                      child: Wrap(children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              controller: language,
+                                              decoration: InputDecoration(
+                                                  hintText: "Language",
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20))),
+                                                              keyboardType:TextInputType.name,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            await Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .getFirebaseUser();
-                                            var uid = Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .firebaseUser!
-                                                .uid
-                                                .toString();
-                                            newWorker = currWorker!.copyWith(
-                                                languageworker:
-                                                    language.text.toString());
-
-                                            await Provider.of<WorkersProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .updateWorkers(newWorker!);
-                                            currWorker = newWorker;
-                                          },
-                                          child: Text("UPDATE"),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.pinkAccent),
-                                        ),
-                                      )
-                                    ]);
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              await Provider.of<Auth>(context,
+                                                      listen: false)
+                                                  .getFirebaseUser();
+                                              var uid = Provider.of<Auth>(context,
+                                                      listen: false)
+                                                  .firebaseUser!
+                                                  .uid
+                                                  .toString();
+                                              newWorker = currWorker!.copyWith(
+                                                  languageworker:
+                                                      language.text.toString());
+                                    
+                                              await Provider.of<WorkersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateWorkers(newWorker!);
+                                              setState(() {
+                                                currWorker = newWorker;
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("UPDATE"),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.pinkAccent),
+                                          ),
+                                        )
+                                      ]),
+                                    );
                                   });
                             });
                           }),

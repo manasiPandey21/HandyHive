@@ -122,456 +122,510 @@ class _UserEditProfileState extends State<UserEditProfile> {
   Widget build(BuildContext context) {
     return isLoading
         ? Center(child: CircularProgressIndicator())
-        : WillPopScope(
-            onWillPop: () async {
-              return false;
-            },
-            child: Scaffold(
-              appBar: AppBar(
-                title: Center(child: Text("My Profile")),
-                backgroundColor: Colors.pinkAccent,
-              ),
-              body: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Container(
-                    child: ListView(
-                      children: [
-                        Center(
-                          child: FutureBuilder(
-                            future: Provider.of<UsersProvider>(context,
-                                    listen: false)
-                                .getImageUrl(currUser!.uidUser.toString()),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return CircleAvatar(
-                                  radius: 60,
-                                  child:
-                                      Image.network(snapshot.data.toString()),
-                                  backgroundColor: Colors.transparent,
-                                );
-                              } else {
-                                return CircleAvatar(
-                                  radius: 60,
-                                  backgroundColor: Colors.brown,
-                                  foregroundColor: Colors.brown,
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ListTile(
-                            leading: Icon(
-                              Icons.man_2_rounded,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Name: ${currUser!.nameUser}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: Wrap(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                controller: name,
-                                                decoration: InputDecoration(
-                                                    hintText: "Name",
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20))),
-                                              ),
-                                            ),
-                                          ),
-                                          Center(
-                                            child: ElevatedButton(
-                                              onPressed: () async {
-                                                newUser = currUser!.copyWith(
-                                                  nameUser:
-                                                      name.text.toString(),
-                                                );
-                                                await Provider.of<
-                                                            UsersProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .updateUsers(newUser!);
-                                                currUser = newUser;
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("UPDATE"),
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.pinkAccent),
-                                            ),
-                                          )
-                                        ]),
-                                      );
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.man,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Age: ${currUser!.ageUser}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: age,
-                                              decoration: InputDecoration(
-                                                  hintText: "Age",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                                               keyboardType:TextInputType.number,
-                                            ),
-                                            
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              newUser = currUser!.copyWith(
-                                                  ageUser: age.text.toString());
-                                              await Provider.of<UsersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateUsers(newUser!);
-                                              currUser = newUser;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.man,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Gender: ${currUser!.genderUser}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: gender,
-                                              decoration: InputDecoration(
-                                                  hintText: "Gender",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              await Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(
-                                                      context,
-                                                      listen: false)
-                                                  .firebaseUser!
-                                                  .uid
-                                                  .toString();
-                                              newUser = currUser!.copyWith(
-                                                genderUser:
-                                                    gender.text.toString(),
-                                              );
-
-                                              await Provider.of<UsersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateUsers(newUser!);
-                                              currUser = newUser;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.phone,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text(
-                                'Mobile Number: ${currUser!.mobileNumberUser}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: mobileNo,
-                                              decoration: InputDecoration(
-                                                  hintText: "Mobile No",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                                               keyboardType:TextInputType.phone,
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              await Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(
-                                                      context,
-                                                      listen: false)
-                                                  .firebaseUser!
-                                                  .uid
-                                                  .toString();
-                                              newUser = currUser!.copyWith(
-                                                mobileNumberUser:
-                                                    mobileNo.text.toString(),
-                                              );
-
-                                              await Provider.of<UsersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateUsers(newUser!);
-                                              currUser = newUser;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.house,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text('Address: ${currUser!.addressUser}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: address,
-                                              decoration: InputDecoration(
-                                                  hintText: "Address",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              newUser = currUser!.copyWith(
-                                                addressUser:
-                                                    address.text.toString(),
-                                              );
-
-                                              await Provider.of<UsersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateUsers(newUser!);
-                                              currUser = newUser;
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                        ListTile(
-                            leading: Icon(
-                              Icons.work,
-                              color: Colors.pinkAccent,
-                            ),
-                            title: Text(
-                                'Number of people in the house:${currUser!.numberOfPeopleInhouseUser}'),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.pinkAccent,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                      ),
-                                    ),
-                                    builder: (context) {
-                                      return Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: numnerOfPeople,
-                                              decoration: InputDecoration(
-                                                  hintText:
-                                                      "Number of people in the house",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              await Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(
-                                                      context,
-                                                      listen: false)
-                                                  .firebaseUser!
-                                                  .uid
-                                                  .toString();
-                                              newUser = currUser!.copyWith(
-                                                  numberOfPeopleInhouseUser:
-                                                      numnerOfPeople.text
-                                                          .toString());
-
-                                              await Provider.of<UsersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateUsers(newUser!);
-                                              currUser = newUser;
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]);
-                                    });
-                              });
-                            }),
-                      ],
+        : Scaffold(
+          appBar: AppBar(
+            title: Center(child: Text("My Profile")),
+            backgroundColor: Colors.pinkAccent,
+          ),
+          body: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Container(
+                child: ListView(
+                  children: [
+                    Center(
+                      child: FutureBuilder(
+                        future: Provider.of<UsersProvider>(context,
+                                listen: false)
+                            .getImageUrl(currUser!.uidUser.toString()),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return CircleAvatar(
+                              radius: 60,
+                              child:
+                                  Image.network(snapshot.data.toString()),
+                              backgroundColor: Colors.transparent,
+                            );
+                          } else {
+                            return CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.brown,
+                              foregroundColor: Colors.brown,
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      ),
                     ),
-                  )),
-            ),
-          );
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ListTile(
+                        leading: Icon(
+                          Icons.man_2_rounded,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text('Name: ${currUser!.nameUser}'),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                  ),
+                                ),
+                                builder: (context) {
+                                  return Padding(
+                                    padding:
+                                        MediaQuery.of(context).viewInsets,
+                                    child: Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: name,
+                                            decoration: InputDecoration(
+                                                hintText: "Name",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(20))),
+                                                            keyboardType: TextInputType.name,
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            newUser = currUser!.copyWith(
+                                              nameUser:
+                                                  name.text.toString(),
+                                            );
+                                            await Provider.of<
+                                                        UsersProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .updateUsers(newUser!);
+                                            setState(() {
+                                                 currUser = newUser;
+                                              });
+                                         
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("UPDATE"),
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pinkAccent),
+                                        ),
+                                      )
+                                    ]),
+                                  );
+                                });
+                          });
+                        }),
+                    ListTile(
+                        leading: Icon(
+                          Icons.man,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text('Age: ${currUser!.ageUser}'),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                  ),
+                                ),
+                               builder: (context) {
+                                  return Padding(
+                                    padding:
+                                        MediaQuery.of(context).viewInsets,
+                                    child: Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: age,
+                                            decoration: InputDecoration(
+                                                hintText: "Age",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(20))),
+                                                            keyboardType:TextInputType.number,
+                                          ),
+                                          
+                                        ),
+                                      ),
+                                    Center(
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          newUser = currUser!.copyWith(
+                                              ageUser: age.text.toString());
+                                          await Provider.of<UsersProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateUsers(newUser!);
+                                              setState(() {
+                                                 currUser = newUser;
+                                              });
+                                                Navigator.pop(context);
+                                         
+                                        },
+                                        child: Text("UPDATE"),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                Colors.pinkAccent),
+                                ),
+                                      )
+                                    ]),
+                                  );
+                                });
+                          });
+                        }),
+                    ListTile(
+                        leading: Icon(
+                          Icons.man,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text('Gender: ${currUser!.genderUser}'),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                  ),
+                                ),
+                                 builder: (context) {
+                                  return Padding(
+                                    padding:
+                                        MediaQuery.of(context).viewInsets,
+                                    child: Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: gender,
+                                            decoration: InputDecoration(
+                                                hintText: "Gender",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(20))),
+                                                            keyboardType:TextInputType.name,
+                                          ),
+                                          
+                                        ),
+                                      ),
+                                    Center(
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          await Provider.of<Auth>(context,
+                                                  listen: false)
+                                              .getFirebaseUser();
+                                          var uid = Provider.of<Auth>(
+                                                  context,
+                                                  listen: false)
+                                              .firebaseUser!
+                                              .uid
+                                              .toString();
+                                          newUser = currUser!.copyWith(
+                                            genderUser:
+                                                gender.text.toString(),
+                                          );
+
+                                          await Provider.of<UsersProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateUsers(newUser!);
+                                          setState(() {
+                                                 currUser = newUser;
+                                              });
+                                           Navigator.pop(context);
+                                        },
+                                        child: Text("UPDATE"),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                Colors.pinkAccent),
+                                      ),
+                                      )
+                                    ]),
+                                  );
+                                });
+                          });
+                        }),
+                    ListTile(
+                        leading: Icon(
+                          Icons.phone,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text(
+                            'Mobile Number: ${currUser!.mobileNumberUser}'),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                  ),
+                                ),
+                                 builder: (context) {
+                                  return Padding(
+                                    padding:
+                                        MediaQuery.of(context).viewInsets,
+                                    child: Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: mobileNo,
+                                            decoration: InputDecoration(
+                                                hintText: "Mobile No",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(20))),
+                                                            keyboardType:TextInputType.phone,
+                                          ),
+                                          
+                                        ),
+                                      ),
+                                    Center(
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          await Provider.of<Auth>(context,
+                                                  listen: false)
+                                              .getFirebaseUser();
+                                          var uid = Provider.of<Auth>(
+                                                  context,
+                                                  listen: false)
+                                              .firebaseUser!
+                                              .uid
+                                              .toString();
+                                          newUser = currUser!.copyWith(
+                                            mobileNumberUser:
+                                                mobileNo.text.toString(),
+                                          );
+
+                                          await Provider.of<UsersProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateUsers(newUser!);
+                                          setState(() {
+                                                 currUser = newUser;
+                                              });
+                                                Navigator.pop(context);
+                                         
+                                        },
+                                        child: Text("UPDATE"),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                Colors.pinkAccent),
+                                      ),
+                                      )
+                                    ]),
+                                  );
+                                });
+                          });
+                        }),
+                    ListTile(
+                        leading: Icon(
+                          Icons.house,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text('Address: ${currUser!.addressUser}'),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                  ),
+                                ),
+                                 builder: (context) {
+                                  return Padding(
+                                    padding:
+                                        MediaQuery.of(context).viewInsets,
+                                    child: Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: address,
+                                            decoration: InputDecoration(
+                                                hintText: "Address",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(20))),
+                                                            keyboardType:TextInputType.streetAddress,
+                                          ),
+                                          
+                                        ),
+                                      ),
+                                    Center(
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          newUser = currUser!.copyWith(
+                                            addressUser:
+                                                address.text.toString(),
+                                          );
+
+                                          await Provider.of<UsersProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateUsers(newUser!);
+                                           setState(() {
+                                                 currUser = newUser;
+                                              });
+                                                Navigator.pop(context);
+                                         
+                                        },
+                                        child: Text("UPDATE"),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                Colors.pinkAccent),
+                                     ),
+                                      )
+                                    ]),
+                                  );
+                                });
+                          });
+                        }),
+                    ListTile(
+                        leading: Icon(
+                          Icons.work,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text(
+                            'Number of people in the house:${currUser!.numberOfPeopleInhouseUser}'),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                  ),
+                                ),
+                                builder: (context) {
+                                  return Padding(
+                                    padding:
+                                        MediaQuery.of(context).viewInsets,
+                                    child: Wrap(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: numnerOfPeople,
+                                            decoration: InputDecoration(
+                                                hintText: "Number of people in the house",
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(20))),
+                                                            keyboardType:TextInputType.number,
+                                          ),
+                                          
+                                        ),
+                                      ),
+                                    Center(
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          await Provider.of<Auth>(context,
+                                                  listen: false)
+                                              .getFirebaseUser();
+                                          var uid = Provider.of<Auth>(
+                                                  context,
+                                                  listen: false)
+                                              .firebaseUser!
+                                              .uid
+                                              .toString();
+                                          newUser = currUser!.copyWith(
+                                              numberOfPeopleInhouseUser:
+                                                  numnerOfPeople.text
+                                                      .toString());
+
+                                          await Provider.of<UsersProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateUsers(newUser!);
+                                           setState(() {
+                                                 currUser = newUser;
+                                              });
+                                              
+                                         
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("UPDATE"),
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                Colors.pinkAccent),
+                                      ),
+                                      )
+                                    ]),
+                                  );
+                                });
+                          });
+                        }),
+                  ],
+                ),
+              )),
+        );
   }
 
   // Widget ProfileImage() {

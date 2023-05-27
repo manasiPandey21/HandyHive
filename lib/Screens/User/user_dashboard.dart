@@ -271,7 +271,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/Massager.png'),
+                          icon: Image.asset('assets/Massager.jpg'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -322,7 +322,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/nurse.jpg'),
+                          icon: Image.asset('assets/nursing.png'),
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -336,23 +336,6 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         )
                       ],
                     ),
-                    // Column(
-                    //   children: [
-                    //     IconButton(
-                    //       icon: Image.asset('assets/xxx.png'),
-                    //       iconSize: 70,
-                    //       onPressed: () {
-                    //         Navigator.of(context).push(MaterialPageRoute(
-                    //           builder: (context) => UserDashBoard2("Cooking"),
-                    //         ));
-                    //       },
-                    //     ),
-                    //     Text(
-                    //       "Cooking",
-                    //       style: TextStyle(fontWeight: FontWeight.bold),
-                    //     )
-                    //   ],
-                    // ),
                   ],
                 ),
               ),
