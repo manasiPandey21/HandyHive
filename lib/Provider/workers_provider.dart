@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:handyhive/Models/users.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -7,6 +8,11 @@ import '../Models/workers.dart';
 
 class WorkersProvider with ChangeNotifier {
   List<Worker> serviceP = [];
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? firebaseUser;
+  static bool didSignOut = false;
+  static String? uid;
+
 
   get workers => null;
   Worker getWorkerById(String workerId) {
@@ -36,6 +42,21 @@ class WorkersProvider with ChangeNotifier {
     await fetchAndSetWorkers();
     notifyListeners();
   }
+  void _handleError(e) {
+    // // print(e.message);
+  }
+
+ 
+  Future<void> logout() async {
+    didSignOut = true;
+    try {
+      await FirebaseAuth.instance.signOut();
+      firebaseUser = null;
+    } catch (e) {
+      _handleError(e);
+    }
+  }
+
 
   Future<void> addWorkers(Worker t) async {
     CollectionReference collectionRef =

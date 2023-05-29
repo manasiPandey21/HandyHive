@@ -8,6 +8,11 @@ import '../Models/users.dart';
 
 class UsersProvider with ChangeNotifier {
   List<Users> usersss = [];
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? firebaseUser;
+  static bool didSignOut = false;
+  static String? uid;
+
 
   Users getUser(String uid) {
     return usersss.firstWhere((e) => e.uidUser == uid);
@@ -32,6 +37,21 @@ class UsersProvider with ChangeNotifier {
     await usersss.doc(t.uidUser).update(t.toMap()).then((_) {});
     await fetchAndSetUsers();
     notifyListeners();
+  }
+  
+  void _handleError(e) {
+    // // print(e.message);
+  }
+
+ 
+  Future<void> logout() async {
+    didSignOut = true;
+    try {
+      await FirebaseAuth.instance.signOut();
+      firebaseUser = null;
+    } catch (e) {
+      _handleError(e);
+    }
   }
 
   Future<void> addUsers(Users t) async {
