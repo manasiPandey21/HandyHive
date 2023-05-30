@@ -12,6 +12,9 @@ import '../../Provider/auth.dart';
 import 'package:handyhive/Screens/User/user_registration_page1.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../Authentication/login.dart';
+import '../OnBoardingScreen/landing_page.dart';
+
 class UserEditProfile extends StatefulWidget {
   const UserEditProfile({Key? key}) : super(key: key);
 
@@ -132,7 +135,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(
-                  child: ListView(
+                  child:
+                   ListView(
                     children: [
                       Center(
                         child: FutureBuilder(
@@ -519,15 +523,25 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   });
                             });
                           }),
+                          SizedBox(height: 20,),
+                          ElevatedButton(onPressed: () async {
+                             await Provider.of<Auth>(context, listen: false).logout();
+
+                              Navigator.pushAndRemoveUntil(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return Login();
+                              }), (route) => false);
+                          }, child: Text("Log Out"),
+                          style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.pinkAccent),)
                     ],
                   ),
+                  
+                  
                 )),
           );
   }
-
-  // Widget ProfileImage() {
-  //   return ;
-  // }
 
   Widget BottomSheet() {
     return Container(
