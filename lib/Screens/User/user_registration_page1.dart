@@ -65,6 +65,10 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
 
   @override
   Widget build(BuildContext context) {
+     final authProvider = Provider.of<Auth>(context);
+    final usersProvider = Provider.of<UsersProvider>(context);
+    final firebaseUser = authProvider.firebaseUser;
+
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -147,6 +151,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                 ),
               ),
             ),
+          
         
             Container(
               height: 60,
@@ -232,8 +237,8 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                     uidUser: uid.toString(),
                     nameUser: name.text,
                     ageUser: age.text,
-                    genderUser: gender.text,
-                    mobileNumberUser: mobileNo.text,
+                    genderUser: selectedGender,
+                    mobileNumberUser:firebaseUser!.phoneNumber!.toString(),
                     addressUser: address.text,
                     numberOfPeopleInhouseUser: numnerOfPeople.text,
                     religionUser: religion.text,

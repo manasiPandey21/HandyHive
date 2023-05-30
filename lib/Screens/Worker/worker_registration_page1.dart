@@ -66,6 +66,8 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<Auth>(context);
+    final firebaseUser = authProvider.firebaseUser;
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -150,24 +152,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                 ),
               ),
             ),
-            Container(
-              height: 60,
-              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.grey),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              margin: EdgeInsets.all(10),
-              child: TextField(
-                controller: mobileNo,
-                decoration: InputDecoration(
-                  labelText: "MOBILE NO.",
-                  // hintText: "9555181663",
-                  border: InputBorder.none,
-                ),
-                 keyboardType: TextInputType.phone,
-              ),
-            ),
+            
             Container(
               height: 60,
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -299,7 +284,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                     nameWorkers: name.text,
                     ageworker: age.text,
                     genderworker: gender.text,
-                    mobileNoworker: mobileNo.text,
+                    mobileNoworker: firebaseUser!.phoneNumber!.toString(),
                     maritalStatusworker: maritalStatus.text,
                     religionworker: religion.text,
                     monthlyIncomeworker: monthlyIncome.text,

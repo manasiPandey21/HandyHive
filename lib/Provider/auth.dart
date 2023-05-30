@@ -24,6 +24,10 @@ class Auth with ChangeNotifier {
     return user == null ? false : true;
   }
 
+  static void userPhoneNumber() {
+    var phoneNumberUser = FirebaseAuth.instance.currentUser!.phoneNumber;
+  }
+
   static void setUid() {
     uid = FirebaseAuth.instance.currentUser!.uid.toString();
   }

@@ -1,5 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/auth.dart';
@@ -17,6 +21,15 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
   Worker? newWorker;
   bool _isInit = true;
   bool isLoading = true;
+  final picker = ImagePicker();
+  
+  var _image;
+  var imageUrl;
+  var imagePicker;
+  final _firebaseStorage = FirebaseStorage.instance;
+  List<String> genderOptions = ['Men', 'Women', 'Others'];
+  String selectedGender = 'Men';
+
 
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
@@ -53,6 +66,59 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
     }
     _isInit = false;
   }
+     uploadImage() async {
+    final _firebaseStorage = FirebaseStorage.instance;
+    final imagePicker = ImagePicker();
+
+    await Permission.photos.request();
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      var image = await imagePicker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+      );
+      setState(() {
+        //  _image = File(image!.path);
+      });
+      var uid = Provider.of<Auth>(context, listen: false)
+          .firebaseUser!
+          .uid
+          .toString();
+      if (_image != null) {
+        var snapshot = await _firebaseStorage
+            .ref()
+            .child('service_providerImages/$uid')
+            .putFile(_image);
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        if (mounted) {
+          setState(() {
+            imageUrl = downloadUrl;
+          });
+        }
+      }
+    }
+  }
+   Future getImageFromGallery() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = pickedFile;
+      }
+    });
+  }
+
+  //Image Picker function to get image from camera
+  Future getImageFromCamera() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = pickedFile;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +134,31 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                 child: Container(
                   child: ListView(
                     children: [
-                      CircleAvatar(
-                        radius: 60,
+                      
+                      Center(
+                        child: FutureBuilder(
+                          future:
+                              Provider.of<WorkersProvider>(context, listen: false)
+                                  .getImageUrl(currWorker!.uidWorkers.toString()),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return CircleAvatar(
+                                radius: 60,
+                                backgroundImage: CachedNetworkImageProvider(
+                                  snapshot.data.toString(),
+                                ),
+                                backgroundColor: Colors.transparent,
+                              );
+                            } else {
+                              return CircleAvatar(
+                                radius: 60,
+                                backgroundColor: Colors.brown,
+                                foregroundColor: Colors.brown,
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 20,
@@ -280,165 +369,73 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     });
                               });
                             }),
-                      ListTile(
-                          leading: Icon(
-                            Icons.man,
-                            color: Colors.pinkAccent,
-                          ),
-                          title: Text('Gender: ${currWorker!.genderworker}'),
-                          trailing: Icon(
-                            Icons.edit,
-                            color: Colors.pinkAccent,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              showModalBottomSheet(
-                                  context: context,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30.0),
-                                      topRight: Radius.circular(30.0),
-                                    ),
-                                  ),
-                                  builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: Wrap(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                controller: gender,
-                                                decoration: InputDecoration(
-                                                    hintText: "Gender",
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20))),
-                                                                keyboardType:TextInputType.name,
-                                              ),
-                                              
-                                            ),
-                                          ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            await Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .getFirebaseUser();
-                                            var uid = Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .firebaseUser!
-                                                .uid
-                                                .toString();
-                                            newWorker = currWorker!.copyWith(
-                                              genderworker:
-                                                  gender.text.toString(),
-                                            );
-
-                                            await Provider.of<WorkersProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .updateWorkers(newWorker!);
-                                            setState(() {
-                                              currWorker = newWorker;
-                                            });
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text("UPDATE"),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.pinkAccent),
-                                        ),
-                                          )
-                                        ]),
-                                      );
+                     ListTile(
+                        leading: Icon(
+                          Icons.man,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text('Gender: ${currWorker!.genderworker}'),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Select Gender'),
+                                content: DropdownButtonFormField<String>(
+                                  value: selectedGender,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedGender = newValue!;
                                     });
-                              });
-                            }),
-                      ListTile(
+                                  },
+                                  items: genderOptions
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      newWorker = currWorker!.copyWith(
+                                        genderworker: selectedGender,
+                                      );
+
+                                      await Provider.of<WorkersProvider>(context,
+                                              listen: false)
+                                          .updateWorkers(newWorker!);
+                                      setState(() {
+                                        currWorker = newWorker;
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("UPDATE"),
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.pinkAccent),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                       ListTile(
                           leading: Icon(
                             Icons.phone,
                             color: Colors.pinkAccent,
                           ),
                           title: Text(
                               'Mobile Number: ${currWorker!.mobileNoworker}'),
-                          trailing: Icon(
-                            Icons.edit,
-                            color: Colors.pinkAccent,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              showModalBottomSheet(
-                                  context: context,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30.0),
-                                      topRight: Radius.circular(30.0),
-                                    ),
-                                  ),
-                                  builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: Wrap(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                controller: mobileNo,
-                                                decoration: InputDecoration(
-                                                    hintText: "Mobile No",
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20))),
-                                                                keyboardType:TextInputType.phone,
-                                              ),
-                                              
-                                            ),
-                                          ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            await Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .getFirebaseUser();
-                                            var uid = Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .firebaseUser!
-                                                .uid
-                                                .toString();
-                                            newWorker = currWorker!.copyWith(
-                                              mobileNoworker:
-                                                  mobileNo.text.toString(),
-                                            );
-
-                                            await Provider.of<WorkersProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .updateWorkers(newWorker!);
-                                           setState(() {
-                                              currWorker = newWorker;
-                                            });
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text("UPDATE"),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.pinkAccent),
-                                                   ),
-                                          )
-                                        ]),
-                                      );
-                                    });
-                              });
-                            }),
+                          
+                          onTap: () {}),
+                     
                                        
                       ListTile(
                           leading: Icon(
