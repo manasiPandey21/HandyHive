@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Provider/auth.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
@@ -41,7 +42,6 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                       .toString();
                   currUser = Provider.of<UsersProvider>(context, listen: false)
                       .getUser(uid.toString());
-                  print("mil ja yar"+currUser.toString());
                   isLoading = false;
                 });
               }));
@@ -111,7 +111,13 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                               .getImageUrl(widget.workerId.toString()),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              return Image.network(snapshot.data.toString());
+                                return CircleAvatar(
+                                radius: 60,
+                                backgroundImage: CachedNetworkImageProvider(
+                                  snapshot.data.toString(),
+                                ),
+                                backgroundColor: Colors.transparent,
+                              );
                             } else if (snapshot.hasError) {
                               return Icon(Icons.error);
                             } else {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyhive/Screens/User/chatpage_user.dart';
 import 'package:handyhive/Screens/User/user_dashboard2.dart';
 import 'package:handyhive/Screens/User/user_edit_profile.dart';
 
@@ -18,6 +19,10 @@ class _UserDashBoardState extends State<UserDashBoard> {
     setState(() {
       currentIndex = index;
     });
+    if (index == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ChatPageUser()));
+    }
     if (index == 3) {
       Navigator.push(
         context,
@@ -213,7 +218,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 60,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("Clothes Cleaning"),
+                              builder: (context) =>
+                                  UserDashBoard2("Clothes Cleaning"),
                             ));
                           },
                         ),
@@ -292,7 +298,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           iconSize: 70,
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserDashBoard2("BabySitter"),
+                              builder: (context) =>
+                                  UserDashBoard2("BabySitter"),
                             ));
                           },
                         ),
