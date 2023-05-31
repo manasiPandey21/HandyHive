@@ -108,7 +108,6 @@ class MyApp extends StatelessWidget {
                 "work page": ((context) => WorkerRegistrationPage2()), //done
                 "Profile page": (context) => WorkerRegistrationPage1(),
                 "phone": (context) => Login(), //done
-                "otp": (context) => MyOtp(), //done
                 "LandingPage": (context) => LandingPage(),
                 "dashboard1": ((context) => WorkerDashBoard()),
                 "boarding1": (context) => OnboardingFirst(), //done
@@ -134,7 +133,7 @@ class MyApp extends StatelessWidget {
         return Login();
       // break;
       case 0:
-        return Login();
+        return WelcomePage();
       // break;
       case 1:
         return UserDashBoard();

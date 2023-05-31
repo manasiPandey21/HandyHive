@@ -52,38 +52,41 @@ class _LoginState extends State<Login> {
                   height: 30,
                 ),
                 Container(
-  padding: EdgeInsets.all(10),
-  height: 50,
-  decoration: BoxDecoration(
-    border: Border.all(width: 1, color: Colors.grey),
-    borderRadius: BorderRadius.circular(10),
-  ),
-  child: Row(
-    crossAxisAlignment: CrossAxisAlignment.baseline, // or CrossAxisAlignment.center
-    textBaseline: TextBaseline.alphabetic, // or TextBaseline.ideographic
-    children: [
-      Icon(Icons.phone),
-      SizedBox(width: 10),
-      Expanded(
-        child: TextFormField(
-          controller: phone,
-          keyboardType: TextInputType.phone,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: "Enter your phone number",
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please enter a mobile number";
-            }
-            return validatePhoneNumber(value);
-          },
-        ),
-      ),
-    ],
-  ),
-),
-               
+                  padding: EdgeInsets.all(10),
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment
+                        .baseline, // or CrossAxisAlignment.center
+                    textBaseline:
+                        TextBaseline.ideographic, // or TextBaseline.ideographic
+                    children: [
+                      Icon(Icons.phone),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: TextFormField(
+                          controller: phone,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter your phone number",
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter a mobile number";
+                            } else if (value.length != 10) {
+                              return "Please enter a valid Mobile number";
+                            }
+                            // return validatePhoneNumber(value);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
