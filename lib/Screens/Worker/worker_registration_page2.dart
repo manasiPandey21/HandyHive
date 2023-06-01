@@ -28,17 +28,17 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
   Map<String, bool> selectedValues = {};
   List<Map<String, dynamic>> categories = [
     {"name": "Utensils Cleaning", "isChecked": false},
-     {"name": "Clothes Cleaning", "isChecked": false},
+    {"name": "Clothes Cleaning", "isChecked": false},
     {"name": "Sweeping", "isChecked": false},
     {"name": "Cooking", "isChecked": false},
-     {"name": "Brooming", "isChecked": false},
+    {"name": "Brooming", "isChecked": false},
     {"name": "Gardening", "isChecked": false},
     {"name": "Elderly Care", "isChecked": false},
     {"name": "BabySitter", "isChecked": false},
     {"name": "Massager", "isChecked": false},
-     {"name": "Ironing", "isChecked": false},
-      {"name": "Driver", "isChecked": false},
-       {"name": "nurse", "isChecked": false},
+    {"name": "Ironing", "isChecked": false},
+    {"name": "Driver", "isChecked": false},
+    {"name": "nurse", "isChecked": false},
   ];
 
   List<Service> selectedServices = [];
@@ -71,7 +71,7 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? CircularProgressIndicator()
+        ? Center(child: CircularProgressIndicator())
         : WillPopScope(
             onWillPop: () async {
               return false;
@@ -183,11 +183,10 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
                             .updateWorkers(newWorker!);
                         currWorker = newWorker;
 
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => WorkerDashBoard(),
-                          ),
-                        );
+                        Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) {
+                          return WorkerDashBoard();
+                        }), (route) => false);
                       },
                       child: Text("Submit"),
                       style: ElevatedButton.styleFrom(

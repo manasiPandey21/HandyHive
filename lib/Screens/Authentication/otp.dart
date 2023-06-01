@@ -12,7 +12,8 @@ import '../User/user_dashboard.dart';
 import '../Worker/worker_dashboard.dart';
 
 class MyOtp extends StatefulWidget {
-  const MyOtp({Key? key});
+  String phone;
+  MyOtp(this.phone);
 
   @override
   State<MyOtp> createState() => _MyOtpState();
@@ -66,7 +67,7 @@ class _MyOtpState extends State<MyOtp> {
                   style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
-                Text("Enter the OTP sent to +91-95551663"),
+                Text("Enter the OTP sent to ${widget.phone}"),
                 SizedBox(height: 20),
                 OtpTextField(
                   numberOfFields: 6,

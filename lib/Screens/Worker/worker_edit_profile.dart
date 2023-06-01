@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../Provider/auth.dart';
 import '../../Provider/workers_provider.dart';
+import '../Authentication/login.dart';
 
 class WorkerEditProfile extends StatefulWidget {
   const WorkerEditProfile({super.key});
@@ -672,6 +673,22 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                   });
                             });
                           }),
+                          SizedBox(height: 20,),
+                          Container(
+                            margin: EdgeInsets.only(left: 140,right: 140),
+                            child: ElevatedButton(onPressed: () async {
+                               await Provider.of<Auth>(context, listen: false).logout();
+                          
+                          
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return Login();
+                                }), (route) => false);
+                            }, child: Text("Log Out"),
+                            style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Colors.pinkAccent),),
+                          )
                     ],
                   ),
                 )));

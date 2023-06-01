@@ -37,7 +37,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
     {
       return Scaffold(
           appBar: AppBar(
-            title: Text("DashBoard"),
+            title: Center(child: Text("DashBoard")),
             backgroundColor: Colors.pinkAccent,
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -95,45 +95,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("sort"),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pinkAccent),
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text("filter"),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pinkAccent),
-                      )),
-                  Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text("rating"),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pinkAccent),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("experience"),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pinkAccent),
-                    ),
-                  )
-                ],
-              ),
+          
               SizedBox(
                 height: 50,
               ),

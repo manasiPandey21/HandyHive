@@ -65,7 +65,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
 
   @override
   Widget build(BuildContext context) {
-     final authProvider = Provider.of<Auth>(context);
+    final authProvider = Provider.of<Auth>(context);
     final usersProvider = Provider.of<UsersProvider>(context);
     final firebaseUser = authProvider.firebaseUser;
 
@@ -120,7 +120,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                   //   hintText: "19",
                   border: InputBorder.none,
                 ),
-                keyboardType:TextInputType.number,
+                keyboardType: TextInputType.number,
               ),
             ),
             Container(
@@ -151,8 +151,6 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                 ),
               ),
             ),
-          
-        
             Container(
               height: 60,
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -185,7 +183,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                   // hintText: "unmarried",
                   border: InputBorder.none,
                 ),
-                 keyboardType:TextInputType.number,
+                keyboardType: TextInputType.number,
               ),
             ),
             Container(
@@ -220,58 +218,61 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                   // hintText: "Manasi",
                   border: InputBorder.none,
                 ),
-                 keyboardType:TextInputType.number,
+                keyboardType: TextInputType.number,
               ),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await Provider.of<Auth>(context, listen: false)
-                    .getFirebaseUser();
-                String uid = Provider.of<Auth>(context, listen: false)
-                    .firebaseUser!
-                    .uid
-                    .toString();
-                Map<String, String> acceptedRequests = Map<String, String>();
-                Provider.of<UsersProvider>(context, listen: false).addUsers(
-                  Users(
-                    uidUser: uid.toString(),
-                    nameUser: name.text,
-                    ageUser: age.text,
-                    genderUser: selectedGender,
-                    mobileNumberUser:firebaseUser!.phoneNumber!.toString(),
-                    addressUser: address.text,
-                    numberOfPeopleInhouseUser: numnerOfPeople.text,
-                    religionUser: religion.text,
-                    acceptedRequests: acceptedRequests,
-                  ),
-                );
-                uid = Provider.of<Auth>(context, listen: false)
-                    .firebaseUser!
-                    .uid
-                    .toString();
-                if (_image != null) {
-                  var snapshot = await _firebaseStorage
-                      .ref()
-                      .child('UserImages/$uid')
-                      .putFile(_image);
-                  var downloadUrl = await snapshot.ref.getDownloadURL();
-                  if (mounted) {
-                    setState(() {
-                      imageUrl = downloadUrl;
-                    });
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Provider.of<Auth>(context, listen: false)
+                      .getFirebaseUser();
+                  String uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  Map<String, String> acceptedRequests = Map<String, String>();
+                  Provider.of<UsersProvider>(context, listen: false).addUsers(
+                    Users(
+                      uidUser: uid.toString(),
+                      nameUser: name.text,
+                      ageUser: age.text,
+                      genderUser: selectedGender,
+                      mobileNumberUser: firebaseUser!.phoneNumber!.toString(),
+                      addressUser: address.text,
+                      numberOfPeopleInhouseUser: numnerOfPeople.text,
+                      religionUser: religion.text,
+                      acceptedRequests: acceptedRequests,
+                    ),
+                  );
+                  uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  if (_image != null) {
+                    var snapshot = await _firebaseStorage
+                        .ref()
+                        .child('UserImages/$uid')
+                        .putFile(_image);
+                    var downloadUrl = await snapshot.ref.getDownloadURL();
+                    if (mounted) {
+                      setState(() {
+                        imageUrl = downloadUrl;
+                      });
+                    }
                   }
-                }
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const UserDashBoard(),
-                  ),
-                );
-              },
-              child: Text("Submit"),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pinkAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40))),
+
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (context) {
+                    return UserDashBoard();
+                  }), (route) => false);
+                },
+                child: Text("Submit"),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pinkAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40))),
+              ),
             )
           ],
         )),
@@ -287,7 +288,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
             radius: 80,
             backgroundImage: _image != null
                 ? FileImage(File(_image!.path))
-                : AssetImage("assets/mansi.jpeg") as ImageProvider,
+                : AssetImage("assets/profileImage.png") as ImageProvider,
           ),
           Positioned(
             bottom: 20,

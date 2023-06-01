@@ -70,22 +70,18 @@ class Auth with ChangeNotifier {
     // print(phoneNumber);
 
     void verificationCompleted(AuthCredential phoneAuthCredential) {
-      // print('verificationCompleted');
       this._phoneAuthCredential = phoneAuthCredential;
-      // print(phoneAuthCredential);
     }
 
     void verificationFailed(FirebaseAuthException error) {
       // print("handle error in otp verification");
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => LandingPage()));
-
-      // print('verificationFailed');
       _handleError(error);
     }
 
     void codeSent(String verificationId, code) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MyOtp()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MyOtp(phone)));
       this._verificationId = verificationId;
       this._code = code;
     }

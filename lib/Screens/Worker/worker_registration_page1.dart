@@ -10,7 +10,6 @@ import '../../Provider/auth.dart';
 import '../../Provider/workers_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-
 class WorkerRegistrationPage1 extends StatefulWidget {
   const WorkerRegistrationPage1({super.key});
 
@@ -38,7 +37,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
   TextEditingController workExperience = new TextEditingController();
   TextEditingController language = new TextEditingController();
   List<String> genderOptions = ['Men', 'Women', 'Others'];
-  String selectedGender = 'Men'; 
+  String selectedGender = 'Men';
   List<String> MarriageOptions = ['Married', 'Unmarried', 'Prefer Not to tell'];
   String selectedOption = 'Married'; // Default selection
 
@@ -152,7 +151,6 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                 ),
               ),
             ),
-            
             Container(
               height: 60,
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -185,8 +183,8 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                     selectedOption = newValue!;
                   });
                 },
-                items:
-                    MarriageOptions.map<DropdownMenuItem<String>>((String value) {
+                items: MarriageOptions.map<DropdownMenuItem<String>>(
+                    (String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -198,7 +196,6 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                 ),
               ),
             ),
-            
             Container(
               height: 60,
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -231,7 +228,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                   // hintText: "Manasi",
                   border: InputBorder.none,
                 ),
-                 keyboardType: TextInputType.number,
+                keyboardType: TextInputType.number,
               ),
             ),
             Container(
@@ -249,7 +246,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                   // hintText: "Manasi",
                   border: InputBorder.none,
                 ),
-                 keyboardType: TextInputType.number,
+                keyboardType: TextInputType.number,
               ),
             ),
             Container(
@@ -269,60 +266,65 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await Provider.of<Auth>(context, listen: false)
-                    .getFirebaseUser();
-                String uid = Provider.of<Auth>(context, listen: false)
-                    .firebaseUser!
-                    .uid
-                    .toString();
-                Map<String, String> request = Map<String, String>();
-                Provider.of<WorkersProvider>(context, listen: false).addWorkers(
-                  Worker(
-                    uidWorkers: uid.toString(),
-                    nameWorkers: name.text,
-                    ageworker: age.text,
-                    genderworker: gender.text,
-                    mobileNoworker: firebaseUser!.phoneNumber!.toString(),
-                    maritalStatusworker: maritalStatus.text,
-                    religionworker: religion.text,
-                    monthlyIncomeworker: monthlyIncome.text,
-                    workExperienceworker: workExperience.text,
-                    addressWorker: address.text,
-                    languageworker: language.text,
-                    service: [],
-                    requests: request,
-                  ),
-                );
-                uid = Provider.of<Auth>(context, listen: false)
-                    .firebaseUser!
-                    .uid
-                    .toString();
-                if (_image != null) {
-                  var snapshot = await _firebaseStorage
-                      .ref()
-                      .child('service_providerImages/$uid')
-                      .putFile(_image);
-                  var downloadUrl = await snapshot.ref.getDownloadURL();
-                  if (mounted) {
-                    setState(() {
-                      imageUrl = downloadUrl;
-                    });
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Provider.of<Auth>(context, listen: false)
+                      .getFirebaseUser();
+                  String uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  Map<String, String> request = Map<String, String>();
+                  Provider.of<WorkersProvider>(context, listen: false)
+                      .addWorkers(
+                    Worker(
+                      uidWorkers: uid.toString(),
+                      nameWorkers: name.text,
+                      ageworker: age.text,
+                      genderworker: gender.text,
+                      mobileNoworker: firebaseUser!.phoneNumber!.toString(),
+                      maritalStatusworker: maritalStatus.text,
+                      religionworker: religion.text,
+                      monthlyIncomeworker: monthlyIncome.text,
+                      workExperienceworker: workExperience.text,
+                      addressWorker: address.text,
+                      languageworker: language.text,
+                      service: [],
+                      requests: request,
+                    ),
+                  );
+                  uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  if (_image != null) {
+                    var snapshot = await _firebaseStorage
+                        .ref()
+                        .child('service_providerImages/$uid')
+                        .putFile(_image);
+                    var downloadUrl = await snapshot.ref.getDownloadURL();
+                    if (mounted) {
+                      setState(() {
+                        imageUrl = downloadUrl;
+                      });
+                    }
                   }
-                }
 
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const WorkerRegistrationPage2(),
-                  ),
-                );
-              },
-              child: Text("Submit"),
-              style: ElevatedButton.styleFrom(
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (context) {
+                    return WorkerRegistrationPage2();
+                  }), (route) => false);
+                },
+                child: Text("Submit"),
+                style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pinkAccent,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40))),
+                      borderRadius: BorderRadius.circular(40)),
+                ),
+              ),
             )
           ],
         )),
@@ -338,7 +340,7 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
             radius: 80,
             backgroundImage: _image != null
                 ? FileImage(File(_image!.path))
-                : AssetImage("assets/mansi.jpeg") as ImageProvider,
+                : AssetImage("assets/profileImage.png") as ImageProvider,
           ),
           Positioned(
             bottom: 20,

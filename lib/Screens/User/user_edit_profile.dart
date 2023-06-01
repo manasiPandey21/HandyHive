@@ -14,6 +14,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import '../Authentication/login.dart';
 import '../OnBoardingScreen/landing_page.dart';
+import 'package:editable_image/editable_image.dart';
 
 class UserEditProfile extends StatefulWidget {
   const UserEditProfile({Key? key}) : super(key: key);
@@ -85,6 +86,13 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   isLoading = false;
                 });
               }));
+              name.text = currUser!.nameUser;
+    age.text = currUser!.ageUser;
+    gender.text = currUser!.genderUser;
+    mobileNo.text = currUser!.mobileNumberUser;
+    address.text = currUser!.addressUser;
+    numnerOfPeople.text = currUser!.numberOfPeopleInhouseUser;
+    religion.text = currUser!.religionUser;
     }
     _isInit = false;
   }
@@ -524,17 +532,20 @@ class _UserEditProfileState extends State<UserEditProfile> {
                             });
                           }),
                           SizedBox(height: 20,),
-                          ElevatedButton(onPressed: () async {
-                             await Provider.of<Auth>(context, listen: false).logout();
-
-                              Navigator.pushAndRemoveUntil(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return Login();
-                              }), (route) => false);
-                          }, child: Text("Log Out"),
-                          style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),)
+                          Container(
+                             margin: EdgeInsets.only(left: 140,right: 140),
+                            child: ElevatedButton(onPressed: () async {
+                               await Provider.of<Auth>(context, listen: false).logout();
+                          
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return Login();
+                                }), (route) => false);
+                            }, child: Text("Log Out"),
+                            style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Colors.pinkAccent),),
+                          )
                     ],
                   ),
                   
