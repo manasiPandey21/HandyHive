@@ -1,6 +1,5 @@
 # handyhive
-
-A new Flutter project.
+THIS FLUTTER PROJECT IS CREATED FOR FINDING MAIDS INCLUDING COOK,NURSR,DRIVER...
 
 ## Getting Started
 
