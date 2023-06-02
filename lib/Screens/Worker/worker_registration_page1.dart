@@ -266,10 +266,9 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                 ),
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: ElevatedButton(
+          
+             
+               ElevatedButton(
                 onPressed: () async {
                   await Provider.of<Auth>(context, listen: false)
                       .getFirebaseUser();
@@ -318,14 +317,18 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                     return WorkerRegistrationPage2();
                   }), (route) => false);
                 },
-                child: Text("Submit"),
+                child: Container(
+                  child: Text("Submit"),
+                  width: MediaQuery.of(context).size.width / 2,
+                    height: MediaQuery.of(context).size.height/20,),
+                
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pinkAccent,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40)),
                 ),
               ),
-            )
+            
           ],
         )),
       ),
