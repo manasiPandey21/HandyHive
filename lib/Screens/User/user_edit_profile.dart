@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,11 +51,23 @@ class _UserEditProfileState extends State<UserEditProfile> {
   Future getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = pickedFile;
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+
+      var uid = Provider.of<Auth>(context, listen: false)
+          .firebaseUser!
+          .uid
+          .toString();
+
+      var snapshot =
+          await _firebaseStorage.ref().child('UserImages/$uid').putFile(_image);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      if (mounted) {
+        setState(() {
+          imageUrl = downloadUrl;
+        });
       }
-    });
+    }
   }
 
   //Image Picker function to get image from camera
@@ -62,9 +76,20 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
     setState(() {
       if (pickedFile != null) {
-        _image = pickedFile;
+        _image = File(pickedFile.path);
       }
     });
+    var uid = currUser!.uidUser;
+    if (_image != null) {
+      var snapshot =
+          await _firebaseStorage.ref().child('UserImages/$uid').putFile(_image);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      if (mounted) {
+        setState(() {
+          imageUrl = downloadUrl;
+        });
+      }
+    }
   }
 
   @override
@@ -86,49 +111,15 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   isLoading = false;
                 });
               }));
-              name.text = currUser!.nameUser;
-    age.text = currUser!.ageUser;
-    gender.text = currUser!.genderUser;
-    mobileNo.text = currUser!.mobileNumberUser;
-    address.text = currUser!.addressUser;
-    numnerOfPeople.text = currUser!.numberOfPeopleInhouseUser;
-    religion.text = currUser!.religionUser;
+      name.text = currUser!.nameUser;
+      age.text = currUser!.ageUser;
+      gender.text = currUser!.genderUser;
+      mobileNo.text = currUser!.mobileNumberUser;
+      address.text = currUser!.addressUser;
+      numnerOfPeople.text = currUser!.numberOfPeopleInhouseUser;
+      religion.text = currUser!.religionUser;
     }
     _isInit = false;
-  }
-
-  uploadImage() async {
-    final _firebaseStorage = FirebaseStorage.instance;
-    final imagePicker = ImagePicker();
-
-    await Permission.photos.request();
-    var permissionStatus = await Permission.photos.status;
-
-    if (permissionStatus.isGranted) {
-      var image = await imagePicker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 50,
-      );
-      setState(() {
-        //  _image = File(image!.path);
-      });
-      var uid = Provider.of<Auth>(context, listen: false)
-          .firebaseUser!
-          .uid
-          .toString();
-      if (_image != null) {
-        var snapshot = await _firebaseStorage
-            .ref()
-            .child('UserImages/$uid')
-            .putFile(_image);
-        var downloadUrl = await snapshot.ref.getDownloadURL();
-        if (mounted) {
-          setState(() {
-            imageUrl = downloadUrl;
-          });
-        }
-      }
-    }
   }
 
   @override
@@ -143,33 +134,38 @@ class _UserEditProfileState extends State<UserEditProfile> {
             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(
-                  child:
-                   ListView(
+                  child: ListView(
                     children: [
                       Center(
-                        child: FutureBuilder(
-                          future:
-                              Provider.of<UsersProvider>(context, listen: false)
+                        child: GestureDetector(
+                            child: FutureBuilder(
+                              future: Provider.of<UsersProvider>(context,
+                                      listen: false)
                                   .getImageUrl(currUser!.uidUser.toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return CircleAvatar(
-                                radius: 60,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  snapshot.data.toString(),
-                                ),
-                                backgroundColor: Colors.transparent,
-                              );
-                            } else {
-                              return CircleAvatar(
-                                radius: 60,
-                                backgroundColor: Colors.brown,
-                                foregroundColor: Colors.brown,
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                          },
-                        ),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return CircleAvatar(
+                                    radius: 60,
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      snapshot.data.toString(),
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                  );
+                                } else {
+                                  return CircleAvatar(
+                                    radius: 60,
+                                    backgroundColor: Colors.brown,
+                                    foregroundColor: Colors.brown,
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                            ),
+                            onTap: () => {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: ((builder) => BottomSheet()))
+                                }),
                       ),
                       SizedBox(
                         height: 20,
@@ -375,7 +371,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
                           ),
                           title: Text(
                               'Mobile Number: ${currUser!.mobileNumberUser}'),
-                          
                           onTap: () {}),
                       ListTile(
                           leading: Icon(
@@ -531,25 +526,28 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   });
                             });
                           }),
-                          SizedBox(height: 20,),
-                          Container(
-                             margin: EdgeInsets.only(left: 140,right: 140),
-                            child: ElevatedButton(onPressed: () async {
-                               await Provider.of<Auth>(context, listen: false).logout();
-                          
-                                Navigator.pushAndRemoveUntil(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return Login();
-                                }), (route) => false);
-                            }, child: Text("Log Out"),
-                            style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.pinkAccent),),
-                          )
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 140, right: 140),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await Provider.of<Auth>(context, listen: false)
+                                .logout();
+
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(builder: (context) {
+                              return Login();
+                            }), (route) => false);
+                          },
+                          child: Text("Log Out"),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pinkAccent),
+                        ),
+                      )
                     ],
                   ),
-                  
-                  
                 )),
           );
   }
@@ -573,7 +571,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
             ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.pinkAccent),
-                onPressed: () {
+                onPressed: () async {
                   getImageFromCamera();
                 },
                 icon: Icon(Icons.camera_alt),
@@ -584,7 +582,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
             ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.pinkAccent),
-                onPressed: () {
+                onPressed: () async {
                   getImageFromGallery();
                 },
                 icon: Icon(Icons.image),
