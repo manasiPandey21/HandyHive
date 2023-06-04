@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,7 +16,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Container(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home:Container(
+      
         decoration: BoxDecoration(
           color: Colors.white,
         ),
@@ -24,10 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
           margin: EdgeInsets.only(left: 30, right: 30),
           alignment: Alignment.center,
           child: Image.asset(
-            "assets/images/logoanimation.gif",
-            height: height / 4.5,
-            width: width / 2,
+            
+            "assets/logocircle.gif",
+            height: height / 7.5,
+            width: width / 3.5,
           ),
-        )));
+        ))));
   }
 }

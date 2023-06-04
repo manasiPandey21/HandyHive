@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Provider/users_provider.dart';
+import 'package:handyhive/Screens/Common/splashScreen.dart';
 import 'package:handyhive/Screens/OnBoardingScreen/onboarding_screen1.dart';
 import 'package:handyhive/Screens/User/user_registration_page1.dart';
 import 'package:provider/provider.dart';
@@ -83,7 +84,7 @@ class MyApp extends StatelessWidget {
       future: Init.instance.initialize(context),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return MaterialApp(home: OnboardingFirst());
+          return MaterialApp(home: SplashScreen());
         } else {
           return MultiProvider(
             providers: [

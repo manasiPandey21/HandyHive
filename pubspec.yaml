@@ -50,6 +50,7 @@ dependencies:
   url_launcher: ^6.1.11
   fluttertoast: ^8.2.2
   editable_image: ^2.0.0
+  animated_splash_screen: ^1.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

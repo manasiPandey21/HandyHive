@@ -87,20 +87,26 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
     final worker = workersProvider.getWorkerById(widget.workerId);
 
     return isLoading
-        ? CircularProgressIndicator()
+        ? Builder(
+          builder: (context) {
+            return CircularProgressIndicator();
+          }
+        )
         : Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.pinkAccent,
               title: Center(child: Text('Service Provider Details')),
             ),
             body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Card(
-                  shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Column(children: [
-                    Row(children: [
+              child: Container(
+               height: MediaQuery.of(context).size.height,
+               
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Card(
+                    shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Column(children: [
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(18.0),
@@ -130,68 +136,95 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              'Name: ${worker.nameWorkers ?? ""}',
-                            ),
-                            Text('Age: ${worker.ageworker ?? ""}'),
-                            Text('Address: ${worker.addressWorker ?? ""}'),
-                            Text(
-                                'WorkExperience:${worker.workExperienceworker ?? ""}'),
-                            Text('Gender:${worker.genderworker ?? ""}'),
-                            Text('Religion: ${worker.religionworker ?? ""}'),
-                            Text('Language: ${worker.languageworker ?? ""}'),
-                            Text(
-                                'MonthlyIncome:${worker.monthlyIncomeworker ?? ""}'),
-                            SizedBox(height: 60),
-                          ],
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Expanded(
+                          
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                           
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                             
+                              Text(
+                                'Name',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                '${worker.nameWorkers ?? ""}',
+                              ),
+                              Divider(thickness: 1),
+                              Text('Age', style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10),
+                              Text('${worker.ageworker ?? ""}'),
+                               Divider(thickness: 1),
+                              Text('Address', style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10),
+                              Text('${worker.addressWorker ?? ""}'),
+                               Divider(thickness: 1),
+                              Text('WorkExperience', style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10),
+                               Text('${worker.workExperienceworker ?? ""}'),
+                                   Divider(thickness: 1),
+                              Text('Gender', style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10),
+                              Text('${worker.genderworker ?? ""}'),
+                               Divider(thickness: 1),
+                              Text('Religion', style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10),
+                              Text(' ${worker.religionworker ?? ""}'),
+                               Divider(thickness: 1),
+                              Text('Language: ', style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10),
+                              Text('${worker.languageworker ?? ""}'),
+                               Divider(thickness: 1),
+                              Text('MonthlyIncome', style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10),
+                                Text('${worker.monthlyIncomeworker ?? ""}'),
+                                   Divider(thickness: 1),
+                              SizedBox(height: 30),
+                              Center(
+                                child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.pinkAccent),
+                                onPressed: () async {
+                                  setState(
+                                    () {
+                                      if (!currUser!.acceptedRequests
+                                          .containsKey(widget.workerId)) {
+                                        addUserIdToServiceProvider();
+                                        addWorkerIdToUser();
+                                        currUser!.acceptedRequests[widget.workerId] =
+                                            'false';
+                                      } else if (currUser!
+                                              .acceptedRequests[widget.workerId] ==
+                                          "true") {
+                                        launch(
+                                            'https://wa.me/${worker.mobileNoworker}');
+                                      }
+                                    },
+                                  );
+                                },
+                                child: (!currUser!.acceptedRequests
+                                        .containsKey(widget.workerId))
+                                    ? Text("Request")
+                                    : (currUser!.acceptedRequests[widget.workerId] ==
+                                            "true")
+                                        ? Text("Tap to Chat")
+                                        : Text("Request Sent"),
+                                                        ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      
+                     
                     ]),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pinkAccent),
-                          onPressed: () async {
-                            setState(
-                              () {
-                                if (!currUser!.acceptedRequests
-                                    .containsKey(widget.workerId)) {
-                                  addUserIdToServiceProvider();
-                                  addWorkerIdToUser();
-                                  currUser!.acceptedRequests[widget.workerId] =
-                                      'false';
-                                } else if (currUser!
-                                        .acceptedRequests[widget.workerId] ==
-                                    "true") {
-                                  launch(
-                                      'https://wa.me/${worker.mobileNoworker}');
-                                }
-                              },
-                            );
-                          },
-                          child: (!currUser!.acceptedRequests
-                                  .containsKey(widget.workerId))
-                              ? Text("Request")
-                              : (currUser!.acceptedRequests[widget.workerId] ==
-                                      "true")
-                                  ? Text("Tap to Chat")
-                                  : Text("Request Sent"),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ]),
+                  ),
                 ),
               ),
             ));
