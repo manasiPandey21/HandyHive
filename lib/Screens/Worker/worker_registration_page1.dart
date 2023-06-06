@@ -318,8 +318,8 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                   }), (route) => false);
                 },
                 child: Container(
-                  child: Text("Submit"),
-                  width: MediaQuery.of(context).size.width / 2,
+                  child: Center(child: Text("Submit")),
+                  width: MediaQuery.of(context).size.width / 4,
                     height: MediaQuery.of(context).size.height/20,),
                 
                 style: ElevatedButton.styleFrom(

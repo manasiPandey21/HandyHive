@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
 import 'package:handyhive/Screens/User/workers_details.dart';
+import 'package:handyhive/Screens/Worker/user_details.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/users.dart';
@@ -129,10 +130,10 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                             ]),
                           ])),
                       onTap: () {
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //   builder: (context) => WorkerDetails(
-                        //       workerId: acceptedusers[index].uidUser),
-                        // ));
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => UserDetails(
+                               acceptedusers[index].uidUser),
+                        ));
                       },
                     ),
                   );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Screens/Common/chatpage.dart';
+import 'package:handyhive/Screens/Worker/chatpage_worker.dart';
 import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,6 +32,14 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     setState(() {
       currentIndex = index;
     });
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatPageWorker(),
+        ),
+      );
+    }
     if (index == 3) {
       Navigator.push(
         context,
