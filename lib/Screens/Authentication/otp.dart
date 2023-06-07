@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:handyhive/Screens/Authentication/login.dart';
+import 'package:handyhive/Screens/Common/msgToast.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/auth.dart';
@@ -94,14 +95,17 @@ class _MyOtpState extends State<MyOtp> {
 
                     if (islogintrue == true) {
                       if (isuser.exists) {
+                        msgToast("Welcome again");
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const UserDashBoard(),
                         ));
                       } else if (isworker.exists) {
+                         msgToast("Welcome again");
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const WorkerDashBoard(),
                         ));
                       } else {
+                         msgToast("Welcome to HandyHive,hoping for you good experience with us");
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const LandingPage(),
@@ -109,6 +113,7 @@ class _MyOtpState extends State<MyOtp> {
                         );
                       }
                     } else {
+                       msgToast("Please login with correct credentials");
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const Login(),

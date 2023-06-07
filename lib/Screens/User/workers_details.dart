@@ -5,6 +5,7 @@ import 'package:handyhive/Provider/workers_provider.dart';
 import 'package:handyhive/Screens/Common/chatpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:handyhive/Screens/Common/msgToast.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/users.dart';
@@ -87,11 +88,9 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
     final worker = workersProvider.getWorkerById(widget.workerId);
 
     return isLoading
-        ? Builder(
-          builder: (context) {
+        ? Builder(builder: (context) {
             return CircularProgressIndicator();
-          }
-        )
+          })
         : Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.pinkAccent,
@@ -99,8 +98,7 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
             ),
             body: SingleChildScrollView(
               child: Container(
-               height: MediaQuery.of(context).size.height,
-               
+                height: MediaQuery.of(context).size.height,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Card(
@@ -139,15 +137,12 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                       Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Expanded(
-                          
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                           
                             children: [
                               SizedBox(
                                 height: 20,
                               ),
-                             
                               Text(
                                 'Name',
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -157,72 +152,95 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
                                 '${worker.nameWorkers ?? ""}',
                               ),
                               Divider(thickness: 1),
-                              Text('Age', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Text(
+                                'Age',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               SizedBox(height: 10),
                               Text('${worker.ageworker ?? ""}'),
-                               Divider(thickness: 1),
-                              Text('Address', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Divider(thickness: 1),
+                              Text(
+                                'Address',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               SizedBox(height: 10),
                               Text('${worker.addressWorker ?? ""}'),
-                               Divider(thickness: 1),
-                              Text('WorkExperience', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Divider(thickness: 1),
+                              Text(
+                                'WorkExperience',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               SizedBox(height: 10),
-                               Text('${worker.workExperienceworker ?? ""}'),
-                                   Divider(thickness: 1),
-                              Text('Gender', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Text('${worker.workExperienceworker ?? ""}'),
+                              Divider(thickness: 1),
+                              Text(
+                                'Gender',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               SizedBox(height: 10),
                               Text('${worker.genderworker ?? ""}'),
-                               Divider(thickness: 1),
-                              Text('Religion', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Divider(thickness: 1),
+                              Text(
+                                'Religion',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               SizedBox(height: 10),
                               Text(' ${worker.religionworker ?? ""}'),
-                               Divider(thickness: 1),
-                              Text('Language: ', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Divider(thickness: 1),
+                              Text(
+                                'Language: ',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               SizedBox(height: 10),
                               Text('${worker.languageworker ?? ""}'),
-                               Divider(thickness: 1),
-                              Text('MonthlyIncome', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Divider(thickness: 1),
+                              Text(
+                                'MonthlyIncome',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               SizedBox(height: 10),
-                                Text('${worker.monthlyIncomeworker ?? ""}'),
-                                   Divider(thickness: 1),
+                              Text('${worker.monthlyIncomeworker ?? ""}'),
+                              Divider(thickness: 1),
                               SizedBox(height: 30),
                               Center(
                                 child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.pinkAccent),
-                                onPressed: () async {
-                                  setState(
-                                    () {
-                                      if (!currUser!.acceptedRequests
-                                          .containsKey(widget.workerId)) {
-                                        addUserIdToServiceProvider();
-                                        addWorkerIdToUser();
-                                        currUser!.acceptedRequests[widget.workerId] =
-                                            'false';
-                                      } else if (currUser!
-                                              .acceptedRequests[widget.workerId] ==
-                                          "true") {
-                                        launch(
-                                            'https://wa.me/${worker.mobileNoworker}');
-                                      }
-                                    },
-                                  );
-                                },
-                                child: (!currUser!.acceptedRequests
-                                        .containsKey(widget.workerId))
-                                    ? Text("Request")
-                                    : (currUser!.acceptedRequests[widget.workerId] ==
-                                            "true")
-                                        ? Text("Tap to Chat")
-                                        : Text("Request Sent"),
-                                                        ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.pinkAccent),
+                                  onPressed: () async {
+                                    setState(
+                                      () {
+                                        if (!currUser!.acceptedRequests
+                                            .containsKey(widget.workerId)) {
+                                          addUserIdToServiceProvider();
+                                          addWorkerIdToUser();
+                                          currUser!.acceptedRequests[
+                                              widget.workerId] = 'false';
+                                          msgToast("Request Sent successfully");
+                                        } else if (currUser!.acceptedRequests[
+                                                widget.workerId] ==
+                                            "true") {
+                                          launch(
+                                              'https://wa.me/${worker.mobileNoworker}');
+                                          msgToast(
+                                              "you can talk to ${worker.nameWorkers}+on whatsapp");
+                                        }
+                                      },
+                                    );
+                                  },
+                                  child: (!currUser!.acceptedRequests
+                                          .containsKey(widget.workerId))
+                                      ? Text("Request")
+                                      : (currUser!.acceptedRequests[
+                                                  widget.workerId] ==
+                                              "true")
+                                          ? Text("Tap to Chat")
+                                          : Text("Request Sent"),
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      
-                     
                     ]),
                   ),
                 ),

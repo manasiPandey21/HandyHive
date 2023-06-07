@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
+import 'package:handyhive/Screens/Common/msgToast.dart';
 
 import 'package:handyhive/Screens/User/workers_details.dart';
 import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+
 
 class UserDashBoard2 extends StatefulWidget {
   String selectedService;
@@ -53,10 +55,18 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
               SizedBox(height: 20),
               Expanded(
                 child: workers.length==0 ? Container(
-                  child:
+                  
+                  child: Column(
+                    
+                    children: [
+
                       Lottie.network(
                       'https://assets4.lottiefiles.com/packages/lf20_mznpnepo.json'),
-                       
+                     
+                    ],
+                    
+                  ),
+                 
                     
                   )
                  
