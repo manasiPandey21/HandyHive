@@ -533,13 +533,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                         margin: EdgeInsets.only(left: 140, right: 140),
                         child: ElevatedButton(
                           onPressed: () async {
-                            await Provider.of<Auth>(context, listen: false)
-                                .logout();
-
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(builder: (context) {
-                              return Login();
-                            }), (route) => false);
+                              showLogoutConfirmationDialog(context);
+                            
                           },
                           child: Text("Log Out"),
                           style: ElevatedButton.styleFrom(
@@ -593,3 +588,36 @@ class _UserEditProfileState extends State<UserEditProfile> {
     );
   }
 }
+void showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout Confirmation'),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Dismiss the dialog
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () async {
+                await Provider.of<Auth>(context, listen: false)
+                                .logout();
+
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(builder: (context) {
+                              return Login();
+                            }), (route) => false);// Dismiss the dialog
+                // Perform logout action here
+                // e.g., redirect to logout page or clear session data
+              },
+            ),
+          ],
+        );
+      });
+}
+
