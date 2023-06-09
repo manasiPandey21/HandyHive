@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:handyhive/Screens/User/chatpage_user.dart';
 import 'package:handyhive/Screens/User/user_dashboard2.dart';
 import 'package:handyhive/Screens/User/user_edit_profile.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+
+import '../../Models/users.dart';
+import '../../Provider/auth.dart';
+import '../../Provider/users_provider.dart';
 
 class UserDashBoard extends StatefulWidget {
   const UserDashBoard({super.key});
@@ -14,6 +20,9 @@ class _UserDashBoardState extends State<UserDashBoard> {
   @override
   final TextEditingController _searchController = TextEditingController();
   int currentIndex = 0;
+  Users? currUser;
+  bool _isInit = true;
+  bool isLoading = true;
 
   void onItemTapped(int index) {
     setState(() {
@@ -23,7 +32,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ChatPageUser()));
     }
-    if (index == 3) {
+    if (index == 2) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -32,14 +41,34 @@ class _UserDashBoardState extends State<UserDashBoard> {
       );
     }
   }
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    if (_isInit) {
+      await Provider.of<UsersProvider>(context, listen: false)
+          .fetchAndSetUsers()
+          .then((value) async => await Provider.of<Auth>(context, listen: false)
+                  .getFirebaseUser()
+                  .then((value) async {
+                setState(() {
+                  var uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                   currUser = Provider.of<UsersProvider>(context, listen: false)
+                      .getUser(uid.toString());
+                  isLoading = false;
+                });
+              }));
+      
+    }
+    _isInit = false;
+  }
 
   Widget build(BuildContext context) {
     {
       return Scaffold(
-          appBar: AppBar(
-            title: Center(child: Text("DashBoard")),
-            backgroundColor: Colors.pinkAccent,
-          ),
+          
           bottomNavigationBar: BottomNavigationBar(
               currentIndex: currentIndex,
               onTap: onItemTapped,
@@ -49,55 +78,70 @@ class _UserDashBoardState extends State<UserDashBoard> {
                     Icons.home,
                     color: Colors.pinkAccent,
                   ),
-                  label: "Dashboard",
+                  label: "",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
                     Icons.message,
                     color: Colors.pinkAccent,
                   ),
-                  label: "chat",
+                  label: "",
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.shopping_bag,
-                    color: Colors.pinkAccent,
-                  ),
-                  label: "My Choices",
-                ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(
+                //     Icons.shopping_bag,
+                //     color: Colors.pinkAccent,
+                //   ),
+                //   label: "My Choices",
+                // ),
                 BottomNavigationBarItem(
                   icon: Icon(
                     Icons.face_outlined,
                     color: Colors.pinkAccent,
                   ),
-                  label: "Me",
+                  label: "",
                 ),
               ]),
           body: SingleChildScrollView(
             child: Column(children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search...',
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () => _searchController.clear(),
-                    ),
-                    prefixIcon: IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {},
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
-                ),
-              ),
-          
-              SizedBox(
-                height: 50,
+              // Container(
+              //   padding: const EdgeInsets.all(10),
+              //   child: TextField(
+              //     controller: _searchController,
+              //     decoration: InputDecoration(
+              //       hintText: 'Search...',
+              //       suffixIcon: IconButton(
+              //         icon: Icon(Icons.clear),
+              //         onPressed: () => _searchController.clear(),
+              //       ),
+              //       prefixIcon: IconButton(
+              //         icon: Icon(Icons.search),
+              //         onPressed: () {},
+              //       ),
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(20.0),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              SizedBox(height: 100,),
+          Padding(
+            padding: const EdgeInsets.only(left:18.0),
+            child: Row(
+             
+             children: [
+             
+             Text("Hey ${currUser?.nameUser}",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),),
+             Lottie.network(
+               'https://assets8.lottiefiles.com/packages/lf20_d00u59ww.json'
+             ),
+             ],),
+          ),
+            
+           
+             
+                       SizedBox(
+                height: 100,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,

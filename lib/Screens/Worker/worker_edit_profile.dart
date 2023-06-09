@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
+import 'package:handyhive/Screens/Worker/worker_dashboard.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../Provider/auth.dart';
 import '../../Provider/workers_provider.dart';
 import '../Authentication/login.dart';
+import 'chatpage_worker.dart';
 
 class WorkerEditProfile extends StatefulWidget {
   const WorkerEditProfile({super.key});
@@ -23,14 +25,36 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
   bool _isInit = true;
   bool isLoading = true;
   final picker = ImagePicker();
-  
+  int currentIndex = 2;
+
+  void onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatPageWorker(),
+        ),
+      );
+    }
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WorkerDashBoard(),
+        ),
+      );
+    }
+  }
+
   var _image;
   var imageUrl;
   var imagePicker;
   final _firebaseStorage = FirebaseStorage.instance;
   List<String> genderOptions = ['Men', 'Women', 'Others'];
   String selectedGender = 'Men';
-
 
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
@@ -64,10 +88,19 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                   isLoading = false;
                 });
               }));
+      name.text = currWorker!.nameWorkers;
+      age.text = currWorker!.ageworker;
+      gender.text = currWorker!.genderworker;
+      mobileNo.text = currWorker!.mobileNoworker;
+      address.text = currWorker!.addressWorker;
+      maritalStatus.text = currWorker!.maritalStatusworker;
+      workExperience.text = currWorker!.workExperienceworker;
+      language.text = currWorker!.languageworker;
     }
     _isInit = false;
   }
-     uploadImage() async {
+
+  uploadImage() async {
     final _firebaseStorage = FirebaseStorage.instance;
     final imagePicker = ImagePicker();
 
@@ -100,7 +133,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
       }
     }
   }
-   Future getImageFromGallery() async {
+
+  Future getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
@@ -130,17 +164,42 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
               title: Center(child: Text("My Profile")),
               backgroundColor: Colors.pinkAccent,
             ),
+            bottomNavigationBar: BottomNavigationBar(
+                currentIndex: currentIndex,
+                onTap: onItemTapped,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.home,
+                      color: Colors.pinkAccent,
+                    ),
+                    label: "",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.message,
+                      color: Colors.pinkAccent,
+                    ),
+                    label: "",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.face_outlined,
+                      color: Colors.pinkAccent,
+                    ),
+                    label: "",
+                  ),
+                ]),
             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(
                   child: ListView(
                     children: [
-                      
                       Center(
                         child: FutureBuilder(
-                          future:
-                              Provider.of<WorkersProvider>(context, listen: false)
-                                  .getImageUrl(currWorker!.uidWorkers.toString()),
+                          future: Provider.of<WorkersProvider>(context,
+                                  listen: false)
+                              .getImageUrl(currWorker!.uidWorkers.toString()),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return CircleAvatar(
@@ -169,8 +228,23 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                             Icons.man_2_rounded,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text('Name: ${currWorker!.nameWorkers}'),
-                          trailing: Icon(
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Name:  ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currWorker!.nameWorkers}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -185,38 +259,42 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: Wrap(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                controller: name,
-                                                decoration: InputDecoration(
-                                                    hintText: "Name",
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20))),
-                                                                keyboardType: TextInputType.name,
-                                              ),
+                                    return Padding(
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
+                                      child: Wrap(children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              controller: name,
+                                              decoration: InputDecoration(
+                                                  hintText: "Name",
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20))),
+                                              keyboardType: TextInputType.name,
                                             ),
                                           ),
+                                        ),
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
                                               newWorker = currWorker!.copyWith(
-                                                nameWorkers: name.text.toString(),
+                                                nameWorkers:
+                                                    name.text.toString(),
                                               );
-                                              await Provider.of<WorkersProvider>(
+                                              await Provider.of<
+                                                          WorkersProvider>(
                                                       context,
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
-                                              currWorker = newWorker;
+                                              setState(() {
+                                                currWorker = newWorker;
+                                              });
+                                              Navigator.pop(context);
                                             },
                                             child: Text("UPDATE"),
                                             style: ElevatedButton.styleFrom(
@@ -231,85 +309,26 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                           }),
                       ListTile(
                           leading: Icon(
-                            Icons.house,
+                            Icons.home,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text('Address: ${currWorker!.addressWorker}'),
-                          trailing: Icon(
-                            Icons.edit,
-                            color: Colors.pinkAccent,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              showModalBottomSheet(
-                                  context: context,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30.0),
-                                      topRight: Radius.circular(30.0),
-                                    ),
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Address: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currWorker!.addressWorker}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                   builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: Wrap(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                controller: address,
-                                                decoration: InputDecoration(
-                                                    hintText: "Address",
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20))),
-                                                                keyboardType:TextInputType.streetAddress,
-                                              ),
-                                              
-                                            ),
-                                          ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            onPressed:
-                                            () async {
-                                              newWorker = currWorker!.copyWith(
-                                                nameWorkers:
-                                                    name.text.toString(),
-                                              );
-
-                                              await Provider.of<
-                                                          WorkersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateWorkers(newWorker!);
-                                              setState(() {
-                                                currWorker = newWorker;
-                                              });
-                                            };
-                                          },
-                                          child: Text("UPDATE"),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]),
-                                    );
-                                  });
-                            });
-                          }),
-                      ListTile(
-                          leading: Icon(
-                            Icons.man,
-                            color: Colors.pinkAccent,
+                                ),
+                              ],
+                            ),
                           ),
-                          title: Text('Age: ${currWorker!.ageworker}'),
-                          trailing: Icon(
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -324,62 +343,173 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     ),
                                   ),
                                   builder: (context) {
-                                      return Padding(
-                                        padding:
-                                            MediaQuery.of(context).viewInsets,
-                                        child: Wrap(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                controller: age,
-                                                decoration: InputDecoration(
-                                                    hintText: "Age",
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20))),
-                                                                keyboardType:TextInputType.number,
-                                              ),
-                                              
+                                    return Padding(
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
+                                      child: Wrap(children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              controller: address,
+                                              decoration: InputDecoration(
+                                                  hintText: "Address",
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20))),
+                                              keyboardType:
+                                                  TextInputType.streetAddress,
                                             ),
                                           ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            newWorker = currWorker!.copyWith(
-                                                ageworker: age.text.toString());
-                                            await Provider.of<WorkersProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .updateWorkers(newWorker!);
-                                            setState(() {
-                                              currWorker = newWorker;
-                                            });
-                                          },
-                                          child: Text("UPDATE"),
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.pinkAccent),
                                         ),
-                                          )
-                                        ]),
-                                      );
-                                    });
-                              });
-                            }),
-                     ListTile(
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              await Provider.of<Auth>(context,
+                                                      listen: false)
+                                                  .getFirebaseUser();
+                                              var uid = Provider.of<Auth>(
+                                                      context,
+                                                      listen: false)
+                                                  .firebaseUser!
+                                                  .uid
+                                                  .toString();
+                                              newWorker = currWorker!.copyWith(
+                                                  addressWorker:
+                                                      address.text.toString());
+
+                                              await Provider.of<
+                                                          WorkersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateWorkers(newWorker!);
+                                              setState(() {
+                                                currWorker = newWorker;
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("UPDATE"),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.pinkAccent),
+                                          ),
+                                        )
+                                      ]),
+                                    );
+                                  });
+                            });
+                          }),
+                      ListTile(
+                          leading: Icon(
+                            Icons.cake,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Age: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currWorker!.ageworker}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              showModalBottomSheet(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
+                                    ),
+                                  ),
+                                  builder: (context) {
+                                    return Padding(
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
+                                      child: Wrap(children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              controller: age,
+                                              decoration: InputDecoration(
+                                                  hintText: "Age",
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20))),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              newWorker = currWorker!.copyWith(
+                                                  ageworker:
+                                                      age.text.toString());
+                                              await Provider.of<
+                                                          WorkersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateWorkers(newWorker!);
+                                              setState(() {
+                                                currWorker = newWorker;
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("UPDATE"),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.pinkAccent),
+                                          ),
+                                        )
+                                      ]),
+                                    );
+                                  });
+                            });
+                          }),
+                      ListTile(
                         leading: Icon(
-                          Icons.man,
+                          Icons.man_2_rounded,
                           color: Colors.pinkAccent,
                         ),
-                        title: Text('Gender: ${currWorker!.genderworker}'),
-                        trailing: Icon(
-                          Icons.edit,
-                          color: Colors.pinkAccent,
+                        title: Text.rich(
+                          TextSpan(
+                            text: 'Gender: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: '${currWorker!.genderworker}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                          trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
                         onTap: () {
                           showDialog(
                             context: context,
@@ -409,7 +539,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                         genderworker: selectedGender,
                                       );
 
-                                      await Provider.of<WorkersProvider>(context,
+                                      await Provider.of<WorkersProvider>(
+                                              context,
                                               listen: false)
                                           .updateWorkers(newWorker!);
                                       setState(() {
@@ -427,25 +558,50 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                           );
                         },
                       ),
-                       ListTile(
-                          leading: Icon(
-                            Icons.phone,
-                            color: Colors.pinkAccent,
-                          ),
-                          title: Text(
-                              'Mobile Number: ${currWorker!.mobileNoworker}'),
-                          
-                          onTap: () {}),
-                     
-                                       
                       ListTile(
                           leading: Icon(
-                            Icons.man,
+                            Icons.call,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text(
-                              'MaritalStatus:${currWorker!.maritalStatusworker}'),
-                          trailing: Icon(
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Mobile No: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currWorker!.mobileNoworker}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          onTap: () {}),
+                      ListTile(
+                          leading: Icon(
+                            Icons.family_restroom,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Marital Status: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currWorker!.maritalStatusworker}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -461,7 +617,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                   ),
                                   builder: (context) {
                                     return Padding(
-                                    padding: MediaQuery.of(context).viewInsets,
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
                                       child: Wrap(children: [
                                         Padding(
                                           padding: const EdgeInsets.all(20.0),
@@ -475,7 +632,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20))),
-                                                              keyboardType:TextInputType.name,
+                                              keyboardType: TextInputType.name,
                                             ),
                                           ),
                                         ),
@@ -485,17 +642,20 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                               await Provider.of<Auth>(context,
                                                       listen: false)
                                                   .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
+                                              var uid = Provider.of<Auth>(
+                                                      context,
                                                       listen: false)
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
                                               newWorker = currWorker!.copyWith(
                                                 maritalStatusworker:
-                                                    maritalStatus.text.toString(),
+                                                    maritalStatus.text
+                                                        .toString(),
                                               );
-                                    
-                                              await Provider.of<WorkersProvider>(
+
+                                              await Provider.of<
+                                                          WorkersProvider>(
                                                       context,
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
@@ -517,12 +677,26 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                           }),
                       ListTile(
                           leading: Icon(
-                            Icons.work,
+                            Icons.work_history,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text(
-                              'WorkExperience:${currWorker!.workExperienceworker}'),
-                          trailing: Icon(
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Work experience: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currWorker!.workExperienceworker}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -538,8 +712,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                   ),
                                   builder: (context) {
                                     return Padding(
-                                      padding: MediaQuery.of(context).viewInsets,
-                                     
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
                                       child: Wrap(children: [
                                         Padding(
                                           padding: const EdgeInsets.all(20.0),
@@ -553,39 +727,37 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20))),
-                                              keyboardType: TextInputType.number,
+                                              keyboardType:
+                                                  TextInputType.number,
                                             ),
                                           ),
                                         ),
                                         Center(
                                           child: ElevatedButton(
-                                            onPressed: () {
-                                              onPressed:
-                                              () async {
-                                                await Provider.of<Auth>(context,
-                                                        listen: false)
-                                                    .getFirebaseUser();
-                                                var uid = Provider.of<Auth>(
-                                                        context,
-                                                        listen: false)
-                                                    .firebaseUser!
-                                                    .uid
-                                                    .toString();
-                                                newWorker = currWorker!.copyWith(
-                                                    workExperienceworker:
-                                                        workExperience.text
-                                                            .toString());
-                                    
-                                                await Provider.of<
-                                                            WorkersProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .updateWorkers(newWorker!);
-                                                    setState(() {
+                                            onPressed: () async {
+                                              await Provider.of<Auth>(context,
+                                                      listen: false)
+                                                  .getFirebaseUser();
+                                              var uid = Provider.of<Auth>(
+                                                      context,
+                                                      listen: false)
+                                                  .firebaseUser!
+                                                  .uid
+                                                  .toString();
+                                              newWorker = currWorker!.copyWith(
+                                                  workExperienceworker:
+                                                      workExperience.text
+                                                          .toString());
+
+                                              await Provider.of<
+                                                          WorkersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateWorkers(newWorker!);
+                                              setState(() {
                                                 currWorker = newWorker;
                                               });
                                               Navigator.pop(context);
-                                              };
                                             },
                                             child: Text("UPDATE"),
                                             style: ElevatedButton.styleFrom(
@@ -603,8 +775,23 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                             Icons.language,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text('Language:${currWorker!.languageworker}'),
-                          trailing: Icon(
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Language: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currWorker!.languageworker}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -620,7 +807,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                   ),
                                   builder: (context) {
                                     return Padding(
-                                     padding: MediaQuery.of(context).viewInsets,
+                                      padding:
+                                          MediaQuery.of(context).viewInsets,
                                       child: Wrap(children: [
                                         Padding(
                                           padding: const EdgeInsets.all(20.0),
@@ -634,7 +822,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20))),
-                                                              keyboardType:TextInputType.name,
+                                              keyboardType: TextInputType.name,
                                             ),
                                           ),
                                         ),
@@ -644,7 +832,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                               await Provider.of<Auth>(context,
                                                       listen: false)
                                                   .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(context,
+                                              var uid = Provider.of<Auth>(
+                                                      context,
                                                       listen: false)
                                                   .firebaseUser!
                                                   .uid
@@ -652,8 +841,9 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                               newWorker = currWorker!.copyWith(
                                                   languageworker:
                                                       language.text.toString());
-                                    
-                                              await Provider.of<WorkersProvider>(
+
+                                              await Provider.of<
+                                                          WorkersProvider>(
                                                       context,
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
@@ -673,24 +863,62 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                   });
                             });
                           }),
-                          SizedBox(height: 20,),
-                          Container(
-                            margin: EdgeInsets.only(left: 140,right: 140),
-                            child: ElevatedButton(onPressed: () async {
-                               await Provider.of<Auth>(context, listen: false).logout();
-                          
-                          
-                                Navigator.pushAndRemoveUntil(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return Login();
-                                }), (route) => false);
-                            }, child: Text("Log Out"),
-                            style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.pinkAccent),),
-                          )
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 140, right: 140),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            showLogoutConfirmationDialog(context);
+                          },
+                          child: Text("Log Out"),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pinkAccent),
+                        ),
+                      )
                     ],
                   ),
                 )));
   }
+}
+
+void showLogoutConfirmationDialog(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout Confirmation'),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.pink.shade100,elevation: 10,shadowColor: Colors.grey),
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Dismiss the dialog
+                },
+              ),
+            ),
+            
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pinkAccent,
+                  elevation: 10,
+                  shadowColor: Colors.grey.shade100),
+              child: Text('Yes'),
+              onPressed: () async {
+                await Provider.of<Auth>(context, listen: false).logout();
+
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) {
+                  return Login();
+                }), (route) => false); // Dismiss the dialog
+                // Perform logout action here
+                // e.g., redirect to logout page or clear session data
+              },
+            ),
+          ],
+        );
+      });
 }

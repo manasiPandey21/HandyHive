@@ -2,7 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
+import 'package:handyhive/Screens/User/user_dashboard.dart';
+import 'package:handyhive/Screens/User/user_edit_profile.dart';
 import 'package:handyhive/Screens/User/workers_details.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/users.dart';
@@ -21,6 +24,29 @@ class _ChatPageUserState extends State<ChatPageUser> {
   bool _isInit = true;
   bool isLoading = true;
   List<Worker> acceptedworkers = [];
+  int currentIndex = 0;
+  void onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+    if (index == 0) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UserDashBoard()));
+    }
+     if (index == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ChatPageUser()));
+    }
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserEditProfile(),
+        ),
+      );
+    }
+  }
+
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     if (_isInit) {
@@ -59,18 +85,73 @@ class _ChatPageUserState extends State<ChatPageUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading ? CircularProgressIndicator() : Scaffold(
         appBar: AppBar(
           title: Center(child: Text("My Chat")),
           backgroundColor: Colors.pinkAccent,
         ),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: onItemTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.message,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
+              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(
+              //     Icons.shopping_bag,
+              //     color: Colors.pinkAccent,
+              //   ),
+              //   label: "My Choices",
+              // ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.face_outlined,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
+              ),
+            ]),
         body: isLoading
             ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
+            :  Expanded(
+                child:  acceptedworkers.length==0 ? 
+                  
+                  Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          Lottie.network(
+                              'https://assets4.lottiefiles.com/packages/lf20_mznpnepo.json'),
+                          Text(
+                            'Sorry, No request you have accepted yet',
+                            style: TextStyle(
+                              fontSize: 20,
+                             
+                            ),
+                          ),
+                        ],
+                      )
+                 
+                 : Padding(
+                   padding: const EdgeInsets.all(20.0),
+                   child: ListView.builder(
+            
                 itemCount: acceptedworkers.length,
                 itemBuilder: (ctx, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(18.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: GestureDetector(
                       child: Card(
                           shape: OutlineInputBorder(
@@ -86,9 +167,9 @@ class _ChatPageUserState extends State<ChatPageUser> {
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Padding(
-                                      padding: const EdgeInsets.all(28.0),
+                                      padding: const EdgeInsets.all(10.0),
                                       child: CircleAvatar(
-                                        radius: 60,
+                                        radius: 40,
                                         backgroundImage:
                                             CachedNetworkImageProvider(
                                           snapshot.data.toString(),
@@ -136,6 +217,6 @@ class _ChatPageUserState extends State<ChatPageUser> {
                     ),
                   );
                 },
-              ));
+            ))));
   }
 }

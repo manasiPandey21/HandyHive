@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handyhive/Models/users.dart';
 import 'package:handyhive/Provider/users_provider.dart';
+import 'package:handyhive/Screens/User/user_dashboard.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,6 +18,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../Authentication/login.dart';
 import '../OnBoardingScreen/landing_page.dart';
 import 'package:editable_image/editable_image.dart';
+
+import 'chatpage_user.dart';
 
 class UserEditProfile extends StatefulWidget {
   const UserEditProfile({Key? key}) : super(key: key);
@@ -38,6 +41,26 @@ class _UserEditProfileState extends State<UserEditProfile> {
   final _firebaseStorage = FirebaseStorage.instance;
   List<String> genderOptions = ['Men', 'Women', 'Others'];
   String selectedGender = 'Men';
+  int currentIndex = 0;
+
+  void onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+    if (index == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ChatPageUser()));
+    }
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserDashBoard(),
+        ),
+      );
+    }
+  }
+
 
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
@@ -131,6 +154,31 @@ class _UserEditProfileState extends State<UserEditProfile> {
               title: Center(child: Text("My Profile")),
               backgroundColor: Colors.pinkAccent,
             ),
+             bottomNavigationBar: BottomNavigationBar(
+              currentIndex: currentIndex,
+              onTap: onItemTapped,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.pinkAccent,
+                  ),
+                  label: "",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.message,
+                    color: Colors.pinkAccent,
+                  ),
+                  label: "",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.face_outlined,
+                    color: Colors.pinkAccent,
+                  ),
+                  label: "",
+                )]),
             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(
@@ -170,13 +218,28 @@ class _UserEditProfileState extends State<UserEditProfile> {
                       SizedBox(
                         height: 20,
                       ),
-                      ListTile(
+                       ListTile(
                           leading: Icon(
                             Icons.man_2_rounded,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text('Name: ${currUser!.nameUser}'),
-                          trailing: Icon(
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Name:  ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currUser!.nameUser}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -239,13 +302,28 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   });
                             });
                           }),
-                      ListTile(
+                        ListTile(
                           leading: Icon(
-                            Icons.man,
+                            Icons.cake,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text('Age: ${currUser!.ageUser}'),
-                          trailing: Icon(
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Age:  ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currUser!.ageUser}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -307,16 +385,31 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   });
                             });
                           }),
-                      ListTile(
-                        leading: Icon(
-                          Icons.man,
-                          color: Colors.pinkAccent,
-                        ),
-                        title: Text('Gender: ${currUser!.genderUser}'),
-                        trailing: Icon(
-                          Icons.edit,
-                          color: Colors.pinkAccent,
-                        ),
+                        ListTile(
+                          leading: Icon(
+                            Icons.man_2_rounded,
+                            color: Colors.pinkAccent,
+                          ),
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Gender:  ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currUser!.genderUser}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
+                            Icons.edit,
+                            color: Colors.pinkAccent,
+                          ),
                         onTap: () {
                           showDialog(
                             context: context,
@@ -364,21 +457,51 @@ class _UserEditProfileState extends State<UserEditProfile> {
                           );
                         },
                       ),
-                      ListTile(
+                        ListTile(
                           leading: Icon(
-                            Icons.phone,
+                            Icons.call,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text(
-                              'Mobile Number: ${currUser!.mobileNumberUser}'),
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Mobile no:  ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currUser!.mobileNumberUser}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                           
                           onTap: () {}),
-                      ListTile(
+                       ListTile(
                           leading: Icon(
                             Icons.house,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text('Address: ${currUser!.addressUser}'),
-                          trailing: Icon(
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'Address:  ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currUser!.addressUser}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -443,14 +566,28 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   });
                             });
                           }),
-                      ListTile(
+                        ListTile(
                           leading: Icon(
-                            Icons.work,
+                            Icons.family_restroom,
                             color: Colors.pinkAccent,
                           ),
-                          title: Text(
-                              'Number of people in the house:${currUser!.numberOfPeopleInhouseUser}'),
-                          trailing: Icon(
+                          title: Text.rich(
+                            TextSpan(
+                              text: 'No. of people in the house:  ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: '${currUser!.numberOfPeopleInhouseUser}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                            trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -596,13 +733,16 @@ void showLogoutConfirmationDialog(BuildContext context) {
           title: Text('Logout Confirmation'),
           content: Text('Are you sure you want to log out?'),
           actions: <Widget>[
-            TextButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.pink.shade100,elevation: 10,shadowColor: Colors.grey),
+            
               child: Text('No'),
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
               },
             ),
-            TextButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent,elevation: 10,shadowColor: Colors.grey),
               child: Text('Yes'),
               onPressed: () async {
                 await Provider.of<Auth>(context, listen: false)

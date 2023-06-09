@@ -12,6 +12,7 @@ import '../../Models/users.dart';
 import '../../Models/workers.dart';
 import '../../Provider/users_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WorkerDetails extends StatefulWidget {
   final String workerId;
@@ -89,162 +90,159 @@ class _ServiceProviderDetailsState extends State<WorkerDetails> {
 
     return isLoading
         ? Builder(builder: (context) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           })
         : Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.pinkAccent,
-              title: Center(child: Text('Service Provider Details')),
-            ),
-            body: SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Card(
-                    shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Column(children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: CircleAvatar(
-                            radius: 80,
-                            backgroundColor: Colors.transparent,
-                            child: FutureBuilder(
-                              future: Provider.of<WorkersProvider>(context,
-                                      listen: false)
-                                  .getImageUrl(widget.workerId.toString()),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return CircleAvatar(
-                                    radius: 60,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      snapshot.data.toString(),
-                                    ),
-                                    backgroundColor: Colors.transparent,
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Icon(Icons.error);
-                                } else {
-                                  return CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
+            
+            body: Container(
+              height: MediaQuery.of(context).size.height,
+              child:Column(children: [
+
+              SizedBox(height: 50,),
+               Text(" ${worker?.nameWorkers} Details",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),),
+               Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Card(
+                  color: Colors.pink.shade50,
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: Column(children: [
+                    Center(
+                      child: Padding(
                         padding: const EdgeInsets.all(18.0),
-                        child: Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                'Name',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                '${worker.nameWorkers ?? ""}',
-                              ),
-                              Divider(thickness: 1),
-                              Text(
-                                'Age',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text('${worker.ageworker ?? ""}'),
-                              Divider(thickness: 1),
-                              Text(
-                                'Address',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text('${worker.addressWorker ?? ""}'),
-                              Divider(thickness: 1),
-                              Text(
-                                'WorkExperience',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text('${worker.workExperienceworker ?? ""}'),
-                              Divider(thickness: 1),
-                              Text(
-                                'Gender',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text('${worker.genderworker ?? ""}'),
-                              Divider(thickness: 1),
-                              Text(
-                                'Religion',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(' ${worker.religionworker ?? ""}'),
-                              Divider(thickness: 1),
-                              Text(
-                                'Language: ',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text('${worker.languageworker ?? ""}'),
-                              Divider(thickness: 1),
-                              Text(
-                                'MonthlyIncome',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text('${worker.monthlyIncomeworker ?? ""}'),
-                              Divider(thickness: 1),
-                              SizedBox(height: 30),
-                              Center(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.pinkAccent),
-                                  onPressed: () async {
-                                    setState(
-                                      () {
-                                        if (!currUser!.acceptedRequests
-                                            .containsKey(widget.workerId)) {
-                                          addUserIdToServiceProvider();
-                                          addWorkerIdToUser();
-                                          currUser!.acceptedRequests[
-                                              widget.workerId] = 'false';
-                                          msgToast("Request Sent successfully");
-                                        } else if (currUser!.acceptedRequests[
-                                                widget.workerId] ==
-                                            "true") {
-                                          launch(
-                                              'https://wa.me/${worker.mobileNoworker}');
-                                          msgToast(
-                                              "you can talk to ${worker.nameWorkers}+on whatsapp");
-                                        }
-                                      },
-                                    );
-                                  },
-                                  child: (!currUser!.acceptedRequests
-                                          .containsKey(widget.workerId))
-                                      ? Text("Request")
-                                      : (currUser!.acceptedRequests[
-                                                  widget.workerId] ==
-                                              "true")
-                                          ? Text("Tap to Chat")
-                                          : Text("Request Sent"),
-                                ),
-                              ),
-                            ],
+                        child: CircleAvatar(
+                          radius: 80,
+                          backgroundColor: Colors.transparent,
+                          child: FutureBuilder(
+                            future: Provider.of<WorkersProvider>(context,
+                                    listen: false)
+                                .getImageUrl(widget.workerId.toString()),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    snapshot.data.toString(),
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                );
+                              } else if (snapshot.hasError) {
+                                return Icon(Icons.error);
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
                           ),
                         ),
                       ),
-                    ]),
-                  ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left:18.0,right:18),
+                      child: Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          
+                            Text(
+                              'Name',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              '${worker.nameWorkers ?? ""}',
+                            ),
+                            Divider(thickness: 1),
+                            Text(
+                              'Age',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text('${worker.ageworker ?? ""}'),
+                            Divider(thickness: 1),
+                            Text(
+                              'Address',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text('${worker.addressWorker ?? ""}'),
+                            Divider(thickness: 1),
+                            Text(
+                              'WorkExperience',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text('${worker.workExperienceworker ?? ""}'),
+                            Divider(thickness: 1),
+                            Text(
+                              'Gender',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text('${worker.genderworker ?? ""}'),
+                            Divider(thickness: 1),
+                            Text(
+                              'Religion',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(' ${worker.religionworker ?? ""}'),
+                            Divider(thickness: 1),
+                            Text(
+                              'Language: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text('${worker.languageworker ?? ""}'),
+                            Divider(thickness: 1),
+                            Text(
+                              'MonthlyIncome',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text('${worker.monthlyIncomeworker ?? ""}'),
+                           
+                            Center(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.pinkAccent),
+                                onPressed: () async {
+                                  setState(
+                                    () {
+                                      if (!currUser!.acceptedRequests
+                                          .containsKey(widget.workerId)) {
+                                        addUserIdToServiceProvider();
+                                        addWorkerIdToUser();
+                                        currUser!.acceptedRequests[
+                                            widget.workerId] = 'false';
+                                        msgToast("Request Sent successfully");
+                                      } else if (currUser!.acceptedRequests[
+                                              widget.workerId] ==
+                                          "true") {
+                                        launch(
+                                            'https://wa.me/${worker.mobileNoworker}');
+                                        msgToast(
+                                            "you can talk to ${worker.nameWorkers}+on whatsapp");
+                                      }
+                                    },
+                                  );
+                                },
+                                child: (!currUser!.acceptedRequests
+                                        .containsKey(widget.workerId))
+                                    ? Text("Request")
+                                    : (currUser!.acceptedRequests[
+                                                widget.workerId] ==
+                                            "true")
+                                        ? Text("Tap to Chat")
+                                        : Text("Request Sent"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ]),
                 ),
               ),
-            ));
+            ])));
   }
 }

@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
           alignment: Alignment.center,
           child: Image.asset(
             
-            "assets/logocircle.gif",
+            "assets/logoooo.png",
             height: height / 7.5,
             width: width / 3.5,
           ),

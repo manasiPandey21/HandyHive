@@ -32,6 +32,7 @@ class WorkersProvider with ChangeNotifier {
         .map((e) => Worker.fromMap(e))
         .toList());
 
+    
     notifyListeners();
   }
 

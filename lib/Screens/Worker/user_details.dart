@@ -41,13 +41,16 @@ class _UserDetailsState extends State<UserDetails> {
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.pinkAccent,
-              title: Center(child: Text('Users Details')),
-            ),
-            body: Container(
+            
+            body:Column(children: [
+           
+             Container(
               height: MediaQuery.of(context).size.height,
-              child: Padding(
+               child:Column(children: [
+
+              SizedBox(height: 50,),
+               Text(" ${user?.nameUser} Details",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),),
+               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Card(
                   shape: OutlineInputBorder(
@@ -88,12 +91,10 @@ class _UserDetailsState extends State<UserDetails> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 20,
-                            ),
+                            
                             Text(
                               'Name',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold,fontFamily:  'Source Sans Pro'),
                             ),
                             SizedBox(height: 10),
                             Text(
@@ -155,6 +156,6 @@ class _UserDetailsState extends State<UserDetails> {
                   ]),
                 ),
               ),
-            ));
+             ])) ]));
   }
 }

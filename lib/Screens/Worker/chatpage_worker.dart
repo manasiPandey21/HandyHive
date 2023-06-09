@@ -5,6 +5,8 @@ import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
 import 'package:handyhive/Screens/User/workers_details.dart';
 import 'package:handyhive/Screens/Worker/user_details.dart';
+import 'package:handyhive/Screens/Worker/worker_dashboard.dart';
+import 'package:handyhive/Screens/Worker/worker_edit_profile.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/users.dart';
@@ -22,7 +24,40 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
   Worker? currWorker;
   bool _isInit = true;
   bool isLoading = true;
-  List<Users> acceptedusers= [];
+  int currentIndex = 0;
+
+  void onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatPageWorker(),
+        ),
+      );
+    }
+     if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WorkerDashBoard(),
+        ),
+      );
+    }
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WorkerEditProfile(),
+        ),
+      );
+    }
+  }
+
+  
+  List<Users> acceptedusers = [];
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     if (_isInit) {
@@ -30,31 +65,30 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
           .fetchAndSetWorkers()
           .then((value) async => await Provider.of<Auth>(context, listen: false)
               .getFirebaseUser()
-              .then((value) async => await Provider.of<UsersProvider>(context,
-                      listen: false)
-                  .fetchAndSetUsers()
-                  .then((value) => {
-                        setState(() {
-                          var uid = Provider.of<Auth>(context, listen: false)
-                              .firebaseUser!
-                              .uid
-                              .toString();
-                          currWorker =
-                              Provider.of<WorkersProvider>(context, listen: false)
+              .then((value) async =>
+                  await Provider.of<UsersProvider>(context, listen: false)
+                      .fetchAndSetUsers()
+                      .then((value) => {
+                            setState(() {
+                              var uid =
+                                  Provider.of<Auth>(context, listen: false)
+                                      .firebaseUser!
+                                      .uid
+                                      .toString();
+                              currWorker = Provider.of<WorkersProvider>(context,
+                                      listen: false)
                                   .getWorkers(uid.toString());
-                          for (var entry
-                              in currWorker!.requests.entries) {
-                            Users user = Provider.of<UsersProvider>(
-                                    context,
-                                    listen: false)
-                                .getUser(entry.key.toString());
-                            if (user != null && entry.value == 'true') {
-                              acceptedusers.add(user);
-                            }
-                          }
-                          isLoading = false;
-                        })
-                      })));
+                              for (var entry in currWorker!.requests.entries) {
+                                Users user = Provider.of<UsersProvider>(context,
+                                        listen: false)
+                                    .getUser(entry.key.toString());
+                                if (user != null && entry.value == 'true') {
+                                  acceptedusers.add(user);
+                                }
+                              }
+                              isLoading = false;
+                            })
+                          })));
     }
     _isInit = false;
   }
@@ -66,6 +100,39 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
           title: Center(child: Text("My Chat")),
           backgroundColor: Colors.pinkAccent,
         ),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: onItemTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.message,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
+              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(
+              //     Icons.shopping_bag,
+              //     color: Colors.pinkAccent,
+              //   ),
+              //   label: "My Choices",
+              // ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.face_outlined,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
+              ),
+            ]),
         body: isLoading
             ? Center(child: CircularProgressIndicator())
             : ListView.builder(
@@ -75,6 +142,8 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                     padding: const EdgeInsets.all(18.0),
                     child: GestureDetector(
                       child: Card(
+                          color: Colors.pink.shade50,
+                          elevation: 5,
                           shape: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
@@ -83,8 +152,7 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                               FutureBuilder(
                                 future: Provider.of<UsersProvider>(context,
                                         listen: false)
-                                    .getImageUrl(
-                                        acceptedusers[index].uidUser),
+                                    .getImageUrl(acceptedusers[index].uidUser),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Padding(
@@ -117,8 +185,7 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                                   children: [
                                     Text(
                                         'Name:${acceptedusers[index].nameUser}'),
-                                    Text(
-                                        'Age:${acceptedusers[index].ageUser}'),
+                                    Text('Age:${acceptedusers[index].ageUser}'),
                                     Text(
                                       'Address:${acceptedusers[index].addressUser}',
                                     ),
@@ -131,8 +198,8 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                           ])),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => UserDetails(
-                               acceptedusers[index].uidUser),
+                          builder: (context) =>
+                              UserDetails(acceptedusers[index].uidUser),
                         ));
                       },
                     ),

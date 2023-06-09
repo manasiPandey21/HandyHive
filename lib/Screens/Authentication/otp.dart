@@ -96,14 +96,16 @@ class _MyOtpState extends State<MyOtp> {
                     if (islogintrue == true) {
                       if (isuser.exists) {
                         msgToast("Welcome again");
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const UserDashBoard(),
-                        ));
+                         Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) {
+                          return UserDashBoard();
+                        }), (route) => false);
                       } else if (isworker.exists) {
                          msgToast("Welcome again");
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const WorkerDashBoard(),
-                        ));
+                        Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) {
+                          return WorkerDashBoard();
+                        }), (route) => false);
                       } else {
                          msgToast("Welcome to HandyHive,hoping for you good experience with us");
                         Navigator.of(context).push(
@@ -125,18 +127,18 @@ class _MyOtpState extends State<MyOtp> {
                 SizedBox(height: 60),
                 Text("Resend in 00:${_seconds.toString().padLeft(2, '0')}sec"),
                 SizedBox(height: 40),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.check_box,
-                      color: Colors.pinkAccent,
-                    ),
-                    Text(
-                      "I agree to HandsHive's Terms & Conditions & Privacy Policy",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Icon(
+                //       Icons.check_box,
+                //       color: Colors.pinkAccent,
+                //     ),
+                //     Text(
+                //       "I agree to HandsHive's Terms & Conditions & Privacy Policy",
+                //       style: TextStyle(fontWeight: FontWeight.bold),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 30),
               ],
             ),
