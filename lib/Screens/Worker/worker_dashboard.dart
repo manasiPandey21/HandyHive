@@ -132,273 +132,275 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
     final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
     const iconSize = 50;
-    return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.pinkAccent,
-      //   leading: PopupMenuButton(
-      //     itemBuilder: (BuildContext context) {
-      //       return [
-      //         PopupMenuItem(
-      //           child: Column(
-      //             children: [
-      //               SizedBox(
-      //                 height: 10,
-      //               ),
-      //               Text(
-      //                 "Menu",
-      //                 style:
-      //                     TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-      //               ),
-      //               SizedBox(
-      //                 height: 20,
-      //               ),
-      //               Row(
-      //                 children: [
-      //                   Icon(
-      //                     Icons.filter,
-      //                     color: Colors.pinkAccent,
-      //                   ),
-      //                   Text("Filter"),
-      //                 ],
-      //               ),
-      //               SizedBox(
-      //                 height: 20,
-      //               ),
-      //               Row(
-      //                 children: [
-      //                   Icon(Icons.sort, color: Colors.pinkAccent),
-      //                   Text("Sort"),
-      //                 ],
-      //               ),
-      //               SizedBox(
-      //                 height: 20,
-      //               ),
-      //               Row(
-      //                 children: [
-      //                   Icon(Icons.edit, color: Colors.pinkAccent),
-      //                   Text("Edit work choice"),
-      //                 ],
-      //               ),
-      //               SizedBox(
-      //                 height: 20,
-      //               ),
-      //               Row(
-      //                 children: [
-      //                   Icon(Icons.feedback, color: Colors.pinkAccent),
-      //                   Text("Feedback"),
-      //                 ],
-      //               ),
-      //               SizedBox(
-      //                 height: 20,
-      //               ),
-      //               Row(
-      //                 children: [
-      //                   Icon(Icons.privacy_tip, color: Colors.pinkAccent),
-      //                   Text("Privacy Policy"),
-      //                 ],
-      //               ),
-      //               SizedBox(
-      //                 height: 20,
-      //               ),
-      //               Row(
-      //                 children: [
-      //                   Icon(Icons.book, color: Colors.pinkAccent),
-      //                   Text("Terms & conditions"),
-      //                 ],
-      //               ),
-      //               SizedBox(
-      //                 height: 20,
-      //               ),
-      //               Row(
-      //                 children: [
-      //                   Icon(Icons.help, color: Colors.pinkAccent),
-      //                   Text("Help"),
-      //                 ],
-      //               ),
-      //               SizedBox(
-      //                 height: 40,
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //       ];
-      //     },
-      //   ),
-      // title: Center(child: Text("Dashboard")),
-      // actions: <Widget>[
-      //   IconButton(
-      //     icon: Icon(Icons.search),
-      //     onPressed: () {},
-      //   ),
-      //   IconButton(
-      //     icon: Icon(Icons.notification_add),
-      //     onPressed: () {},
-      //   ),
-      // ],
-
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: onItemTapped,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Colors.pinkAccent,
+    return Center(
+      child: isLoading? Center(child: CircularProgressIndicator()) : Scaffold(
+        // appBar: AppBar(
+        //   backgroundColor: Colors.pinkAccent,
+        //   leading: PopupMenuButton(
+        //     itemBuilder: (BuildContext context) {
+        //       return [
+        //         PopupMenuItem(
+        //           child: Column(
+        //             children: [
+        //               SizedBox(
+        //                 height: 10,
+        //               ),
+        //               Text(
+        //                 "Menu",
+        //                 style:
+        //                     TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+        //               ),
+        //               SizedBox(
+        //                 height: 20,
+        //               ),
+        //               Row(
+        //                 children: [
+        //                   Icon(
+        //                     Icons.filter,
+        //                     color: Colors.pinkAccent,
+        //                   ),
+        //                   Text("Filter"),
+        //                 ],
+        //               ),
+        //               SizedBox(
+        //                 height: 20,
+        //               ),
+        //               Row(
+        //                 children: [
+        //                   Icon(Icons.sort, color: Colors.pinkAccent),
+        //                   Text("Sort"),
+        //                 ],
+        //               ),
+        //               SizedBox(
+        //                 height: 20,
+        //               ),
+        //               Row(
+        //                 children: [
+        //                   Icon(Icons.edit, color: Colors.pinkAccent),
+        //                   Text("Edit work choice"),
+        //                 ],
+        //               ),
+        //               SizedBox(
+        //                 height: 20,
+        //               ),
+        //               Row(
+        //                 children: [
+        //                   Icon(Icons.feedback, color: Colors.pinkAccent),
+        //                   Text("Feedback"),
+        //                 ],
+        //               ),
+        //               SizedBox(
+        //                 height: 20,
+        //               ),
+        //               Row(
+        //                 children: [
+        //                   Icon(Icons.privacy_tip, color: Colors.pinkAccent),
+        //                   Text("Privacy Policy"),
+        //                 ],
+        //               ),
+        //               SizedBox(
+        //                 height: 20,
+        //               ),
+        //               Row(
+        //                 children: [
+        //                   Icon(Icons.book, color: Colors.pinkAccent),
+        //                   Text("Terms & conditions"),
+        //                 ],
+        //               ),
+        //               SizedBox(
+        //                 height: 20,
+        //               ),
+        //               Row(
+        //                 children: [
+        //                   Icon(Icons.help, color: Colors.pinkAccent),
+        //                   Text("Help"),
+        //                 ],
+        //               ),
+        //               SizedBox(
+        //                 height: 40,
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       ];
+        //     },
+        //   ),
+        // title: Center(child: Text("Dashboard")),
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(Icons.search),
+        //     onPressed: () {},
+        //   ),
+        //   IconButton(
+        //     icon: Icon(Icons.notification_add),
+        //     onPressed: () {},
+        //   ),
+        // ],
+    
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: onItemTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
               ),
-              label: "",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.message,
-                color: Colors.pinkAccent,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.message,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
               ),
-              label: "",
-            ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     Icons.shopping_bag,
-            //     color: Colors.pinkAccent,
-            //   ),
-            //   label: "My Choices",
-            // ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.face_outlined,
-                color: Colors.pinkAccent,
+              // BottomNavigationBarItem(
+              //   icon: Icon(
+              //     Icons.shopping_bag,
+              //     color: Colors.pinkAccent,
+              //   ),
+              //   label: "My Choices",
+              // ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.face_outlined,
+                  color: Colors.pinkAccent,
+                ),
+                label: "",
               ),
-              label: "",
+            ]),
+         body:Column(children: [
+          SizedBox(height: 50,),
+         Padding(
+           padding: const EdgeInsets.only(left:18.0),
+           child: Row(
+    
+            children: [
+    
+            Expanded(child: Text("Hey ${currWorker?.nameWorkers}",style: TextStyle(fontSize: 50,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),)),
+            Lottie.network(
+              'https://assets8.lottiefiles.com/packages/lf20_d00u59ww.json'
             ),
-          ]),
-       body:Column(children: [
-        SizedBox(height: 50,),
-       Padding(
-         padding: const EdgeInsets.only(left:18.0),
-         child: Row(
-
-          children: [
-
-          Expanded(child: Text("Hey ${currWorker?.nameWorkers}",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),)),
-          Lottie.network(
-            'https://assets8.lottiefiles.com/packages/lf20_d00u59ww.json'
-          ),
-          ],),
-       ),
-       Expanded(
-                child: users.length==0 ? 
-                  
-                  Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-
-                          Lottie.network(
-                              'https://assets4.lottiefiles.com/packages/lf20_mznpnepo.json'),
-                          Text(
-                            'Sorry, Currently no requests',
-                            style: TextStyle(
-                              fontSize: 20,
-                             
-                            ),
-                          ),
-                        ],
-                      )
-                 
-                 : Padding(
-                   padding: const EdgeInsets.all(20.0),
-                   
-      
-         child: ListView.builder(
-          itemCount: users.length,
-          itemBuilder: (context, index) {
-            final user = users[index];
-            return Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Card(
-                color: Colors.pink.shade50,
-                shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Column(children: [
-                  Row(children: [
-                    FutureBuilder(
-                      future: Provider.of<UsersProvider>(context, listen: false)
-                          .getImageUrl(user.uidUser.toString()),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Padding(
-                            padding: const EdgeInsets.all(18.0),
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: CachedNetworkImageProvider(
-                                snapshot.data.toString(),
+            ],),
+         ),
+         Expanded(
+                  child: users.length==0 ? 
+                    
+                    Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+    
+                            Lottie.network(
+                                'https://assets4.lottiefiles.com/packages/lf20_mznpnepo.json'),
+                            Text(
+                              'Sorry, Currently no requests',
+                              style: TextStyle(
+                                fontSize: 20,
+                               
                               ),
-                              backgroundColor: Colors.transparent,
                             ),
-                          );
-                        } else {
-                          return CircleAvatar(
-                            radius: 60,
-                            backgroundColor: Colors.brown,
-                            foregroundColor: Colors.brown,
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Name:${user.nameUser}'),
-                          Text('Age:${user.ageUser}'),
-                          Text(
-                            'Address:${user.addressUser}',
-                          ),
-                          Text('Gender:${user.genderUser}')
-                        ],
-                      ),
-                    ),
-                  ]),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          acceptRequest(user.uidUser);
-                          addWorkerIdToUser(user.uidUser);
-                          var whatsappUrl =
-                              "whatsapp://send?phone=${user.mobileNumberUser}" +
-                                  "&text=${Uri.encodeComponent('Hi, I am ${currWorker!.nameWorkers} from HandyHive. How can I help you?')}";
-       
-                          launch(whatsappUrl);
+                          ],
+                        )
+                   
+                   : Padding(
+                     padding: const EdgeInsets.all(20.0),
+                     
+        
+           child: ListView.builder(
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              final user = users[index];
+              return Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Card(
+                  color: Colors.pink.shade50,
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: Column(children: [
+                    Row(children: [
+                      FutureBuilder(
+                        future: Provider.of<UsersProvider>(context, listen: false)
+                            .getImageUrl(user.uidUser.toString()),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Padding(
+                              padding: const EdgeInsets.all(18.0),
+                              child: CircleAvatar(
+                                radius: 50,
+                                backgroundImage: CachedNetworkImageProvider(
+                                  snapshot.data.toString(),
+                                ),
+                                backgroundColor: Colors.transparent,
+                              ),
+                            );
+                          } else {
+                            return CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.brown,
+                              foregroundColor: Colors.brown,
+                              child: CircularProgressIndicator(),
+                            );
+                          }
                         },
-                        child: Text("Accept"),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pinkAccent),
                       ),
                       SizedBox(
-                        width: 40,
+                        width: 20,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          deleteRequest(user.uidUser);
-                        },
-                        child: Text("Reject"),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pinkAccent),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ]),
-              ),
-            );
-          },
-             ),
-       ),
-    )]));
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Name:${user.nameUser}'),
+                            Text('Age:${user.ageUser}'),
+                            Text(
+                              'Address:${user.addressUser}',
+                            ),
+                            Text('Gender:${user.genderUser}')
+                          ],
+                        ),
+                      ),
+                    ]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            acceptRequest(user.uidUser);
+                            addWorkerIdToUser(user.uidUser);
+                            var whatsappUrl =
+                                "whatsapp://send?phone=${user.mobileNumberUser}" +
+                                    "&text=${Uri.encodeComponent('Hi, I am ${currWorker!.nameWorkers} from HandyHive. How can I help you?')}";
+         
+                            launch(whatsappUrl);
+                          },
+                          child: Text("Accept"),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pinkAccent),
+                        ),
+                        SizedBox(
+                          width: 40,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            deleteRequest(user.uidUser);
+                          },
+                          child: Text("Reject"),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pinkAccent),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ]),
+                ),
+              );
+            },
+               ),
+         ),
+      )])),
+    );
   }
 }

@@ -30,7 +30,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
   @override
   Widget build(BuildContext context) {
     final serviceProviderProvider = Provider.of<WorkersProvider>(context);
-    return Scaffold(
+    return  Scaffold(
       
       body: Consumer<WorkersProvider>(
         builder: (context, workersProvider, _) {

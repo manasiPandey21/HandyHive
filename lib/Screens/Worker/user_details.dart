@@ -53,6 +53,7 @@ class _UserDetailsState extends State<UserDetails> {
                Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Card(
+                  color:Colors.pink.shade50,
                   shape: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: Column(children: [
