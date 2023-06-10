@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
+import 'package:handyhive/Screens/Worker/worker_bottom_nav.dart';
 import 'package:handyhive/Screens/Worker/worker_dashboard.dart';
 import 'package:provider/provider.dart';
 
@@ -185,7 +186,7 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
 
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
-                          return WorkerDashBoard();
+                          return  WorkerBottomNavigation();
                         }), (route) => false);
                       },
                       child: Text("Submit"),

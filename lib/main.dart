@@ -14,8 +14,10 @@ import 'Screens/OnBoardingScreen/landing_page.dart';
 import 'Screens/OnBoardingScreen/onboarding_screen2.dart';
 import 'Screens/OnBoardingScreen/onboarding_screen3.dart';
 import 'Screens/OnBoardingScreen/welcome_page.dart';
+import 'Screens/User/user_bottom_nav.dart';
 import 'Screens/User/user_dashboard.dart';
 
+import 'Screens/Worker/worker_bottom_nav.dart';
 import 'Screens/Worker/worker_dashboard.dart';
 import 'Screens/Worker/worker_registration_page1.dart';
 import 'Screens/Worker/worker_registration_page2.dart';
@@ -137,10 +139,10 @@ class MyApp extends StatelessWidget {
         return WelcomePage();
       // break;
       case 1:
-        return UserDashBoard();
+        return  UserBottomNavigation();
       // break;
       case 2:
-        return WorkerDashBoard();
+        return  WorkerBottomNavigation();
       // break;
       default:
         return Center(child: Text('Something Went wrong : ((((('));

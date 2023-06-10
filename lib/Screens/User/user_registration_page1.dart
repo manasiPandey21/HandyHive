@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
+import 'package:handyhive/Screens/User/user_bottom_nav.dart';
 import 'package:handyhive/Screens/User/user_dashboard.dart';
 
 import 'package:handyhive/Screens/User/user_edit_profile.dart';
@@ -264,7 +265,7 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
 
                   Navigator.pushAndRemoveUntil(context,
                       MaterialPageRoute(builder: (context) {
-                    return UserDashBoard();
+                    return UserBottomNavigation();
                   }), (route) => false);
                 },
                 child: Container(child: Center(child: Text("Submit")),width: MediaQuery.of(context).size.width / 4

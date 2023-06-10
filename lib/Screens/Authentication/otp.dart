@@ -9,7 +9,9 @@ import 'package:provider/provider.dart';
 
 import '../../Provider/auth.dart';
 import '../OnBoardingScreen/landing_page.dart';
+import '../User/user_bottom_nav.dart';
 import '../User/user_dashboard.dart';
+import '../Worker/worker_bottom_nav.dart';
 import '../Worker/worker_dashboard.dart';
 
 class MyOtp extends StatefulWidget {
@@ -98,13 +100,13 @@ class _MyOtpState extends State<MyOtp> {
                         msgToast("Welcome again");
                          Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
-                          return UserDashBoard();
+                          return UserBottomNavigation();
                         }), (route) => false);
                       } else if (isworker.exists) {
                          msgToast("Welcome again");
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
-                          return WorkerDashBoard();
+                          return  WorkerBottomNavigation();
                         }), (route) => false);
                       } else {
                          msgToast("Welcome to HandyHive,hoping for you good experience with us");

@@ -24,23 +24,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
   bool _isInit = true;
   bool isLoading = true;
 
-  void onItemTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-    if (index == 1) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ChatPageUser()));
-    }
-    if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserEditProfile(),
-        ),
-      );
-    }
-  }
+  
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
@@ -70,39 +54,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
       return Center(
         child: isLoading? Center(child: CircularProgressIndicator()) :Scaffold(
             
-            bottomNavigationBar: BottomNavigationBar(
-                currentIndex: currentIndex,
-                onTap: onItemTapped,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.home,
-                      color: Colors.pinkAccent,
-                    ),
-                    label: "",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.message,
-                      color: Colors.pinkAccent,
-                    ),
-                    label: "",
-                  ),
-                  // BottomNavigationBarItem(
-                  //   icon: Icon(
-                  //     Icons.shopping_bag,
-                  //     color: Colors.pinkAccent,
-                  //   ),
-                  //   label: "My Choices",
-                  // ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.face_outlined,
-                      color: Colors.pinkAccent,
-                    ),
-                    label: "",
-                  ),
-                ]),
+            
             body: SingleChildScrollView(
               child: Column(children: [
                 // Container(

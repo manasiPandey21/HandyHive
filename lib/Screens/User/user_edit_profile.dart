@@ -41,25 +41,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
   final _firebaseStorage = FirebaseStorage.instance;
   List<String> genderOptions = ['Men', 'Women', 'Others'];
   String selectedGender = 'Men';
-  int currentIndex = 0;
-
-  void onItemTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-    if (index == 1) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ChatPageUser()));
-    }
-    if (index == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserDashBoard(),
-        ),
-      );
-    }
-  }
+ 
 
 
   TextEditingController name = new TextEditingController();
@@ -154,31 +136,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
               title: Center(child: Text("My Profile")),
               backgroundColor: Colors.pinkAccent,
             ),
-             bottomNavigationBar: BottomNavigationBar(
-              currentIndex: currentIndex,
-              onTap: onItemTapped,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.pinkAccent,
-                  ),
-                  label: "",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.message,
-                    color: Colors.pinkAccent,
-                  ),
-                  label: "",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.face_outlined,
-                    color: Colors.pinkAccent,
-                  ),
-                  label: "",
-                )]),
+            
             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(

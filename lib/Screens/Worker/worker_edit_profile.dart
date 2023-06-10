@@ -25,29 +25,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
   bool _isInit = true;
   bool isLoading = true;
   final picker = ImagePicker();
-  int currentIndex = 2;
-
-  void onItemTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-    if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatPageWorker(),
-        ),
-      );
-    }
-    if (index == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WorkerDashBoard(),
-        ),
-      );
-    }
-  }
+ 
 
   var _image;
   var imageUrl;
@@ -164,32 +142,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
               title: Center(child: Text("My Profile")),
               backgroundColor: Colors.pinkAccent,
             ),
-            bottomNavigationBar: BottomNavigationBar(
-                currentIndex: currentIndex,
-                onTap: onItemTapped,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.home,
-                      color: Colors.pinkAccent,
-                    ),
-                    label: "",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.message,
-                      color: Colors.pinkAccent,
-                    ),
-                    label: "",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.face_outlined,
-                      color: Colors.pinkAccent,
-                    ),
-                    label: "",
-                  ),
-                ]),
+           
             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(

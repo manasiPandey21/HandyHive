@@ -28,27 +28,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
   List<Users> users = [];
   int currentIndex = 0;
 
-  void onItemTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-    if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatPageWorker(),
-        ),
-      );
-    }
-    if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WorkerEditProfile(),
-        ),
-      );
-    }
-  }
+
 
   @override
   Future<void> didChangeDependencies() async {
@@ -237,39 +217,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
         //   ),
         // ],
     
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: currentIndex,
-            onTap: onItemTapped,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.pinkAccent,
-                ),
-                label: "",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.message,
-                  color: Colors.pinkAccent,
-                ),
-                label: "",
-              ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(
-              //     Icons.shopping_bag,
-              //     color: Colors.pinkAccent,
-              //   ),
-              //   label: "My Choices",
-              // ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.face_outlined,
-                  color: Colors.pinkAccent,
-                ),
-                label: "",
-              ),
-            ]),
+        
          body:Column(children: [
           SizedBox(height: 50,),
          Padding(
