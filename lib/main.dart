@@ -120,7 +120,6 @@ class MyApp extends StatelessWidget {
                 "chat": (context) => ChatPage(),
                 "Profile page2": (context) => UserRegistrationPage1(),
                 "HelpDesks": (context) => HelpDesk(),
-                "dashboard2": ((context) => UserDashBoard()),
                 "user_edit_profile": (context) => UserEditProfile(),
               },
             ),

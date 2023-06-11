@@ -160,8 +160,8 @@ class _ChatPageUserState extends State<ChatPageUser> {
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => WorkerDetails(
-                                        workerId:
-                                            acceptedworkers[index].uidWorkers),
+                                        
+                                            acceptedworkers[index],currUser),
                                   ));
                                 },
                               ),

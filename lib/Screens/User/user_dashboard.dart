@@ -10,49 +10,22 @@ import '../../Provider/auth.dart';
 import '../../Provider/users_provider.dart';
 
 class UserDashBoard extends StatefulWidget {
-  const UserDashBoard({super.key});
+  Users? currUser;
+   UserDashBoard(this.currUser);
 
   @override
   State<UserDashBoard> createState() => _UserDashBoardState();
 }
 
 class _UserDashBoardState extends State<UserDashBoard> {
-  @override
-  final TextEditingController _searchController = TextEditingController();
-  int currentIndex = 0;
-  Users? currUser;
-  bool _isInit = true;
-  bool isLoading = true;
-
   
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-    if (_isInit) {
-      await Provider.of<UsersProvider>(context, listen: false)
-          .fetchAndSetUsers()
-          .then((value) async => await Provider.of<Auth>(context, listen: false)
-                  .getFirebaseUser()
-                  .then((value) async {
-                setState(() {
-                  var uid = Provider.of<Auth>(context, listen: false)
-                      .firebaseUser!
-                      .uid
-                      .toString();
-                   currUser = Provider.of<UsersProvider>(context, listen: false)
-                      .getUser(uid.toString());
-                  isLoading = false;
-                });
-              }));
-      
-    }
-    _isInit = false;
-  }
+  //final TextEditingController _searchController = TextEditingController();
 
+   @override
   Widget build(BuildContext context) {
     {
       return Center(
-        child: isLoading? Center(child: CircularProgressIndicator()) :Scaffold(
+        child: Scaffold(
             
             
             body: SingleChildScrollView(
@@ -84,7 +57,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                
                children: [
                
-               Text("Hey ${currUser?.nameUser}",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),),
+               Text("Hey ${widget.currUser!.nameUser}",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),),
                Lottie.network(
                  'https://assets8.lottiefiles.com/packages/lf20_d00u59ww.json'
                ),
@@ -108,7 +81,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             iconSize: 60,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UserDashBoard2("Cooking"),
+                                builder: (context) => UserDashBoard2("Cooking",widget.currUser),
                               ));
                             },
                           ),
@@ -125,7 +98,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             iconSize: 70,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UserDashBoard2("Gardening"),
+                                builder: (context) => UserDashBoard2("Gardening",widget.currUser),
                               ));
                             },
                           ),
@@ -142,7 +115,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             iconSize: 70,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UserDashBoard2("Brooming"),
+                                builder: (context) => UserDashBoard2("Brooming",widget.currUser),
                               ));
                             },
                           ),
@@ -160,7 +133,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
-                                    UserDashBoard2("Utensils Cleaning"),
+                                    UserDashBoard2("Utensils Cleaning",widget.currUser),
                               ));
                             },
                           ),
@@ -178,7 +151,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
-                                    UserDashBoard2("Clothes Cleaning"),
+                                    UserDashBoard2("Clothes Cleaning",widget.currUser),
                               ));
                             },
                           ),
@@ -195,7 +168,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             iconSize: 60,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UserDashBoard2("Sweeping"),
+                                builder: (context) => UserDashBoard2("Sweeping",widget.currUser),
                               ));
                             },
                           ),
@@ -223,7 +196,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             iconSize: 70,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UserDashBoard2("Ironing"),
+                                builder: (context) => UserDashBoard2("Ironing",widget.currUser),
                               ));
                             },
                           ),
@@ -240,7 +213,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             iconSize: 70,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UserDashBoard2("Massager"),
+                                builder: (context) => UserDashBoard2("Massager",widget.currUser),
                               ));
                             },
                           ),
@@ -258,7 +231,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
-                                    UserDashBoard2("BabySitter"),
+                                    UserDashBoard2("BabySitter",widget.currUser),
                               ));
                             },
                           ),
@@ -275,7 +248,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             iconSize: 70,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UserDashBoard2("Driver"),
+                                builder: (context) => UserDashBoard2("Driver",widget.currUser),
                               ));
                             },
                           ),
@@ -292,7 +265,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                             iconSize: 70,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => UserDashBoard2("Nurse"),
+                                builder: (context) => UserDashBoard2("Nurse",widget.currUser),
                               ));
                             },
                           ),

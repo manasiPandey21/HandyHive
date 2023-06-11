@@ -6,9 +6,9 @@ import '../../Provider/users_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserDetails extends StatefulWidget {
-   String userId;
+   Users user;
 
-   UserDetails(this.userId);
+   UserDetails(this.user);
 
   @override
   _UserDetailsState createState() => _UserDetailsState();
@@ -18,7 +18,7 @@ class _UserDetailsState extends State<UserDetails> {
   Future<String>? _imageUrlFuture;
   bool _isInit = true;
   bool isLoading = true;
-  Users? user;
+  
 
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
@@ -27,8 +27,7 @@ class _UserDetailsState extends State<UserDetails> {
           .fetchAndSetUsers()
           .then((value) async {
         setState(() {
-          user = Provider.of<UsersProvider>(context, listen: false)
-              .getUser(widget.userId);
+          
           isLoading =false;
         });
       });
@@ -49,7 +48,7 @@ class _UserDetailsState extends State<UserDetails> {
                child:Column(children: [
 
               SizedBox(height: 50,),
-               Text(" ${user?.nameUser} Details",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),),
+               Text(" ${widget.user?.nameUser} Details",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),),
                Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Card(
@@ -66,7 +65,7 @@ class _UserDetailsState extends State<UserDetails> {
                           child: FutureBuilder(
                             future: Provider.of<UsersProvider>(context,
                                     listen: false)
-                                .getImageUrl(widget.userId.toString()),
+                                .getImageUrl(widget.user.uidUser.toString()),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return CircleAvatar(
@@ -99,7 +98,7 @@ class _UserDetailsState extends State<UserDetails> {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              '${user!.nameUser ?? ""}',
+                              '${widget.user!.nameUser ?? ""}',
                             ),
                             Divider(thickness: 1),
                             Text(
@@ -107,35 +106,35 @@ class _UserDetailsState extends State<UserDetails> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
-                            Text('${user!.ageUser ?? ""}'),
+                            Text('${widget.user!.ageUser ?? ""}'),
                             Divider(thickness: 1),
                             Text(
                               'Address',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
-                            Text('${user!.addressUser ?? ""}'),
+                            Text('${widget.user!.addressUser ?? ""}'),
                             Divider(thickness: 1),
                             Text(
                               'Number of people in house',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
-                            Text('${user!.numberOfPeopleInhouseUser ?? ""}'),
+                            Text('${widget.user!.numberOfPeopleInhouseUser ?? ""}'),
                             Divider(thickness: 1),
                             Text(
                               'Gender',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
-                            Text('${user!.genderUser ?? ""}'),
+                            Text('${widget.user!.genderUser ?? ""}'),
                             Divider(thickness: 1),
                             Text(
                               'Religion',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
-                            Text(' ${user!.religionUser ?? ""}'),
+                            Text(' ${widget.user!.religionUser ?? ""}'),
                             SizedBox(height: 30),
                             Center(
                               child: ElevatedButton(
@@ -144,7 +143,7 @@ class _UserDetailsState extends State<UserDetails> {
                                 onPressed: () async {
                                   setState(() {
                                     launch(
-                                        'https://wa.me/${user!.mobileNumberUser}');
+                                        'https://wa.me/${widget.user!.mobileNumberUser}');
                                   });
                                 },
                                 child: Text("Tap to chat"),
