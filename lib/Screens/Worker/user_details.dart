@@ -87,70 +87,68 @@ class _UserDetailsState extends State<UserDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(18.0),
-                      child: Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            
-                            Text(
-                              'Name',
-                              style: TextStyle(fontWeight: FontWeight.bold,fontFamily:  'Source Sans Pro'),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          
+                          Text(
+                            'Name',
+                            style: TextStyle(fontWeight: FontWeight.bold,fontFamily:  'Source Sans Pro'),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            '${widget.user!.nameUser ?? ""}',
+                          ),
+                          Divider(thickness: 1),
+                          Text(
+                            'Age',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 10),
+                          Text('${widget.user!.ageUser ?? ""}'),
+                          Divider(thickness: 1),
+                          Text(
+                            'Address',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 10),
+                          Text('${widget.user!.addressUser ?? ""}'),
+                          Divider(thickness: 1),
+                          Text(
+                            'Number of people in house',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 10),
+                          Text('${widget.user!.numberOfPeopleInhouseUser ?? ""}'),
+                          Divider(thickness: 1),
+                          Text(
+                            'Gender',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 10),
+                          Text('${widget.user!.genderUser ?? ""}'),
+                          Divider(thickness: 1),
+                          Text(
+                            'Religion',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 10),
+                          Text(' ${widget.user!.religionUser ?? ""}'),
+                          SizedBox(height: 30),
+                          Center(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.pinkAccent),
+                              onPressed: () async {
+                                setState(() {
+                                  launch(
+                                      'https://wa.me/${widget.user!.mobileNumberUser}');
+                                });
+                              },
+                              child: Text("Tap to chat"),
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                              '${widget.user!.nameUser ?? ""}',
-                            ),
-                            Divider(thickness: 1),
-                            Text(
-                              'Age',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 10),
-                            Text('${widget.user!.ageUser ?? ""}'),
-                            Divider(thickness: 1),
-                            Text(
-                              'Address',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 10),
-                            Text('${widget.user!.addressUser ?? ""}'),
-                            Divider(thickness: 1),
-                            Text(
-                              'Number of people in house',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 10),
-                            Text('${widget.user!.numberOfPeopleInhouseUser ?? ""}'),
-                            Divider(thickness: 1),
-                            Text(
-                              'Gender',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 10),
-                            Text('${widget.user!.genderUser ?? ""}'),
-                            Divider(thickness: 1),
-                            Text(
-                              'Religion',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 10),
-                            Text(' ${widget.user!.religionUser ?? ""}'),
-                            SizedBox(height: 30),
-                            Center(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.pinkAccent),
-                                onPressed: () async {
-                                  setState(() {
-                                    launch(
-                                        'https://wa.me/${widget.user!.mobileNumberUser}');
-                                  });
-                                },
-                                child: Text("Tap to chat"),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ]),

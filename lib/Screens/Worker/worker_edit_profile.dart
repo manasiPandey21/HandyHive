@@ -844,14 +844,12 @@ void showLogoutConfirmationDialog(BuildContext context) {
           title: Text('Logout Confirmation'),
           content: Text('Are you sure you want to log out?'),
           actions: <Widget>[
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.pink.shade100,elevation: 10,shadowColor: Colors.grey),
-                child: Text('No'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Dismiss the dialog
-                },
-              ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.pink.shade100,elevation: 10,shadowColor: Colors.grey),
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(); 
+              },
             ),
             
             ElevatedButton(
