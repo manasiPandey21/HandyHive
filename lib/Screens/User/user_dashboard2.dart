@@ -31,6 +31,16 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(
+        backgroundColor: Colors.white70,
+       elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,color: Colors.pinkAccent,),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: Consumer<WorkersProvider>(
         builder: (context, workersProvider, _) {
           final workers =
@@ -79,10 +89,10 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                                 borderOnForeground: true,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                margin: EdgeInsets.only(right: 10),
+                                //margin: EdgeInsets.only(right: 10),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      right: 20.0, bottom: 20, top: 20),
+                                       bottom: 20, top: 20),
                                   child: ListTile(
                                     leading: FutureBuilder(
                                       future: Provider.of<WorkersProvider>(
@@ -105,7 +115,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                                             radius: 90,
                                             backgroundColor: Colors.brown,
                                             foregroundColor: Colors.brown,
-                                            child: CircularProgressIndicator(),
+                                           // child: CircularProgressIndicator(),
                                           );
                                         }
                                       },

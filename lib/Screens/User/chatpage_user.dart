@@ -13,50 +13,37 @@ import '../../Provider/auth.dart';
 import '../../Provider/users_provider.dart';
 
 class ChatPageUser extends StatefulWidget {
-  const ChatPageUser({super.key});
+  Users? currUser;
+  ChatPageUser(this.currUser);
 
   @override
   State<ChatPageUser> createState() => _ChatPageUserState();
 }
 
 class _ChatPageUserState extends State<ChatPageUser> {
-  Users? currUser;
   bool _isInit = true;
   bool isLoading = true;
   List<Worker> acceptedworkers = [];
-
+   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     if (_isInit) {
-      await Provider.of<UsersProvider>(context, listen: false)
-          .fetchAndSetUsers()
-          .then((value) async => await Provider.of<Auth>(context, listen: false)
-              .getFirebaseUser()
-              .then((value) async => await Provider.of<WorkersProvider>(context,
-                      listen: false)
-                  .fetchAndSetWorkers()
-                  .then((value) => {
-                        setState(() {
-                          var uid = Provider.of<Auth>(context, listen: false)
-                              .firebaseUser!
-                              .uid
-                              .toString();
-                          currUser =
-                              Provider.of<UsersProvider>(context, listen: false)
-                                  .getUser(uid.toString());
-                          for (var entry
-                              in currUser!.acceptedRequests.entries) {
-                            Worker worker = Provider.of<WorkersProvider>(
-                                    context,
-                                    listen: false)
-                                .getWorkers(entry.key.toString());
-                            if (worker != null && entry.value == 'true') {
-                              acceptedworkers.add(worker);
-                            }
-                          }
-                          isLoading = false;
-                        })
-                      })));
+      await Provider.of<WorkersProvider>(context, listen: false)
+          .fetchAndSetWorkers()
+          .then((value) => {
+            
+                setState(() {
+                  for (var entry in widget.currUser!.acceptedRequests.entries) {
+                    Worker worker =
+                        Provider.of<WorkersProvider>(context, listen: false)
+                            .getWorkers(entry.key.toString());
+                    if (worker != null && entry.value == 'true') {
+                      acceptedworkers.add(worker);
+                    }
+                  }
+                  isLoading = false;
+                })
+              });
     }
     _isInit = false;
   }
@@ -68,26 +55,34 @@ class _ChatPageUserState extends State<ChatPageUser> {
             ? Center(child: CircularProgressIndicator())
             : Scaffold(
                 appBar: AppBar(
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                   title: Center(child: Text("My Chat")),
                   backgroundColor: Colors.pinkAccent,
                 ),
-                body: isLoading
-                    ? Center(child: CircularProgressIndicator())
-                    // : Expanded(
-                    //     child: acceptedworkers.length == 0
-                    //         ? Column(
-                    //             mainAxisAlignment: MainAxisAlignment.center,
-                    //             children: [
-                    //               Lottie.network(
-                    //                   'https://assets4.lottiefiles.com/packages/lf20_mznpnepo.json'),
-                    //               Text(
-                    //                 'Sorry, No request you have accepted yet',
-                    //                 style: TextStyle(
-                    //                   fontSize: 20,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           )
+                body: acceptedworkers.length == 0
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Lottie.network(
+                                'https://assets3.lottiefiles.com/packages/lf20_6PnLAF.json',
+                              ),
+                            ),
+                          ),
+                          // Text(
+                          //   'Sorry, your chat list is empty :(',
+                          //   style: TextStyle(
+                          //     fontSize: 20,
+                          //   ),
+                          // ),
+                        ],
+                      )
                     : Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: ListView.builder(
@@ -129,8 +124,8 @@ class _ChatPageUserState extends State<ChatPageUser> {
                                                 radius: 60,
                                                 backgroundColor: Colors.brown,
                                                 foregroundColor: Colors.brown,
-                                                child:
-                                                    CircularProgressIndicator(),
+                                                //child:
+                                                //CircularProgressIndicator(),
                                               );
                                             }
                                           },
@@ -160,8 +155,8 @@ class _ChatPageUserState extends State<ChatPageUser> {
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => WorkerDetails(
-                                        
-                                            acceptedworkers[index],currUser),
+                                        acceptedworkers[index],
+                                        widget.currUser),
                                   ));
                                 },
                               ),

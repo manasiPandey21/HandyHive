@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../Models/users.dart';
 import '../../Provider/auth.dart';
 import '../../Provider/users_provider.dart';
+import '../Common/load.dart';
 
 class UserBottomNavigation extends StatefulWidget {
   const UserBottomNavigation({super.key});
@@ -53,7 +54,7 @@ class _UserBottomNavigationState extends State<UserBottomNavigation> {
   TextEditingController search = TextEditingController();
   static List<Widget> _tabs = <Widget>[
     UserDashBoard(currUser),
-    ChatPageUser(),
+    ChatPageUser(currUser),
     UserEditProfile(),
 
     // Profile(),
@@ -61,7 +62,7 @@ class _UserBottomNavigationState extends State<UserBottomNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading ? Center(child: CircularProgressIndicator()) : Scaffold(
+    return isLoading ? Center(child: LoadScreen()) : Scaffold(
         body: _tabs.elementAt(_currentIndex),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(

@@ -58,17 +58,17 @@ class _UserDashBoardState extends State<UserDashBoard> {
                children: [
                
                Text("Hey ${widget.currUser!.nameUser}",style: TextStyle(fontSize: 60,fontFamily: 'Pacifico',fontWeight: FontWeight.w100),),
+               
                Lottie.network(
                  'https://assets8.lottiefiles.com/packages/lf20_d00u59ww.json'
                ),
-               ],),
+               ],
+               ),
             ),
+            SizedBox(height: 100,),
+            
               
-             
-               
-                         SizedBox(
-                  height: 100,
-                ),
+           
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -78,7 +78,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         children: [
                           IconButton(
                             icon: Image.asset('assets/cooking.jpg'),
-                            iconSize: 60,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => UserDashBoard2("Cooking",widget.currUser),
@@ -95,7 +95,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         children: [
                           IconButton(
                             icon: Image.asset('assets/gardening.jpg'),
-                            iconSize: 70,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => UserDashBoard2("Gardening",widget.currUser),
@@ -112,7 +112,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         children: [
                           IconButton(
                             icon: Image.asset('assets/brooming.jpg'),
-                            iconSize: 70,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => UserDashBoard2("Brooming",widget.currUser),
@@ -128,26 +128,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
                       Column(
                         children: [
                           IconButton(
-                            icon: Image.asset('assets/utensilsCleaning.jpg'),
-                            iconSize: 60,
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    UserDashBoard2("Utensils Cleaning",widget.currUser),
-                              ));
-                            },
-                          ),
-                          Text(
-                            "Utensils",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          IconButton(
                             icon: Image.asset('assets/washingClothes.jpg'),
-                            iconSize: 60,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
@@ -161,11 +143,43 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           )
                         ],
                       ),
+                     
+                      
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                  
+            SingleChildScrollView(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: Image.asset('assets/babySitter.jpg'),
+                            iconSize: 80,
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    UserDashBoard2("BabySitter",widget.currUser),
+                              ));
+                            },
+                          ),
+                          Text(
+                            "BabySitter",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                       
                       Column(
                         children: [
                           IconButton(
                             icon: Image.asset('assets/moping.jpg'),
-                            iconSize: 60,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => UserDashBoard2("Sweeping",widget.currUser),
@@ -178,22 +192,11 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           )
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
                       Column(
                         children: [
                           IconButton(
                             icon: Image.asset('assets/ironing.jpg'),
-                            iconSize: 70,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => UserDashBoard2("Ironing",widget.currUser),
@@ -210,7 +213,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         children: [
                           IconButton(
                             icon: Image.asset('assets/Massager.jpg'),
-                            iconSize: 70,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => UserDashBoard2("Massager",widget.currUser),
@@ -223,29 +226,25 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           )
                         ],
                       ),
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: Image.asset('assets/babySitter.jpg'),
-                            iconSize: 70,
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    UserDashBoard2("BabySitter",widget.currUser),
-                              ));
-                            },
-                          ),
-                          Text(
-                            "BabySitter",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
+              ],),
+            ),
+             SizedBox(
+                  height: 30,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    
+                    children: [
+                      
+                      
                       Column(
                         children: [
                           IconButton(
                             icon: Image.asset('assets/driver.jpg'),
-                            iconSize: 70,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => UserDashBoard2("Driver",widget.currUser),
@@ -262,7 +261,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         children: [
                           IconButton(
                             icon: Image.asset('assets/nursing.png'),
-                            iconSize: 70,
+                            iconSize: 80,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => UserDashBoard2("Nurse",widget.currUser),
@@ -271,6 +270,24 @@ class _UserDashBoardState extends State<UserDashBoard> {
                           ),
                           Text(
                             "Nurse",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: Image.asset('assets/utensilsCleaning.jpg'),
+                            iconSize: 80,
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    UserDashBoard2("Utensils Cleaning",widget.currUser),
+                              ));
+                            },
+                          ),
+                          Text(
+                            "Utensils",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )
                         ],

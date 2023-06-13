@@ -112,7 +112,7 @@ class MyApp extends StatelessWidget {
                 "Profile page": (context) => WorkerRegistrationPage1(),
                 "phone": (context) => Login(), //done
                 "LandingPage": (context) => LandingPage(),
-                "dashboard1": ((context) => WorkerDashBoard()),
+                
                 "boarding1": (context) => OnboardingFirst(), //done
                 "boarding2": (context) => OnBoardingSecond(), //done
                 "boarding3": (context) => OnBoardingThird(), //done

@@ -13,19 +13,18 @@ import '../Authentication/login.dart';
 import 'chatpage_worker.dart';
 
 class WorkerEditProfile extends StatefulWidget {
-  const WorkerEditProfile({super.key});
+  Worker? currWorker;
+  WorkerEditProfile(this.currWorker);
 
   @override
   State<WorkerEditProfile> createState() => _WorkerEditProfileState();
 }
 
 class _WorkerEditProfileState extends State<WorkerEditProfile> {
-  Worker? currWorker;
   Worker? newWorker;
   bool _isInit = true;
   bool isLoading = true;
   final picker = ImagePicker();
- 
 
   var _image;
   var imageUrl;
@@ -59,21 +58,18 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                       .firebaseUser!
                       .uid
                       .toString();
-                  currWorker =
-                      Provider.of<WorkersProvider>(context, listen: false)
-                          .getWorkers(uid.toString());
 
                   isLoading = false;
                 });
               }));
-      name.text = currWorker!.nameWorkers;
-      age.text = currWorker!.ageworker;
-      gender.text = currWorker!.genderworker;
-      mobileNo.text = currWorker!.mobileNoworker;
-      address.text = currWorker!.addressWorker;
-      maritalStatus.text = currWorker!.maritalStatusworker;
-      workExperience.text = currWorker!.workExperienceworker;
-      language.text = currWorker!.languageworker;
+      name.text = widget.currWorker!.nameWorkers;
+      age.text = widget.currWorker!.ageworker;
+      gender.text = widget.currWorker!.genderworker;
+      mobileNo.text = widget.currWorker!.mobileNoworker;
+      address.text = widget.currWorker!.addressWorker;
+      maritalStatus.text = widget.currWorker!.maritalStatusworker;
+      workExperience.text = widget.currWorker!.workExperienceworker;
+      language.text = widget.currWorker!.languageworker;
     }
     _isInit = false;
   }
@@ -93,10 +89,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
       setState(() {
         //  _image = File(image!.path);
       });
-      var uid = Provider.of<Auth>(context, listen: false)
-          .firebaseUser!
-          .uid
-          .toString();
+      var uid = widget.currWorker!.uidWorkers;
       if (_image != null) {
         var snapshot = await _firebaseStorage
             .ref()
@@ -142,7 +135,6 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
               title: Center(child: Text("My Profile")),
               backgroundColor: Colors.pinkAccent,
             ),
-           
             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(
@@ -152,7 +144,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                         child: FutureBuilder(
                           future: Provider.of<WorkersProvider>(context,
                                   listen: false)
-                              .getImageUrl(currWorker!.uidWorkers.toString()),
+                              .getImageUrl(widget.currWorker!.uidWorkers.toString()),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return CircleAvatar(
@@ -167,7 +159,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                 radius: 60,
                                 backgroundColor: Colors.brown,
                                 foregroundColor: Colors.brown,
-                                child: CircularProgressIndicator(),
+                                // child: CircularProgressIndicator(),
                               );
                             }
                           },
@@ -189,7 +181,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currWorker!.nameWorkers}',
+                                  text: '${widget.currWorker!.nameWorkers}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -197,7 +189,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -235,7 +227,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              newWorker = currWorker!.copyWith(
+                                              newWorker = widget.currWorker!.copyWith(
                                                 nameWorkers:
                                                     name.text.toString(),
                                               );
@@ -245,7 +237,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
                                               setState(() {
-                                                currWorker = newWorker;
+                                                widget.currWorker = newWorker;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -273,7 +265,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currWorker!.addressWorker}',
+                                  text: '${widget.currWorker!.addressWorker}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -281,7 +273,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -329,7 +321,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newWorker = currWorker!.copyWith(
+                                              newWorker = widget.currWorker!.copyWith(
                                                   addressWorker:
                                                       address.text.toString());
 
@@ -339,7 +331,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
                                               setState(() {
-                                                currWorker = newWorker;
+                                                widget.currWorker = newWorker;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -367,7 +359,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currWorker!.ageworker}',
+                                  text: '${widget.currWorker!.ageworker}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -375,7 +367,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -414,7 +406,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              newWorker = currWorker!.copyWith(
+                                              newWorker = widget.currWorker!.copyWith(
                                                   ageworker:
                                                       age.text.toString());
                                               await Provider.of<
@@ -423,7 +415,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
                                               setState(() {
-                                                currWorker = newWorker;
+                                                widget.currWorker = newWorker;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -445,13 +437,13 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                         ),
                         title: Text.rich(
                           TextSpan(
-                            text: 'Gender: ',
+                            text: 'Gender:  ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                             children: [
                               TextSpan(
-                                text: '${currWorker!.genderworker}',
+                                text: '${widget.currWorker!.genderworker}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -459,10 +451,10 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                             ],
                           ),
                         ),
-                          trailing: Icon(
-                            Icons.edit,
-                            color: Colors.pinkAccent,
-                          ),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
                         onTap: () {
                           showDialog(
                             context: context,
@@ -488,7 +480,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                 actions: <Widget>[
                                   ElevatedButton(
                                     onPressed: () async {
-                                      newWorker = currWorker!.copyWith(
+                                      newWorker = widget.currWorker!.copyWith(
                                         genderworker: selectedGender,
                                       );
 
@@ -497,7 +489,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                               listen: false)
                                           .updateWorkers(newWorker!);
                                       setState(() {
-                                        currWorker = newWorker;
+                                        widget.currWorker = newWorker;
                                       });
                                       Navigator.pop(context);
                                     },
@@ -524,7 +516,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currWorker!.mobileNoworker}',
+                                  text: '${widget.currWorker!.mobileNoworker}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -546,7 +538,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currWorker!.maritalStatusworker}',
+                                  text: '${widget.currWorker!.maritalStatusworker}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -554,7 +546,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -601,7 +593,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newWorker = currWorker!.copyWith(
+                                              newWorker = widget.currWorker!.copyWith(
                                                 maritalStatusworker:
                                                     maritalStatus.text
                                                         .toString(),
@@ -613,7 +605,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
                                               setState(() {
-                                                currWorker = newWorker;
+                                                widget.currWorker = newWorker;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -641,7 +633,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currWorker!.workExperienceworker}',
+                                  text: '${widget.currWorker!.workExperienceworker}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -649,7 +641,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -697,7 +689,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newWorker = currWorker!.copyWith(
+                                              newWorker = widget.currWorker!.copyWith(
                                                   workExperienceworker:
                                                       workExperience.text
                                                           .toString());
@@ -708,7 +700,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
                                               setState(() {
-                                                currWorker = newWorker;
+                                                widget.currWorker = newWorker;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -736,7 +728,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currWorker!.languageworker}',
+                                  text: '${widget.currWorker!.languageworker}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -744,7 +736,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -791,7 +783,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newWorker = currWorker!.copyWith(
+                                              newWorker = widget.currWorker!.copyWith(
                                                   languageworker:
                                                       language.text.toString());
 
@@ -801,7 +793,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                       listen: false)
                                                   .updateWorkers(newWorker!);
                                               setState(() {
-                                                currWorker = newWorker;
+                                                widget.currWorker = newWorker;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -845,13 +837,15 @@ void showLogoutConfirmationDialog(BuildContext context) {
           content: Text('Are you sure you want to log out?'),
           actions: <Widget>[
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.pink.shade100,elevation: 10,shadowColor: Colors.grey),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pink.shade100,
+                  elevation: 10,
+                  shadowColor: Colors.grey),
               child: Text('No'),
               onPressed: () {
-                Navigator.of(context).pop(); 
+                Navigator.of(context).pop();
               },
             ),
-            
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pinkAccent,

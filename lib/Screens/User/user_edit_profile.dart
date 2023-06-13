@@ -106,6 +106,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
           .then((value) async => await Provider.of<Auth>(context, listen: false)
                   .getFirebaseUser()
                   .then((value) async {
+                  
                 setState(() {
                   var uid = Provider.of<Auth>(context, listen: false)
                       .firebaseUser!
@@ -162,7 +163,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                     radius: 60,
                                     backgroundColor: Colors.brown,
                                     foregroundColor: Colors.brown,
-                                    child: CircularProgressIndicator(),
+                                   // child: CircularProgressIndicator(),
                                   );
                                 }
                               },
