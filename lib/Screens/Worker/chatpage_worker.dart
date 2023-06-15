@@ -30,23 +30,21 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     if (_isInit) {
-                  await Provider.of<UsersProvider>(context, listen: false)
-                      .fetchAndSetUsers()
-                      .then((value) => {
-                            setState(() {
-                             
-                              for (var entry
-                                  in widget.currWorker!.requests.entries) {
-                                Users user = Provider.of<UsersProvider>(context,
-                                        listen: false)
-                                    .getUser(entry.key.toString());
-                                if (user != null && entry.value == 'true') {
-                                  acceptedusers.add(user);
-                                }
-                              }
-                              isLoading = false;
-                            })
-                          });
+      await Provider.of<UsersProvider>(context, listen: false)
+          .fetchAndSetUsers()
+          .then((value) => {
+                setState(() {
+                  for (var entry in widget.currWorker!.requests.entries) {
+                    Users user =
+                        Provider.of<UsersProvider>(context, listen: false)
+                            .getUser(entry.key.toString());
+                    if (user != null && entry.value == 'true') {
+                      acceptedusers.add(user);
+                    }
+                  }
+                  isLoading = false;
+                })
+              });
     }
     _isInit = false;
   }
@@ -60,15 +58,6 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
             ? Center(child: CircularProgressIndicator())
             : Scaffold(
                 appBar: AppBar(
-                  leading: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
                   title: Center(child: Text("My Chat")),
                   backgroundColor: Colors.pinkAccent,
                 ),
@@ -85,7 +74,6 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                               ),
                             ),
                           ),
-                        
                         ],
                       )
                     : Padding(

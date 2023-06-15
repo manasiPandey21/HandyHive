@@ -114,7 +114,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                                           );
                                         } else {
                                           return CircleAvatar(
-                                            radius: 90,
+                                            radius: 100,
                                             backgroundColor: Colors.brown,
                                             foregroundColor: Colors.brown,
                                            // child: CircularProgressIndicator(),
@@ -122,6 +122,8 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                                         }
                                       },
                                     ),
+                                    
+                                    
                                     subtitle: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

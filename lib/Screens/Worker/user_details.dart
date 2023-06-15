@@ -62,7 +62,7 @@ class _UserDetailsState extends State<UserDetails> {
                     Text(
                       " ${widget.user?.nameUser} Details",
                       style: TextStyle(
-                          fontSize: 60,
+                          fontSize: 30,
                           fontFamily: 'Pacifico',
                           fontWeight: FontWeight.w100),
                     ),

@@ -24,14 +24,13 @@ class _ChatPageUserState extends State<ChatPageUser> {
   bool _isInit = true;
   bool isLoading = true;
   List<Worker> acceptedworkers = [];
-   @override
+  @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     if (_isInit) {
       await Provider.of<WorkersProvider>(context, listen: false)
           .fetchAndSetWorkers()
           .then((value) => {
-            
                 setState(() {
                   for (var entry in widget.currUser!.acceptedRequests.entries) {
                     Worker worker =
@@ -57,12 +56,12 @@ class _ChatPageUserState extends State<ChatPageUser> {
             ? Center(child: CircularProgressIndicator())
             : Scaffold(
                 appBar: AppBar(
-                  leading: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                  // leading: IconButton(
+                  //   icon: Icon(Icons.arrow_back, color: Colors.white),
+                  //   onPressed: () {
+                  //     Navigator.of(context).pop();
+                  //   },
+                  // ),
                   title: Center(child: Text("My Chat")),
                   backgroundColor: Colors.pinkAccent,
                 ),

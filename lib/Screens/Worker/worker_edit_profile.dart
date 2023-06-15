@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -74,45 +76,28 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
     _isInit = false;
   }
 
-  uploadImage() async {
-    final _firebaseStorage = FirebaseStorage.instance;
-    final imagePicker = ImagePicker();
-
-    await Permission.photos.request();
-    var permissionStatus = await Permission.photos.status;
-
-    if (permissionStatus.isGranted) {
-      var image = await imagePicker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 50,
-      );
-      setState(() {
-        //  _image = File(image!.path);
-      });
-      var uid = widget.currWorker!.uidWorkers;
-      if (_image != null) {
-        var snapshot = await _firebaseStorage
-            .ref()
-            .child('service_providerImages/$uid')
-            .putFile(_image);
-        var downloadUrl = await snapshot.ref.getDownloadURL();
-        if (mounted) {
-          setState(() {
-            imageUrl = downloadUrl;
-          });
-        }
-      }
-    }
-  }
-
+ 
+  
   Future getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = pickedFile;
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+
+      var uid = Provider.of<Auth>(context, listen: false)
+          .firebaseUser!
+          .uid
+          .toString();
+
+      var snapshot =
+          await _firebaseStorage.ref().child('service_providerImages/$uid').putFile(_image);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      if (mounted) {
+        setState(() {
+          imageUrl = downloadUrl;
+        });
       }
-    });
+    }
   }
 
   //Image Picker function to get image from camera
@@ -121,9 +106,20 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
 
     setState(() {
       if (pickedFile != null) {
-        _image = pickedFile;
+        _image = File(pickedFile.path);
       }
     });
+    var uid = widget.currWorker!.uidWorkers;
+    if (_image != null) {
+      var snapshot =
+          await _firebaseStorage.ref().child('service_providerImages/$uid').putFile(_image);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      if (mounted) {
+        setState(() {
+          imageUrl = downloadUrl;
+        });
+      }
+    }
   }
 
   @override
@@ -137,36 +133,43 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
               title: Center(child: Text("My Profile")),
               backgroundColor: Colors.pinkAccent,
             ),
-            body: Padding(
+             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(
                   child: ListView(
                     children: [
                       Center(
-                        child: FutureBuilder(
-                          future: Provider.of<WorkersProvider>(context,
-                                  listen: false)
-                              .getImageUrl(widget.currWorker!.uidWorkers.toString()),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return CircleAvatar(
-                                radius: 60,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  snapshot.data.toString(),
-                                ),
-                                backgroundColor: Colors.transparent,
-                              );
-                            } else {
-                              return CircleAvatar(
-                                radius: 60,
-                                backgroundColor: Colors.brown,
-                                foregroundColor: Colors.brown,
-                                // child: CircularProgressIndicator(),
-                              );
-                            }
-                          },
-                        ),
+                        child: GestureDetector(
+                            child: FutureBuilder(
+                              future: Provider.of<WorkersProvider>(context,
+                                      listen: false)
+                                  .getImageUrl(widget.currWorker!.uidWorkers.toString()),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return CircleAvatar(
+                                    radius: 60,
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      snapshot.data.toString(),
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                  );
+                                } else {
+                                  return CircleAvatar(
+                                    radius: 60,
+                                    backgroundColor: Colors.brown,
+                                    foregroundColor: Colors.brown,
+                                   // child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                            ),
+                            onTap: () => {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: ((builder) => BottomSheet()))
+                                }),
                       ),
+            
                       SizedBox(
                         height: 20,
                       ),
@@ -828,6 +831,47 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                   ),
                 )));
   }
+
+ Widget BottomSheet() {
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Column(children: [
+        Text(
+          "Choose Profile Photo",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pinkAccent),
+                onPressed: () async {
+                  getImageFromCamera();
+                },
+                icon: Icon(Icons.camera_alt),
+                label: Text("Camera")),
+            SizedBox(
+              width: 70,
+            ),
+            ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pinkAccent),
+                onPressed: () async {
+                  getImageFromGallery();
+                },
+                icon: Icon(Icons.image),
+                label: Text("Gallary")),
+          ],
+        )
+      ]),
+    );
+  }
 }
 
 void showLogoutConfirmationDialog(BuildContext context) {
@@ -860,9 +904,7 @@ void showLogoutConfirmationDialog(BuildContext context) {
                 Navigator.pushAndRemoveUntil(context,
                     MaterialPageRoute(builder: (context) {
                   return Login();
-                }), (route) => false); // Dismiss the dialog
-                // Perform logout action here
-                // e.g., redirect to logout page or clear session data
+                }), (route) => false); 
               },
             ),
           ],
