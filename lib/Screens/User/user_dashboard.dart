@@ -24,6 +24,8 @@ class _UserDashBoardState extends State<UserDashBoard> {
    @override
   Widget build(BuildContext context) {
     {
+      final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
       return Center(
         child: Scaffold(
             

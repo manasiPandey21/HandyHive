@@ -31,8 +31,8 @@ class _LoadScreenState extends State<LoadScreen> {
           child: Image.asset(
             
             "assets/logoooo.png",
-            height: height / 7.5,
-            width: width / 3.5,
+            height: height / 4.5,
+            width: width / 1.5,
           ),
         ))));
   }

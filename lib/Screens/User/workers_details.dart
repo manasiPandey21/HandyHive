@@ -58,6 +58,8 @@ class _WorkerDetailsState extends State<WorkerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final workersProvider = Provider.of<WorkersProvider>(context);
 
     return Scaffold(

@@ -66,6 +66,8 @@ class _WorkerBottomNavigationState extends State<WorkerBottomNavigation> {
   ];
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return isLoading ? LoadScreen() : Scaffold(
         body: _tabs.elementAt(_currentIndex),
         bottomNavigationBar: Container(

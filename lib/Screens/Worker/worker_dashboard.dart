@@ -93,6 +93,8 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     const iconSize = 50;
     return Center(
       child: isLoading

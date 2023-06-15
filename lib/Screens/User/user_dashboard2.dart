@@ -30,6 +30,8 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
        appBar: AppBar(
         backgroundColor: Colors.white70,

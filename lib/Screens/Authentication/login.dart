@@ -27,6 +27,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return showLoading
         ? LoadScreen()
         : Scaffold(
@@ -65,10 +67,8 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment
-                              .baseline, // or CrossAxisAlignment.center
-                          textBaseline: TextBaseline
-                              .ideographic, // or TextBaseline.ideographic
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.ideographic,
                           children: [
                             Icon(Icons.phone),
                             SizedBox(width: 10),
@@ -86,7 +86,6 @@ class _LoginState extends State<Login> {
                                   } else if (value.length != 10) {
                                     return "Please enter a valid Mobile number";
                                   }
-                                  // return validatePhoneNumber(value);
                                 },
                               ),
                             ),

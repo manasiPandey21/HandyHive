@@ -28,6 +28,8 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: <Widget>[

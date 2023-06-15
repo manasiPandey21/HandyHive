@@ -65,6 +65,8 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final authProvider = Provider.of<Auth>(context);
     final firebaseUser = authProvider.firebaseUser;
     return WillPopScope(

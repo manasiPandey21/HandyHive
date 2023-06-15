@@ -53,6 +53,8 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Center(
         child: isLoading
             ? Center(child: CircularProgressIndicator())

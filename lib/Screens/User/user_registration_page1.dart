@@ -66,6 +66,8 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final authProvider = Provider.of<Auth>(context);
     final usersProvider = Provider.of<UsersProvider>(context);
     final firebaseUser = authProvider.firebaseUser;
