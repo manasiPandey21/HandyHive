@@ -13,7 +13,7 @@ import '../../Models/users.dart';
 class UserDashBoard2 extends StatefulWidget {
   String selectedService;
   Users? currUser;
-  UserDashBoard2(this.selectedService,this.currUser);
+  UserDashBoard2(this.selectedService, this.currUser);
 
   @override
   _UserDashBoard2State createState() => _UserDashBoard2State();
@@ -23,9 +23,6 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
   @override
   void initState() {
     super.initState();
-    // final workersProvider =
-    //     Provider.of<WorkersProvider>(context, listen: false);
-    // workersProvider.fetchAndSetWorkers();
   }
 
   @override
@@ -33,11 +30,14 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.white70,
-       elevation: 0,
+        elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,color: Colors.pinkAccent,),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.pinkAccent,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -94,7 +94,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                                 //margin: EdgeInsets.only(right: 10),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                       bottom: 20, top: 20),
+                                      bottom: 20, top: 20),
                                   child: ListTile(
                                     leading: FutureBuilder(
                                       future: Provider.of<WorkersProvider>(
@@ -117,13 +117,11 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                                             radius: 100,
                                             backgroundColor: Colors.brown,
                                             foregroundColor: Colors.brown,
-                                           // child: CircularProgressIndicator(),
+                                            // child: CircularProgressIndicator(),
                                           );
                                         }
                                       },
                                     ),
-                                    
-                                    
                                     subtitle: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -183,9 +181,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => WorkerDetails(
-                                            worker,widget.currUser
-                                          ),
-
+                                              worker, widget.currUser),
                                         ),
                                       );
                                     },

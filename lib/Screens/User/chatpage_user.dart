@@ -57,7 +57,6 @@ class _ChatPageUserState extends State<ChatPageUser> {
             ? Center(child: LoadScreen())
             : Scaffold(
                 appBar: AppBar(
-                  
                   title: Center(child: Text("My Chat")),
                   backgroundColor: Colors.pinkAccent,
                 ),
@@ -72,12 +71,6 @@ class _ChatPageUserState extends State<ChatPageUser> {
                               ),
                             ),
                           ),
-                          // Text(
-                          //   'Sorry, your chat list is empty :(',
-                          //   style: TextStyle(
-                          //     fontSize: 20,
-                          //   ),
-                          // ),
                         ],
                       )
                     : Padding(

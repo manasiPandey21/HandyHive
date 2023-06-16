@@ -62,7 +62,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
     final height = MediaQuery.of(context).size.height;
     final workersProvider = Provider.of<WorkersProvider>(context);
 
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white70,
         elevation: 0,
@@ -74,68 +74,70 @@ class _WorkerDetailsState extends State<WorkerDetails> {
         ),
       ),
       body: SingleChildScrollView(
-  child: Container(
-    height: MediaQuery.of(context).size.height,
-    width: MediaQuery.of(context).size.width,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Center(
-            child: Center(
-              child: Text(
-                "${widget.worker.nameWorkers} Details",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontFamily: 'Pacifico',
-                  fontWeight: FontWeight.w100,
-                ),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 20,
               ),
-            ),
-          ),
-        ),
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Card(
-            color: Colors.pink.shade50,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: 80,
-                    backgroundColor: Colors.transparent,
-                    child: FutureBuilder(
-                      future: Provider.of<WorkersProvider>(context, listen: false)
-                          .getImageUrl(widget.worker.uidWorkers.toString()),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return CircleAvatar(
-                            radius: 60,
-                            backgroundImage: CachedNetworkImageProvider(
-                              snapshot.data.toString(),
-                            ),
-                            backgroundColor: Colors.transparent,
-                          );
-                        } else {
-                          return CircleAvatar(
-                            radius: 90,
-                            backgroundColor: Colors.brown,
-                            foregroundColor: Colors.brown,
-                            // child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Center(
+                  child: Center(
+                    child: Text(
+                      "${widget.worker.nameWorkers} Details",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'Pacifico',
+                        fontWeight: FontWeight.w100,
+                      ),
                     ),
                   ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Card(
+                  color: Colors.pink.shade50,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 80,
+                          backgroundColor: Colors.transparent,
+                          child: FutureBuilder(
+                            future: Provider.of<WorkersProvider>(context,
+                                    listen: false)
+                                .getImageUrl(
+                                    widget.worker.uidWorkers.toString()),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    snapshot.data.toString(),
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                );
+                              } else {
+                                return CircleAvatar(
+                                  radius: 90,
+                                  backgroundColor: Colors.brown,
+                                  foregroundColor: Colors.brown,
+                                  // child: CircularProgressIndicator(),
+                                );
+                              }
+                            },
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(left: 18.0, right: 18),
                           child: SingleChildScrollView(
@@ -168,7 +170,8 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: 10),
-                                Text('${widget.worker.workExperienceworker ?? ""}'),
+                                Text(
+                                    '${widget.worker.workExperienceworker ?? ""}'),
                                 Divider(thickness: 1),
                                 Text(
                                   'Gender',
@@ -196,7 +199,8 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: 10),
-                                Text('${widget.worker.monthlyIncomeworker ?? ""}'),
+                                Text(
+                                    '${widget.worker.monthlyIncomeworker ?? ""}'),
                                 SizedBox(height: 20),
                                 Center(
                                   child: ElevatedButton(
@@ -205,20 +209,33 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                                     ),
                                     onPressed: () async {
                                       setState(() {
-                                        if (!widget.currUser!.acceptedRequests.containsKey(widget.worker.uidWorkers)) {
+                                        if (!widget.currUser!.acceptedRequests
+                                            .containsKey(
+                                                widget.worker.uidWorkers)) {
                                           addUserIdToServiceProvider();
                                           addWorkerIdToUser();
-                                          widget.currUser!.acceptedRequests[widget.worker.uidWorkers] = 'false';
+                                          widget.currUser!.acceptedRequests[
+                                                  widget.worker.uidWorkers] =
+                                              'false';
                                           msgToast("Request Sent successfully");
-                                        } else if (widget.currUser!.acceptedRequests[widget.worker.uidWorkers] == "true") {
-                                          launch('https://wa.me/${widget.worker.mobileNoworker}');
-                                          msgToast("You can talk to ${widget.worker.nameWorkers} on WhatsApp");
+                                        } else if (widget
+                                                    .currUser!.acceptedRequests[
+                                                widget.worker.uidWorkers] ==
+                                            "true") {
+                                          launch(
+                                              'https://wa.me/${widget.worker.mobileNoworker}');
+                                          msgToast(
+                                              "You can talk to ${widget.worker.nameWorkers} on WhatsApp");
                                         }
                                       });
                                     },
-                                    child: (!widget.currUser!.acceptedRequests.containsKey(widget.worker.uidWorkers))
+                                    child: (!widget.currUser!.acceptedRequests
+                                            .containsKey(
+                                                widget.worker.uidWorkers))
                                         ? Text("Request")
-                                        : (widget.currUser!.acceptedRequests[widget.worker.uidWorkers] == "true")
+                                        : (widget.currUser!.acceptedRequests[
+                                                    widget.worker.uidWorkers] ==
+                                                "true")
                                             ? Text("Tap to Chat")
                                             : Text("Request Sent"),
                                   ),

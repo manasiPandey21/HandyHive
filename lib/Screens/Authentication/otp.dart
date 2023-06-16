@@ -87,7 +87,7 @@ class _MyOtpState extends State<MyOtp> {
                             .submitOTP(verificationCode);
 
                     Auth.setUid();
-
+                    print("currUid" + Auth.uid.toString());
                     var isuser = await FirebaseFirestore.instance
                         .collection('USERS')
                         .doc(Auth.uid)
@@ -100,18 +100,19 @@ class _MyOtpState extends State<MyOtp> {
                     if (islogintrue == true) {
                       if (isuser.exists) {
                         msgToast("Welcome again");
-                         Navigator.pushAndRemoveUntil(context,
+                        Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
                           return UserBottomNavigation();
                         }), (route) => false);
                       } else if (isworker.exists) {
-                         msgToast("Welcome again");
+                        msgToast("Welcome again");
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
-                          return  WorkerBottomNavigation();
+                          return WorkerBottomNavigation();
                         }), (route) => false);
                       } else {
-                         msgToast("Welcome to HandyHive,hoping for you good experience with us");
+                        msgToast(
+                            "Welcome to HandyHive,hoping for you good experience with us");
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const LandingPage(),
@@ -119,7 +120,7 @@ class _MyOtpState extends State<MyOtp> {
                         );
                       }
                     } else {
-                       msgToast("Please login with correct credentials");
+                      msgToast("Please login with correct credentials");
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const Login(),

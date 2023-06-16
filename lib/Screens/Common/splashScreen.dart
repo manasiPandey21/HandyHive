@@ -17,22 +17,20 @@ class _SplashScreenState extends State<SplashScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home:Container(
-      
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Center(
-            child: Container(
-          margin: EdgeInsets.only(left: 30, right: 30),
-          alignment: Alignment.center,
-          child: Image.asset(
-            
-            "assets/logoC.png",
-            height: height / 2.5,
-            width: width / 2.5,
-          ),
-        ))));
+        debugShowCheckedModeBanner: false,
+        home: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Center(
+                child: Container(
+              margin: EdgeInsets.only(left: 30, right: 30),
+              alignment: Alignment.center,
+              child: Image.asset(
+                "assets/logoC.png",
+                height: height / 2.5,
+                width: width / 2.5,
+              ),
+            ))));
   }
 }

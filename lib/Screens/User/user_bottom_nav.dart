@@ -36,6 +36,11 @@ class _UserBottomNavigationState extends State<UserBottomNavigation> {
                       .toString();
                   currUser = Provider.of<UsersProvider>(context, listen: false)
                       .getUser(uid.toString());
+                  _tabs = <Widget>[
+                    UserDashBoard(currUser),
+                    ChatPageUser(currUser),
+                    UserEditProfile(currUser),
+                  ];
                   isLoading = false;
                 });
               }));
@@ -52,63 +57,61 @@ class _UserBottomNavigationState extends State<UserBottomNavigation> {
   }
 
   TextEditingController search = TextEditingController();
-  static List<Widget> _tabs = <Widget>[
-    UserDashBoard(currUser),
-    ChatPageUser(currUser),
-    UserEditProfile(),
-
-    // Profile(),
-  ];
+  static List<Widget>? _tabs;
 
   @override
   Widget build(BuildContext context) {
-    return isLoading ? Center(child: LoadScreen()) : Scaffold(
-        body: _tabs.elementAt(_currentIndex),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-            boxShadow: [
-              BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.0),
-              topRight: Radius.circular(30.0),
-            ),
-            child: BottomNavigationBar(
-              // backgroundColor: CustomColors.secondaryColor,
-              selectedItemColor: Colors.pinkAccent,
-              unselectedItemColor: Colors.pink.shade50,
+    return isLoading
+        ? Center(child: LoadScreen())
+        : Scaffold(
+            body: _tabs!.elementAt(_currentIndex),
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
+                ),
+                child: BottomNavigationBar(
+                  // backgroundColor: CustomColors.secondaryColor,
+                  selectedItemColor: Colors.pinkAccent,
+                  unselectedItemColor: Colors.pink.shade50,
 
-              items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: "Home",
-                    backgroundColor: Colors.white
-                    // title: Text('Home'),
-                    ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.chat),
-                    label: "Chat",
-                    backgroundColor: Colors.black
-                    // title: Text('chat'),
-                    ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.face_outlined),
-                    label: "Me",
-                    backgroundColor: Colors.black
-                    // title: Text('reviews'),
-                    ),
-              ],
-              // type: BottomNavigationBarType.fixed,
-              selectedIconTheme: IconThemeData(color: Colors.pinkAccent),
-              unselectedIconTheme: IconThemeData(color: Colors.grey),
-              currentIndex: _currentIndex,
-              onTap: _onTapped,
-            ),
-          ),
-        ));
+                  items: [
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: "Home",
+                        backgroundColor: Colors.white
+                        // title: Text('Home'),
+                        ),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.chat),
+                        label: "Chat",
+                        backgroundColor: Colors.black
+                        // title: Text('chat'),
+                        ),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.face_outlined),
+                        label: "Me",
+                        backgroundColor: Colors.black
+                        // title: Text('reviews'),
+                        ),
+                  ],
+                  // type: BottomNavigationBarType.fixed,
+                  selectedIconTheme: IconThemeData(color: Colors.pinkAccent),
+                  unselectedIconTheme: IconThemeData(color: Colors.grey),
+                  currentIndex: _currentIndex,
+                  onTap: _onTapped,
+                ),
+              ),
+            ));
   }
 }

@@ -202,7 +202,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
               //     onPressed: () {},
               //   ),
               // ],
-          
+
               body: Column(children: [
               SizedBox(
                 height: 50,
@@ -282,7 +282,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                                               radius: 40,
                                               backgroundColor: Colors.white,
                                               foregroundColor: Colors.white,
-                                             // child: CircularProgressIndicator(),
+                                              // child: CircularProgressIndicator(),
                                             ),
                                           );
                                         }
@@ -316,7 +316,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                                           var whatsappUrl =
                                               "whatsapp://send?phone=${user.mobileNumberUser}" +
                                                   "&text=${Uri.encodeComponent('Hi, I am ${widget.currWorker!.nameWorkers} from HandyHive. How can I help you?')}";
-          
+
                                           launch(whatsappUrl);
                                         },
                                         child: Text("Accept"),

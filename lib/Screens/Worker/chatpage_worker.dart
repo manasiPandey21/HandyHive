@@ -116,12 +116,12 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                                               );
                                             } else {
                                               return Padding(
-                                                padding: const EdgeInsets.all(28.0),
+                                                padding:
+                                                    const EdgeInsets.all(28.0),
                                                 child: CircleAvatar(
                                                   radius: 50,
                                                   backgroundColor: Colors.white,
                                                   foregroundColor: Colors.white,
-                                                  
                                                 ),
                                               );
                                             }

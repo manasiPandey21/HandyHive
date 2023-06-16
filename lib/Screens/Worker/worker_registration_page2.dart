@@ -188,7 +188,7 @@ class _WorkerRegistrationPage2State extends State<WorkerRegistrationPage2> {
 
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
-                          return  WorkerBottomNavigation();
+                          return WorkerBottomNavigation();
                         }), (route) => false);
                       },
                       child: Text("Submit"),

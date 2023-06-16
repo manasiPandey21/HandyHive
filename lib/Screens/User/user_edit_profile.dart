@@ -23,7 +23,8 @@ import 'package:editable_image/editable_image.dart';
 import 'chatpage_user.dart';
 
 class UserEditProfile extends StatefulWidget {
-  const UserEditProfile({Key? key}) : super(key: key);
+  Users? currUser;
+  UserEditProfile(this.currUser);
 
   @override
   State<UserEditProfile> createState() => _UserEditProfileState();
@@ -32,7 +33,6 @@ class UserEditProfile extends StatefulWidget {
 class _UserEditProfileState extends State<UserEditProfile> {
   @override
   final picker = ImagePicker();
-  Users? currUser;
   Users? newUser;
   bool _isInit = true;
   bool isLoading = true;
@@ -42,8 +42,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
   final _firebaseStorage = FirebaseStorage.instance;
   List<String> genderOptions = ['Men', 'Women', 'Others'];
   String selectedGender = 'Men';
- 
-
 
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
@@ -60,10 +58,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
     if (pickedFile != null) {
       _image = File(pickedFile.path);
 
-      var uid = Provider.of<Auth>(context, listen: false)
-          .firebaseUser!
-          .uid
-          .toString();
+      var uid = widget.currUser!.uidUser;
 
       var snapshot =
           await _firebaseStorage.ref().child('UserImages/$uid').putFile(_image);
@@ -85,7 +80,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
         _image = File(pickedFile.path);
       }
     });
-    var uid = currUser!.uidUser;
+    var uid = widget.currUser!.uidUser;
     if (_image != null) {
       var snapshot =
           await _firebaseStorage.ref().child('UserImages/$uid').putFile(_image);
@@ -99,34 +94,15 @@ class _UserEditProfileState extends State<UserEditProfile> {
   }
 
   @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-    if (_isInit) {
-      await Provider.of<UsersProvider>(context, listen: false)
-          .fetchAndSetUsers()
-          .then((value) async => await Provider.of<Auth>(context, listen: false)
-                  .getFirebaseUser()
-                  .then((value) async {
-                  
-                setState(() {
-                  var uid = Provider.of<Auth>(context, listen: false)
-                      .firebaseUser!
-                      .uid
-                      .toString();
-                  currUser = Provider.of<UsersProvider>(context, listen: false)
-                      .getUser(uid.toString());
-                  isLoading = false;
-                });
-              }));
-      name.text = currUser!.nameUser;
-      age.text = currUser!.ageUser;
-      gender.text = currUser!.genderUser;
-      mobileNo.text = currUser!.mobileNumberUser;
-      address.text = currUser!.addressUser;
-      numnerOfPeople.text = currUser!.numberOfPeopleInhouseUser;
-      religion.text = currUser!.religionUser;
-    }
-    _isInit = false;
+  void initState() {
+    name.text = widget.currUser!.nameUser;
+    age.text = widget.currUser!.ageUser;
+    gender.text = widget.currUser!.genderUser;
+    mobileNo.text = widget.currUser!.mobileNumberUser;
+    address.text = widget.currUser!.addressUser;
+    numnerOfPeople.text = widget.currUser!.numberOfPeopleInhouseUser;
+    religion.text = widget.currUser!.religionUser;
+    super.initState();
   }
 
   @override
@@ -140,7 +116,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
               title: Center(child: Text("My Profile")),
               backgroundColor: Colors.pinkAccent,
             ),
-            
             body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(
@@ -151,7 +126,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                             child: FutureBuilder(
                               future: Provider.of<UsersProvider>(context,
                                       listen: false)
-                                  .getImageUrl(currUser!.uidUser.toString()),
+                                  .getImageUrl(
+                                      widget.currUser!.uidUser.toString()),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return CircleAvatar(
@@ -166,7 +142,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                     radius: 60,
                                     backgroundColor: Colors.brown,
                                     foregroundColor: Colors.brown,
-                                   // child: CircularProgressIndicator(),
+                                    // child: CircularProgressIndicator(),
                                   );
                                 }
                               },
@@ -180,7 +156,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                       SizedBox(
                         height: 20,
                       ),
-                       ListTile(
+                      ListTile(
                           leading: Icon(
                             Icons.man_2_rounded,
                             color: Colors.pinkAccent,
@@ -193,7 +169,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currUser!.nameUser}',
+                                  text: '${widget.currUser!.nameUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -201,7 +177,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -240,7 +216,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              newUser = currUser!.copyWith(
+                                              newUser =
+                                                  widget.currUser!.copyWith(
                                                 nameUser: name.text.toString(),
                                               );
                                               await Provider.of<UsersProvider>(
@@ -248,7 +225,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                       listen: false)
                                                   .updateUsers(newUser!);
                                               setState(() {
-                                                currUser = newUser;
+                                                widget.currUser = newUser;
                                               });
 
                                               Navigator.pop(context);
@@ -264,7 +241,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   });
                             });
                           }),
-                        ListTile(
+                      ListTile(
                           leading: Icon(
                             Icons.cake,
                             color: Colors.pinkAccent,
@@ -277,7 +254,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currUser!.ageUser}',
+                                  text: '${widget.currUser!.ageUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -285,7 +262,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -325,14 +302,16 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              newUser = currUser!.copyWith(
-                                                  ageUser: age.text.toString());
+                                              newUser = widget.currUser!
+                                                  .copyWith(
+                                                      ageUser:
+                                                          age.text.toString());
                                               await Provider.of<UsersProvider>(
                                                       context,
                                                       listen: false)
                                                   .updateUsers(newUser!);
                                               setState(() {
-                                                currUser = newUser;
+                                                widget.currUser = newUser;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -347,31 +326,31 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   });
                             });
                           }),
-                        ListTile(
-                          leading: Icon(
-                            Icons.man_2_rounded,
-                            color: Colors.pinkAccent,
-                          ),
-                          title: Text.rich(
-                            TextSpan(
-                              text: 'Gender:  ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: '${currUser!.genderUser}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
+                      ListTile(
+                        leading: Icon(
+                          Icons.man_2_rounded,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text.rich(
+                          TextSpan(
+                            text: 'Gender:  ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
+                            children: [
+                              TextSpan(
+                                text: '${widget.currUser!.genderUser}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                            trailing: Icon(
-                            Icons.edit,
-                            color: Colors.pinkAccent,
-                          ),
+                        ),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
                         onTap: () {
                           showDialog(
                             context: context,
@@ -397,7 +376,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                 actions: <Widget>[
                                   ElevatedButton(
                                     onPressed: () async {
-                                      newUser = currUser!.copyWith(
+                                      newUser = widget.currUser!.copyWith(
                                         genderUser: selectedGender,
                                       );
 
@@ -405,7 +384,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                               listen: false)
                                           .updateUsers(newUser!);
                                       setState(() {
-                                        currUser = newUser;
+                                        widget.currUser = newUser;
                                       });
                                       Navigator.pop(context);
                                     },
@@ -419,7 +398,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                           );
                         },
                       ),
-                        ListTile(
+                      ListTile(
                           leading: Icon(
                             Icons.call,
                             color: Colors.pinkAccent,
@@ -432,7 +411,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currUser!.mobileNumberUser}',
+                                  text: '${widget.currUser!.mobileNumberUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -440,9 +419,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ],
                             ),
                           ),
-                           
                           onTap: () {}),
-                       ListTile(
+                      ListTile(
                           leading: Icon(
                             Icons.house,
                             color: Colors.pinkAccent,
@@ -455,7 +433,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currUser!.addressUser}',
+                                  text: '${widget.currUser!.addressUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -463,7 +441,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -503,7 +481,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              newUser = currUser!.copyWith(
+                                              newUser =
+                                                  widget.currUser!.copyWith(
                                                 addressUser:
                                                     address.text.toString(),
                                               );
@@ -513,7 +492,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                       listen: false)
                                                   .updateUsers(newUser!);
                                               setState(() {
-                                                currUser = newUser;
+                                                widget.currUser = newUser;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -528,7 +507,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                   });
                             });
                           }),
-                        ListTile(
+                      ListTile(
                           leading: Icon(
                             Icons.family_restroom,
                             color: Colors.pinkAccent,
@@ -541,7 +520,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${currUser!.numberOfPeopleInhouseUser}',
+                                  text:
+                                      '${widget.currUser!.numberOfPeopleInhouseUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -549,7 +529,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ],
                             ),
                           ),
-                            trailing: Icon(
+                          trailing: Icon(
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
@@ -599,17 +579,18 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newUser = currUser!.copyWith(
-                                                  numberOfPeopleInhouseUser:
-                                                      numnerOfPeople.text
-                                                          .toString());
+                                              newUser = widget.currUser!
+                                                  .copyWith(
+                                                      numberOfPeopleInhouseUser:
+                                                          numnerOfPeople.text
+                                                              .toString());
 
                                               await Provider.of<UsersProvider>(
                                                       context,
                                                       listen: false)
                                                   .updateUsers(newUser!);
                                               setState(() {
-                                                currUser = newUser;
+                                                widget.currUser = newUser;
                                               });
 
                                               Navigator.pop(context);
@@ -632,8 +613,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                         margin: EdgeInsets.only(left: 140, right: 140),
                         child: ElevatedButton(
                           onPressed: () async {
-                              showLogoutConfirmationDialog(context);
-                            
+                            showLogoutConfirmationDialog(context);
                           },
                           child: Text("Log Out"),
                           style: ElevatedButton.styleFrom(
@@ -687,8 +667,9 @@ class _UserEditProfileState extends State<UserEditProfile> {
     );
   }
 }
+
 void showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
+  showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -696,24 +677,28 @@ void showLogoutConfirmationDialog(BuildContext context) {
           content: Text('Are you sure you want to log out?'),
           actions: <Widget>[
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.pink.shade100,elevation: 10,shadowColor: Colors.grey),
-            
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pink.shade100,
+                  elevation: 10,
+                  shadowColor: Colors.grey),
               child: Text('No'),
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss the dialog
               },
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent,elevation: 10,shadowColor: Colors.grey),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pinkAccent,
+                  elevation: 10,
+                  shadowColor: Colors.grey),
               child: Text('Yes'),
               onPressed: () async {
-                await Provider.of<Auth>(context, listen: false)
-                                .logout();
+                await Provider.of<Auth>(context, listen: false).logout();
 
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(builder: (context) {
-                              return Login();
-                            }), (route) => false);// Dismiss the dialog
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) {
+                  return Login();
+                }), (route) => false); // Dismiss the dialog
                 // Perform logout action here
                 // e.g., redirect to logout page or clear session data
               },
@@ -722,4 +707,3 @@ void showLogoutConfirmationDialog(BuildContext context) {
         );
       });
 }
-

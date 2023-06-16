@@ -270,8 +270,11 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
                     return UserBottomNavigation();
                   }), (route) => false);
                 },
-                child: Container(child: Center(child: Text("Submit")),width: MediaQuery.of(context).size.width / 4
-                ,height: MediaQuery.of(context).size.height/20,),
+                child: Container(
+                  child: Center(child: Text("Submit")),
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: MediaQuery.of(context).size.height / 20,
+                ),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.pinkAccent,
                     shape: RoundedRectangleBorder(

@@ -50,50 +50,30 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
   TextEditingController language = new TextEditingController();
 
   @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-    if (_isInit) {
-      await Provider.of<WorkersProvider>(context, listen: false)
-          .fetchAndSetWorkers()
-          .then((value) async => await Provider.of<Auth>(context, listen: false)
-                  .getFirebaseUser()
-                  .then((value) async {
-                setState(() {
-                  var uid = Provider.of<Auth>(context, listen: false)
-                      .firebaseUser!
-                      .uid
-                      .toString();
-
-                  isLoading = false;
-                });
-              }));
-      name.text = widget.currWorker!.nameWorkers;
-      age.text = widget.currWorker!.ageworker;
-      gender.text = widget.currWorker!.genderworker;
-      mobileNo.text = widget.currWorker!.mobileNoworker;
-      address.text = widget.currWorker!.addressWorker;
-      maritalStatus.text = widget.currWorker!.maritalStatusworker;
-      workExperience.text = widget.currWorker!.workExperienceworker;
-      language.text = widget.currWorker!.languageworker;
-    }
-    _isInit = false;
+  void initState() {
+    name.text = widget.currWorker!.nameWorkers;
+    age.text = widget.currWorker!.ageworker;
+    gender.text = widget.currWorker!.genderworker;
+    mobileNo.text = widget.currWorker!.mobileNoworker;
+    address.text = widget.currWorker!.addressWorker;
+    maritalStatus.text = widget.currWorker!.maritalStatusworker;
+    workExperience.text = widget.currWorker!.workExperienceworker;
+    language.text = widget.currWorker!.languageworker;
+    super.initState();
   }
 
- 
-  
   Future getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       _image = File(pickedFile.path);
 
-      var uid = Provider.of<Auth>(context, listen: false)
-          .firebaseUser!
-          .uid
-          .toString();
+      var uid = widget.currWorker!.uidWorkers;
 
-      var snapshot =
-          await _firebaseStorage.ref().child('service_providerImages/$uid').putFile(_image);
+      var snapshot = await _firebaseStorage
+          .ref()
+          .child('service_providerImages/$uid')
+          .putFile(_image);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       if (mounted) {
         setState(() {
@@ -114,8 +94,10 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
     });
     var uid = widget.currWorker!.uidWorkers;
     if (_image != null) {
-      var snapshot =
-          await _firebaseStorage.ref().child('service_providerImages/$uid').putFile(_image);
+      var snapshot = await _firebaseStorage
+          .ref()
+          .child('service_providerImages/$uid')
+          .putFile(_image);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       if (mounted) {
         setState(() {
@@ -129,14 +111,12 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return isLoading
-        ? Center(child: LoadScreen())
-        : Scaffold(
+    return  Scaffold(
             appBar: AppBar(
               title: Center(child: Text("My Profile")),
               backgroundColor: Colors.pinkAccent,
             ),
-             body: Padding(
+            body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Container(
                   child: ListView(
@@ -146,7 +126,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                             child: FutureBuilder(
                               future: Provider.of<WorkersProvider>(context,
                                       listen: false)
-                                  .getImageUrl(widget.currWorker!.uidWorkers.toString()),
+                                  .getImageUrl(
+                                      widget.currWorker!.uidWorkers.toString()),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return CircleAvatar(
@@ -161,7 +142,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                     radius: 60,
                                     backgroundColor: Colors.brown,
                                     foregroundColor: Colors.brown,
-                                   // child: CircularProgressIndicator(),
+                                    // child: CircularProgressIndicator(),
                                   );
                                 }
                               },
@@ -172,7 +153,6 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                       builder: ((builder) => BottomSheet()))
                                 }),
                       ),
-            
                       SizedBox(
                         height: 20,
                       ),
@@ -235,7 +215,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              newWorker = widget.currWorker!.copyWith(
+                                              newWorker =
+                                                  widget.currWorker!.copyWith(
                                                 nameWorkers:
                                                     name.text.toString(),
                                               );
@@ -329,9 +310,11 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newWorker = widget.currWorker!.copyWith(
-                                                  addressWorker:
-                                                      address.text.toString());
+                                              newWorker = widget.currWorker!
+                                                  .copyWith(
+                                                      addressWorker: address
+                                                          .text
+                                                          .toString());
 
                                               await Provider.of<
                                                           WorkersProvider>(
@@ -414,9 +397,10 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              newWorker = widget.currWorker!.copyWith(
-                                                  ageworker:
-                                                      age.text.toString());
+                                              newWorker = widget.currWorker!
+                                                  .copyWith(
+                                                      ageworker:
+                                                          age.text.toString());
                                               await Provider.of<
                                                           WorkersProvider>(
                                                       context,
@@ -534,31 +518,32 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                           ),
                           onTap: () {}),
                       ListTile(
-                          leading: Icon(
-                            Icons.family_restroom,
-                            color: Colors.pinkAccent,
-                          ),
-                          title: Text.rich(
-                            TextSpan(
-                              text: 'Marital Status: ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: '${widget.currWorker!.maritalStatusworker}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
+                        leading: Icon(
+                          Icons.family_restroom,
+                          color: Colors.pinkAccent,
+                        ),
+                        title: Text.rich(
+                          TextSpan(
+                            text: 'Marital Status: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    '${widget.currWorker!.maritalStatusworker}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                          trailing: Icon(
-                            Icons.edit,
-                            color: Colors.pinkAccent,
-                          ),
-                            onTap: () {
+                        ),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.pinkAccent,
+                        ),
+                        onTap: () {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -571,9 +556,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                       selectedOption = newValue!;
                                     });
                                   },
-                                  items: MarriageOptions
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
+                                  items: MarriageOptions.map<
+                                      DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -619,7 +603,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${widget.currWorker!.workExperienceworker}',
+                                  text:
+                                      '${widget.currWorker!.workExperienceworker}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -675,10 +660,11 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newWorker = widget.currWorker!.copyWith(
-                                                  workExperienceworker:
-                                                      workExperience.text
-                                                          .toString());
+                                              newWorker = widget.currWorker!
+                                                  .copyWith(
+                                                      workExperienceworker:
+                                                          workExperience.text
+                                                              .toString());
 
                                               await Provider.of<
                                                           WorkersProvider>(
@@ -769,9 +755,11 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newWorker = widget.currWorker!.copyWith(
-                                                  languageworker:
-                                                      language.text.toString());
+                                              newWorker = widget.currWorker!
+                                                  .copyWith(
+                                                      languageworker: language
+                                                          .text
+                                                          .toString());
 
                                               await Provider.of<
                                                           WorkersProvider>(
@@ -813,7 +801,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                 )));
   }
 
- Widget BottomSheet() {
+  Widget BottomSheet() {
     return Container(
       height: 100,
       width: MediaQuery.of(context).size.width,
@@ -885,7 +873,7 @@ void showLogoutConfirmationDialog(BuildContext context) {
                 Navigator.pushAndRemoveUntil(context,
                     MaterialPageRoute(builder: (context) {
                   return Login();
-                }), (route) => false); 
+                }), (route) => false);
               },
             ),
           ],
