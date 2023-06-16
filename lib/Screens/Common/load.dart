@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:lottie/lottie.dart';
 
 class LoadScreen extends StatefulWidget {
   @override
@@ -26,14 +27,13 @@ class _LoadScreenState extends State<LoadScreen> {
         ),
         child: Center(
             child: Container(
-          margin: EdgeInsets.only(left: 30, right: 30),
+          margin: EdgeInsets.only(left: 50, right: 50,top: 50,bottom: 50),
           alignment: Alignment.center,
-          child: Image.asset(
-            
-            "assets/logoooo.png",
-            height: height / 4.5,
-            width: width / 1.5,
-          ),
-        ))));
+          child:
+          Lottie.network(
+                 'https://assets6.lottiefiles.com/packages/lf20_p8bfn5to.json'
+               ),
+          ) 
+        )));
   }
 }

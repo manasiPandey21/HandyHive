@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handyhive/Models/users.dart';
 import 'package:handyhive/Provider/users_provider.dart';
+import 'package:handyhive/Screens/Common/load.dart';
 import 'package:handyhive/Screens/User/user_dashboard.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -133,7 +134,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: LoadScreen())
         : Scaffold(
             appBar: AppBar(
               title: Center(child: Text("My Profile")),

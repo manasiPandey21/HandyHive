@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
+import 'package:handyhive/Screens/Common/load.dart';
 import 'package:handyhive/Screens/User/user_dashboard.dart';
 import 'package:handyhive/Screens/User/user_edit_profile.dart';
 import 'package:handyhive/Screens/User/workers_details.dart';
@@ -53,15 +54,10 @@ class _ChatPageUserState extends State<ChatPageUser> {
     final height = MediaQuery.of(context).size.height;
     return Center(
         child: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: LoadScreen())
             : Scaffold(
                 appBar: AppBar(
-                  // leading: IconButton(
-                  //   icon: Icon(Icons.arrow_back, color: Colors.white),
-                  //   onPressed: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  // ),
+                  
                   title: Center(child: Text("My Chat")),
                   backgroundColor: Colors.pinkAccent,
                 ),

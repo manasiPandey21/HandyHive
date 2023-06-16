@@ -202,7 +202,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
               //     onPressed: () {},
               //   ),
               // ],
-
+          
               body: Column(children: [
               SizedBox(
                 height: 50,
@@ -249,6 +249,8 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                               padding: const EdgeInsets.all(18.0),
                               child: Card(
                                 color: Colors.pink.shade50,
+                                elevation: 10,
+                                shadowColor: Colors.grey,
                                 shape: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
@@ -264,7 +266,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                                           return Padding(
                                             padding: const EdgeInsets.all(18.0),
                                             child: CircleAvatar(
-                                              radius: 50,
+                                              radius: 40,
                                               backgroundImage:
                                                   CachedNetworkImageProvider(
                                                 snapshot.data.toString(),
@@ -274,11 +276,14 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                                             ),
                                           );
                                         } else {
-                                          return CircleAvatar(
-                                            radius: 60,
-                                            backgroundColor: Colors.brown,
-                                            foregroundColor: Colors.brown,
-                                            child: CircularProgressIndicator(),
+                                          return Padding(
+                                            padding: const EdgeInsets.all(18.0),
+                                            child: CircleAvatar(
+                                              radius: 40,
+                                              backgroundColor: Colors.white,
+                                              foregroundColor: Colors.white,
+                                             // child: CircularProgressIndicator(),
+                                            ),
                                           );
                                         }
                                       },
@@ -311,7 +316,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
                                           var whatsappUrl =
                                               "whatsapp://send?phone=${user.mobileNumberUser}" +
                                                   "&text=${Uri.encodeComponent('Hi, I am ${widget.currWorker!.nameWorkers} from HandyHive. How can I help you?')}";
-
+          
                                           launch(whatsappUrl);
                                         },
                                         child: Text("Accept"),

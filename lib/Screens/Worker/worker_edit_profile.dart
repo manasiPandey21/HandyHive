@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
+import 'package:handyhive/Screens/Common/load.dart';
 import 'package:handyhive/Screens/Worker/worker_dashboard.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -34,6 +35,8 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
   final _firebaseStorage = FirebaseStorage.instance;
   List<String> genderOptions = ['Men', 'Women', 'Others'];
   String selectedGender = 'Men';
+  List<String> MarriageOptions = ['Married', 'Unmarried', 'Prefer Not to tell'];
+  String selectedOption = 'Married';
 
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
@@ -127,7 +130,7 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: LoadScreen())
         : Scaffold(
             appBar: AppBar(
               title: Center(child: Text("My Profile")),
@@ -555,76 +558,54 @@ class _WorkerEditProfileState extends State<WorkerEditProfile> {
                             Icons.edit,
                             color: Colors.pinkAccent,
                           ),
-                          onTap: () {
-                            setState(() {
-                              showModalBottomSheet(
-                                  context: context,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30.0),
-                                      topRight: Radius.circular(30.0),
-                                    ),
-                                  ),
-                                  builder: (context) {
-                                    return Padding(
-                                      padding:
-                                          MediaQuery.of(context).viewInsets,
-                                      child: Wrap(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextFormField(
-                                              controller: maritalStatus,
-                                              decoration: InputDecoration(
-                                                  hintText: "Marital Status",
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20))),
-                                              keyboardType: TextInputType.name,
-                                            ),
-                                          ),
-                                        ),
-                                        Center(
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              await Provider.of<Auth>(context,
-                                                      listen: false)
-                                                  .getFirebaseUser();
-                                              var uid = Provider.of<Auth>(
-                                                      context,
-                                                      listen: false)
-                                                  .firebaseUser!
-                                                  .uid
-                                                  .toString();
-                                              newWorker = widget.currWorker!.copyWith(
-                                                maritalStatusworker:
-                                                    maritalStatus.text
-                                                        .toString(),
-                                              );
-
-                                              await Provider.of<
-                                                          WorkersProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .updateWorkers(newWorker!);
-                                              setState(() {
-                                                widget.currWorker = newWorker;
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text("UPDATE"),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.pinkAccent),
-                                          ),
-                                        )
-                                      ]),
+                            onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Marital Status'),
+                                content: DropdownButtonFormField<String>(
+                                  value: selectedOption,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedOption = newValue!;
+                                    });
+                                  },
+                                  items: MarriageOptions
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
                                     );
-                                  });
-                            });
-                          }),
+                                  }).toList(),
+                                ),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      newWorker = widget.currWorker!.copyWith(
+                                        maritalStatusworker: selectedOption,
+                                      );
+
+                                      await Provider.of<WorkersProvider>(
+                                              context,
+                                              listen: false)
+                                          .updateWorkers(newWorker!);
+                                      setState(() {
+                                        widget.currWorker = newWorker;
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("UPDATE"),
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.pinkAccent),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
                       ListTile(
                           leading: Icon(
                             Icons.work_history,

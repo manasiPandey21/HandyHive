@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:handyhive/Screens/Common/load.dart';
 import 'package:provider/provider.dart';
 import '../../Models/users.dart';
 import '../../Provider/users_provider.dart';
@@ -39,7 +40,7 @@ class _UserDetailsState extends State<UserDetails> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: LoadScreen())
         : Scaffold(
           appBar: AppBar(
         backgroundColor: Colors.white70,

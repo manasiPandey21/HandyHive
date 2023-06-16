@@ -62,7 +62,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
     final height = MediaQuery.of(context).size.height;
     final workersProvider = Provider.of<WorkersProvider>(context);
 
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white70,
         elevation: 0,

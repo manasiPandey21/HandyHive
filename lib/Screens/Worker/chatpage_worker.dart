@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/workers.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
+import 'package:handyhive/Screens/Common/load.dart';
 import 'package:handyhive/Screens/User/workers_details.dart';
 import 'package:handyhive/Screens/Worker/user_details.dart';
 import 'package:handyhive/Screens/Worker/worker_dashboard.dart';
@@ -55,7 +56,7 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
     final height = MediaQuery.of(context).size.height;
     return Center(
         child: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: LoadScreen())
             : Scaffold(
                 appBar: AppBar(
                   title: Center(child: Text("My Chat")),
@@ -104,7 +105,7 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                                                 padding:
                                                     const EdgeInsets.all(28.0),
                                                 child: CircleAvatar(
-                                                  radius: 40,
+                                                  radius: 50,
                                                   backgroundImage:
                                                       CachedNetworkImageProvider(
                                                     snapshot.data.toString(),
@@ -114,11 +115,14 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
                                                 ),
                                               );
                                             } else {
-                                              return CircleAvatar(
-                                                radius: 40,
-                                                backgroundColor: Colors.brown,
-                                                foregroundColor: Colors.brown,
-                                                // child: CircularProgressIndicator(),
+                                              return Padding(
+                                                padding: const EdgeInsets.all(28.0),
+                                                child: CircleAvatar(
+                                                  radius: 50,
+                                                  backgroundColor: Colors.white,
+                                                  foregroundColor: Colors.white,
+                                                  
+                                                ),
                                               );
                                             }
                                           },
