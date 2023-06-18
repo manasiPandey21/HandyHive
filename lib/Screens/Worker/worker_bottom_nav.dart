@@ -50,8 +50,8 @@ class _WorkerBottomNavigationState extends State<WorkerBottomNavigation> {
                           .getWorkers(uid.toString());
                   _tabs = <Widget>[
                     WorkerDashBoard(currWorker),
-                    ChatPageWorker(currWorker),
-                    WorkerEditProfile(currWorker),
+                    ChatPageWorker(),
+                    WorkerEditProfile(),
                   ];
                   isLoading = false;
                 });

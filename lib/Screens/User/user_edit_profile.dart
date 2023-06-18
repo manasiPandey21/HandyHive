@@ -23,8 +23,8 @@ import 'package:editable_image/editable_image.dart';
 import 'chatpage_user.dart';
 
 class UserEditProfile extends StatefulWidget {
-  Users? currUser;
-  UserEditProfile(this.currUser);
+  
+  UserEditProfile();
 
   @override
   State<UserEditProfile> createState() => _UserEditProfileState();
@@ -36,13 +36,43 @@ class _UserEditProfileState extends State<UserEditProfile> {
   Users? newUser;
   bool _isInit = true;
   bool isLoading = true;
+  static Users? currUser;
   var _image;
   var imageUrl;
   var imagePicker;
   final _firebaseStorage = FirebaseStorage.instance;
   List<String> genderOptions = ['Men', 'Women', 'Others'];
   String selectedGender = 'Men';
-
+   @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    if (_isInit) {
+      await Provider.of<UsersProvider>(context, listen: false)
+          .fetchAndSetUsers()
+          .then((value) async => await Provider.of<Auth>(context, listen: false)
+                  .getFirebaseUser()
+                  .then((value) async {
+                setState(() {
+                  var uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  currUser = Provider.of<UsersProvider>(context, listen: false)
+                      .getUser(uid.toString());
+                  isLoading = false;
+                });
+              }));
+              name.text =currUser!.nameUser;
+    age.text =currUser!.ageUser;
+    gender.text =currUser!.genderUser;
+    mobileNo.text =currUser!.mobileNumberUser;
+    address.text =currUser!.addressUser;
+    numnerOfPeople.text =currUser!.numberOfPeopleInhouseUser;
+    religion.text =currUser!.religionUser;
+  
+    }
+    _isInit = false;
+  }
   TextEditingController name = new TextEditingController();
   TextEditingController age = new TextEditingController();
   TextEditingController gender = new TextEditingController();
@@ -52,13 +82,15 @@ class _UserEditProfileState extends State<UserEditProfile> {
   TextEditingController religion = new TextEditingController();
   TextEditingController numberOfRooms = new TextEditingController();
 
+
+
   Future getImageFromGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       _image = File(pickedFile.path);
 
-      var uid = widget.currUser!.uidUser;
+      var uid = currUser!.uidUser;
 
       var snapshot =
           await _firebaseStorage.ref().child('UserImages/$uid').putFile(_image);
@@ -80,7 +112,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
         _image = File(pickedFile.path);
       }
     });
-    var uid = widget.currUser!.uidUser;
+    var uid = currUser!.uidUser;
     if (_image != null) {
       var snapshot =
           await _firebaseStorage.ref().child('UserImages/$uid').putFile(_image);
@@ -91,18 +123,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
         });
       }
     }
-  }
-
-  @override
-  void initState() {
-    name.text = widget.currUser!.nameUser;
-    age.text = widget.currUser!.ageUser;
-    gender.text = widget.currUser!.genderUser;
-    mobileNo.text = widget.currUser!.mobileNumberUser;
-    address.text = widget.currUser!.addressUser;
-    numnerOfPeople.text = widget.currUser!.numberOfPeopleInhouseUser;
-    religion.text = widget.currUser!.religionUser;
-    super.initState();
   }
 
   @override
@@ -127,7 +147,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               future: Provider.of<UsersProvider>(context,
                                       listen: false)
                                   .getImageUrl(
-                                      widget.currUser!.uidUser.toString()),
+                                     currUser!.uidUser.toString()),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return CircleAvatar(
@@ -169,7 +189,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${widget.currUser!.nameUser}',
+                                  text: '${currUser!.nameUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -217,7 +237,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                           child: ElevatedButton(
                                             onPressed: () async {
                                               newUser =
-                                                  widget.currUser!.copyWith(
+                                                 currUser!.copyWith(
                                                 nameUser: name.text.toString(),
                                               );
                                               await Provider.of<UsersProvider>(
@@ -225,7 +245,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                       listen: false)
                                                   .updateUsers(newUser!);
                                               setState(() {
-                                                widget.currUser = newUser;
+                                               currUser = newUser;
                                               });
 
                                               Navigator.pop(context);
@@ -254,7 +274,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${widget.currUser!.ageUser}',
+                                  text: '${currUser!.ageUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -302,7 +322,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                         Center(
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              newUser = widget.currUser!
+                                              newUser =currUser!
                                                   .copyWith(
                                                       ageUser:
                                                           age.text.toString());
@@ -311,7 +331,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                       listen: false)
                                                   .updateUsers(newUser!);
                                               setState(() {
-                                                widget.currUser = newUser;
+                                               currUser = newUser;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -339,7 +359,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                             ),
                             children: [
                               TextSpan(
-                                text: '${widget.currUser!.genderUser}',
+                                text: '${currUser!.genderUser}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -376,7 +396,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                 actions: <Widget>[
                                   ElevatedButton(
                                     onPressed: () async {
-                                      newUser = widget.currUser!.copyWith(
+                                      newUser =currUser!.copyWith(
                                         genderUser: selectedGender,
                                       );
 
@@ -384,7 +404,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                               listen: false)
                                           .updateUsers(newUser!);
                                       setState(() {
-                                        widget.currUser = newUser;
+                                       currUser = newUser;
                                       });
                                       Navigator.pop(context);
                                     },
@@ -411,7 +431,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${widget.currUser!.mobileNumberUser}',
+                                  text: '${currUser!.mobileNumberUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -433,7 +453,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: '${widget.currUser!.addressUser}',
+                                  text: '${currUser!.addressUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -482,7 +502,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                           child: ElevatedButton(
                                             onPressed: () async {
                                               newUser =
-                                                  widget.currUser!.copyWith(
+                                                 currUser!.copyWith(
                                                 addressUser:
                                                     address.text.toString(),
                                               );
@@ -492,7 +512,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                       listen: false)
                                                   .updateUsers(newUser!);
                                               setState(() {
-                                                widget.currUser = newUser;
+                                               currUser = newUser;
                                               });
                                               Navigator.pop(context);
                                             },
@@ -521,7 +541,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                               children: [
                                 TextSpan(
                                   text:
-                                      '${widget.currUser!.numberOfPeopleInhouseUser}',
+                                      '${currUser!.numberOfPeopleInhouseUser}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -579,7 +599,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                   .firebaseUser!
                                                   .uid
                                                   .toString();
-                                              newUser = widget.currUser!
+                                              newUser =currUser!
                                                   .copyWith(
                                                       numberOfPeopleInhouseUser:
                                                           numnerOfPeople.text
@@ -590,7 +610,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                                       listen: false)
                                                   .updateUsers(newUser!);
                                               setState(() {
-                                                widget.currUser = newUser;
+                                               currUser = newUser;
                                               });
 
                                               Navigator.pop(context);
@@ -698,9 +718,7 @@ void showLogoutConfirmationDialog(BuildContext context) {
                 Navigator.pushAndRemoveUntil(context,
                     MaterialPageRoute(builder: (context) {
                   return Login();
-                }), (route) => false); // Dismiss the dialog
-                // Perform logout action here
-                // e.g., redirect to logout page or clear session data
+                }), (route) => false); 
               },
             ),
           ],

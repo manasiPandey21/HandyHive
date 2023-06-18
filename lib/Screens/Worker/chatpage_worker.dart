@@ -16,8 +16,8 @@ import '../../Provider/auth.dart';
 import '../../Provider/users_provider.dart';
 
 class ChatPageWorker extends StatefulWidget {
-  Worker? currWorker;
-  ChatPageWorker(this.currWorker);
+ 
+  ChatPageWorker();
 
   @override
   State<ChatPageWorker> createState() => _ChatPageWorkerState();
@@ -26,6 +26,8 @@ class ChatPageWorker extends StatefulWidget {
 class _ChatPageWorkerState extends State<ChatPageWorker> {
   bool _isInit = true;
   bool isLoading = true;
+  static Worker? currWorker;
+
 
   List<Users> acceptedusers = [];
   Future<void> didChangeDependencies() async {
@@ -35,7 +37,14 @@ class _ChatPageWorkerState extends State<ChatPageWorker> {
           .fetchAndSetUsers()
           .then((value) => {
                 setState(() {
-                  for (var entry in widget.currWorker!.requests.entries) {
+                   var uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  currWorker =
+                      Provider.of<WorkersProvider>(context, listen: false)
+                          .getWorkers(uid.toString());
+                  for (var entry in currWorker!.requests.entries) {
                     Users user =
                         Provider.of<UsersProvider>(context, listen: false)
                             .getUser(entry.key.toString());

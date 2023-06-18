@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Provider/workers_provider.dart';
+import 'package:handyhive/Screens/Common/load.dart';
 import 'package:handyhive/Screens/Common/msgToast.dart';
 
 import 'package:handyhive/Screens/User/workers_details.dart';
@@ -9,27 +10,56 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/users.dart';
+import '../../Provider/auth.dart';
+import '../../Provider/users_provider.dart';
 
 class UserDashBoard2 extends StatefulWidget {
   String selectedService;
-  Users? currUser;
-  UserDashBoard2(this.selectedService, this.currUser);
+  UserDashBoard2(this.selectedService);
 
   @override
   _UserDashBoard2State createState() => _UserDashBoard2State();
 }
 
 class _UserDashBoard2State extends State<UserDashBoard2> {
-  @override
+  bool _isInit = true;
+  bool isLoading = true;
+  static Users? currUser;
+   @override
   void initState() {
     super.initState();
+    final workersProvider =
+        Provider.of<WorkersProvider>(context, listen: false);
+    workersProvider.fetchAndSetWorkers();
+  }
+   @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    if (_isInit) {
+      await Provider.of<UsersProvider>(context, listen: false)
+          .fetchAndSetUsers()
+          .then((value) async => await Provider.of<Auth>(context, listen: false)
+                  .getFirebaseUser()
+                  .then((value) async {
+                setState(() {
+                  var uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  currUser = Provider.of<UsersProvider>(context, listen: false)
+                      .getUser(uid.toString());
+                  isLoading = false;
+                });
+              }));
+    }
+    _isInit = false;
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return isLoading ? LoadScreen() : Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white70,
         elevation: 0,
@@ -181,7 +211,7 @@ class _UserDashBoard2State extends State<UserDashBoard2> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => WorkerDetails(
-                                              worker, widget.currUser),
+                                              worker, currUser),
                                         ),
                                       );
                                     },

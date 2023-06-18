@@ -39,7 +39,7 @@ class _UserBottomNavigationState extends State<UserBottomNavigation> {
                   _tabs = <Widget>[
                     UserDashBoard(currUser),
                     ChatPageUser(currUser),
-                    UserEditProfile(currUser),
+                    UserEditProfile(),
                   ];
                   isLoading = false;
                 });

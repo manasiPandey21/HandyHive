@@ -85,7 +85,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("Cooking", widget.currUser),
+                                UserDashBoard2("Cooking", ),
                           ));
                         },
                       ),
@@ -103,7 +103,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("Gardening", widget.currUser),
+                                UserDashBoard2("Gardening", ),
                           ));
                         },
                       ),
@@ -121,7 +121,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("Brooming", widget.currUser),
+                                UserDashBoard2("Brooming", ),
                           ));
                         },
                       ),
@@ -139,7 +139,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => UserDashBoard2(
-                                "Clothes Cleaning", widget.currUser),
+                                "Clothes Cleaning", ),
                           ));
                         },
                       ),
@@ -168,7 +168,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("BabySitter", widget.currUser),
+                                UserDashBoard2("BabySitter", ),
                           ));
                         },
                       ),
@@ -186,7 +186,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("Sweeping", widget.currUser),
+                                UserDashBoard2("Sweeping", ),
                           ));
                         },
                       ),
@@ -204,7 +204,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("Ironing", widget.currUser),
+                                UserDashBoard2("Ironing", ),
                           ));
                         },
                       ),
@@ -222,7 +222,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("Massager", widget.currUser),
+                                UserDashBoard2("Massager", ),
                           ));
                         },
                       ),
@@ -251,7 +251,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("Driver", widget.currUser),
+                                UserDashBoard2("Driver", ),
                           ));
                         },
                       ),
@@ -269,7 +269,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                UserDashBoard2("Nurse", widget.currUser),
+                                UserDashBoard2("Nurse", ),
                           ));
                         },
                       ),
@@ -287,7 +287,7 @@ class _UserDashBoardState extends State<UserDashBoard> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => UserDashBoard2(
-                                "Utensils Cleaning", widget.currUser),
+                                "Utensils Cleaning", ),
                           ));
                         },
                       ),

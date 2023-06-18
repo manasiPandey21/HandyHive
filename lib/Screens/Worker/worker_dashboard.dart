@@ -28,6 +28,7 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
   bool isLoading = true;
   List<Users> users = [];
   int currentIndex = 0;
+  static Worker? currWorker;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -37,6 +38,13 @@ class _WorkerDashBoardState extends State<WorkerDashBoard> {
           .fetchAndSetUsers()
           .then((value) => {
                 setState(() {
+                  var uid = Provider.of<Auth>(context, listen: false)
+                      .firebaseUser!
+                      .uid
+                      .toString();
+                  currWorker =
+                      Provider.of<WorkersProvider>(context, listen: false)
+                          .getWorkers(uid.toString());
                   for (var entry in widget.currWorker!.requests.entries) {
                     Users user =
                         Provider.of<UsersProvider>(context, listen: false)
