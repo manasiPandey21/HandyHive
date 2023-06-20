@@ -114,8 +114,7 @@ class _ChatPageUserState extends State<ChatPageUser> {
                                                 radius: 60,
                                                 backgroundColor: Colors.brown,
                                                 foregroundColor: Colors.brown,
-                                                //child:
-                                                //CircularProgressIndicator(),
+                                               
                                               );
                                             }
                                           },
