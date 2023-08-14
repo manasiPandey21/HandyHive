@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:handyhive/Screens/Authentication/otp.dart';
-
 import '../Screens/OnBoardingScreen/landing_page.dart';
 
 class Auth with ChangeNotifier {
@@ -39,11 +37,9 @@ class Auth with ChangeNotifier {
           .signInWithCredential(this._phoneAuthCredential!)
           .then((UserCredential authRes) {
         firebaseUser = authRes.user!;
-        // // print(firebaseUser.toString());
       }).catchError((e) {
         flag = 1;
         _handleError(e);
-        // // print("handle error in login1");
       });
       if (flag == 0)
         return true;
@@ -81,7 +77,8 @@ class Auth with ChangeNotifier {
     }
 
     void codeSent(String verificationId, code) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MyOtp(phone)));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyOtp(phone)));
       this._verificationId = verificationId;
       this._code = code;
     }
@@ -107,7 +104,5 @@ class Auth with ChangeNotifier {
     return islogin;
   }
 
-  void displayUser() {
-    // print(firebaseUser.toString());
-  }
+  void displayUser() {}
 }

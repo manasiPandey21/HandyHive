@@ -4,11 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:handyhive/Screens/Authentication/login.dart';
+import 'package:handyhive/Screens/Common/msgToast.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/auth.dart';
 import '../OnBoardingScreen/landing_page.dart';
+import '../User/user_bottom_nav.dart';
 import '../User/user_dashboard.dart';
+import '../Worker/worker_bottom_nav.dart';
 import '../Worker/worker_dashboard.dart';
 
 class MyOtp extends StatefulWidget {
@@ -51,6 +54,8 @@ class _MyOtpState extends State<MyOtp> {
   }
 
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -82,7 +87,7 @@ class _MyOtpState extends State<MyOtp> {
                             .submitOTP(verificationCode);
 
                     Auth.setUid();
-
+                    print("currUid" + Auth.uid.toString());
                     var isuser = await FirebaseFirestore.instance
                         .collection('USERS')
                         .doc(Auth.uid)
@@ -94,14 +99,20 @@ class _MyOtpState extends State<MyOtp> {
 
                     if (islogintrue == true) {
                       if (isuser.exists) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const UserDashBoard(),
-                        ));
+                        msgToast("Welcome again");
+                        Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) {
+                          return UserBottomNavigation();
+                        }), (route) => false);
                       } else if (isworker.exists) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const WorkerDashBoard(),
-                        ));
+                        msgToast("Welcome again");
+                        Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) {
+                          return WorkerBottomNavigation();
+                        }), (route) => false);
                       } else {
+                        msgToast(
+                            "Welcome to HandyHive,hoping for you good experience with us");
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const LandingPage(),
@@ -109,6 +120,7 @@ class _MyOtpState extends State<MyOtp> {
                         );
                       }
                     } else {
+                      msgToast("Please login with correct credentials");
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const Login(),
@@ -120,18 +132,18 @@ class _MyOtpState extends State<MyOtp> {
                 SizedBox(height: 60),
                 Text("Resend in 00:${_seconds.toString().padLeft(2, '0')}sec"),
                 SizedBox(height: 40),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.check_box,
-                      color: Colors.pinkAccent,
-                    ),
-                    Text(
-                      "I agree to HandsHive's Terms & Conditions & Privacy Policy",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Icon(
+                //       Icons.check_box,
+                //       color: Colors.pinkAccent,
+                //     ),
+                //     Text(
+                //       "I agree to HandsHive's Terms & Conditions & Privacy Policy",
+                //       style: TextStyle(fontWeight: FontWeight.bold),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 30),
               ],
             ),

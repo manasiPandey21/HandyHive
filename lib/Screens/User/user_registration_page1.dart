@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:handyhive/Models/users.dart';
+import 'package:handyhive/Screens/User/user_bottom_nav.dart';
 import 'package:handyhive/Screens/User/user_dashboard.dart';
 
 import 'package:handyhive/Screens/User/user_edit_profile.dart';
@@ -65,6 +66,8 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final authProvider = Provider.of<Auth>(context);
     final usersProvider = Provider.of<UsersProvider>(context);
     final firebaseUser = authProvider.firebaseUser;
@@ -264,11 +267,14 @@ class _UserRegistrationPage1State extends State<UserRegistrationPage1> {
 
                   Navigator.pushAndRemoveUntil(context,
                       MaterialPageRoute(builder: (context) {
-                    return UserDashBoard();
+                    return UserBottomNavigation();
                   }), (route) => false);
                 },
-                child: Container(child: Center(child: Text("Submit")),width: MediaQuery.of(context).size.width / 4
-                ,height: MediaQuery.of(context).size.height/20,),
+                child: Container(
+                  child: Center(child: Text("Submit")),
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: MediaQuery.of(context).size.height / 20,
+                ),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.pinkAccent,
                     shape: RoundedRectangleBorder(

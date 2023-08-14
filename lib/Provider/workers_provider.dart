@@ -13,7 +13,6 @@ class WorkersProvider with ChangeNotifier {
   static bool didSignOut = false;
   static String? uid;
 
-
   get workers => null;
   Worker getWorkerById(String workerId) {
     return serviceP.firstWhere((worker) => worker.uidWorkers == workerId);
@@ -42,11 +41,11 @@ class WorkersProvider with ChangeNotifier {
     await fetchAndSetWorkers();
     notifyListeners();
   }
+
   void _handleError(e) {
     // // print(e.message);
   }
 
- 
   Future<void> logout() async {
     didSignOut = true;
     try {
@@ -56,7 +55,6 @@ class WorkersProvider with ChangeNotifier {
       _handleError(e);
     }
   }
-
 
   Future<void> addWorkers(Worker t) async {
     CollectionReference collectionRef =
@@ -89,7 +87,7 @@ class WorkersProvider with ChangeNotifier {
     await collectionRef.doc(workerId).update({
       'requests.$userId': "true",
     });
- 
+
     await collectionRef2.doc(userId).update({
       'acceptedRequests.$workerId': "true",
     });

@@ -65,6 +65,8 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final authProvider = Provider.of<Auth>(context);
     final firebaseUser = authProvider.firebaseUser;
     return WillPopScope(
@@ -266,69 +268,65 @@ class _WorkerRegistrationPage1State extends State<WorkerRegistrationPage1> {
                 ),
               ),
             ),
-          
-             
-               ElevatedButton(
-                onPressed: () async {
-                  await Provider.of<Auth>(context, listen: false)
-                      .getFirebaseUser();
-                  String uid = Provider.of<Auth>(context, listen: false)
-                      .firebaseUser!
-                      .uid
-                      .toString();
-                  Map<String, String> request = Map<String, String>();
-                  Provider.of<WorkersProvider>(context, listen: false)
-                      .addWorkers(
-                    Worker(
-                      uidWorkers: uid.toString(),
-                      nameWorkers: name.text,
-                      ageworker: age.text,
-                      genderworker: gender.text,
-                      mobileNoworker: firebaseUser!.phoneNumber!.toString(),
-                      maritalStatusworker: maritalStatus.text,
-                      religionworker: religion.text,
-                      monthlyIncomeworker: monthlyIncome.text,
-                      workExperienceworker: workExperience.text,
-                      addressWorker: address.text,
-                      languageworker: language.text,
-                      service: [],
-                      requests: request,
-                    ),
-                  );
-                  uid = Provider.of<Auth>(context, listen: false)
-                      .firebaseUser!
-                      .uid
-                      .toString();
-                  if (_image != null) {
-                    var snapshot = await _firebaseStorage
-                        .ref()
-                        .child('service_providerImages/$uid')
-                        .putFile(_image);
-                    var downloadUrl = await snapshot.ref.getDownloadURL();
-                    if (mounted) {
-                      setState(() {
-                        imageUrl = downloadUrl;
-                      });
-                    }
+            ElevatedButton(
+              onPressed: () async {
+                await Provider.of<Auth>(context, listen: false)
+                    .getFirebaseUser();
+                String uid = Provider.of<Auth>(context, listen: false)
+                    .firebaseUser!
+                    .uid
+                    .toString();
+                Map<String, String> request = Map<String, String>();
+                Provider.of<WorkersProvider>(context, listen: false).addWorkers(
+                  Worker(
+                    uidWorkers: uid.toString(),
+                    nameWorkers: name.text,
+                    ageworker: age.text,
+                    genderworker: gender.text,
+                    mobileNoworker: firebaseUser!.phoneNumber!.toString(),
+                    maritalStatusworker: maritalStatus.text,
+                    religionworker: religion.text,
+                    monthlyIncomeworker: monthlyIncome.text,
+                    workExperienceworker: workExperience.text,
+                    addressWorker: address.text,
+                    languageworker: language.text,
+                    service: [],
+                    requests: request,
+                  ),
+                );
+                uid = Provider.of<Auth>(context, listen: false)
+                    .firebaseUser!
+                    .uid
+                    .toString();
+                if (_image != null) {
+                  var snapshot = await _firebaseStorage
+                      .ref()
+                      .child('service_providerImages/$uid')
+                      .putFile(_image);
+                  var downloadUrl = await snapshot.ref.getDownloadURL();
+                  if (mounted) {
+                    setState(() {
+                      imageUrl = downloadUrl;
+                    });
                   }
+                }
 
-                  Navigator.pushAndRemoveUntil(context,
-                      MaterialPageRoute(builder: (context) {
-                    return WorkerRegistrationPage2();
-                  }), (route) => false);
-                },
-                child: Container(
-                  child: Text("Submit"),
-                  width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.height/20,),
-                
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pinkAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40)),
-                ),
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) {
+                  return WorkerRegistrationPage2();
+                }), (route) => false);
+              },
+              child: Container(
+                child: Center(child: Text("Submit")),
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 20,
               ),
-            
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pinkAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+              ),
+            ),
           ],
         )),
       ),
